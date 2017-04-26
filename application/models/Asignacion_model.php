@@ -5,8 +5,8 @@ class Asignacion_model extends CI_Model {
 
 	var $table = 'tbl_estudiante';
 	var $column_order = array('DOC_EST','ID_TIP_DOC_EST','COD_DANE_INST','TBL_ACUDIENTE_DOC_ACU','NOM1_EST', 'NOM2_EST','APE1_EST', 
-	'APE2_EST','FECH_NAC_EST','CIU_EST','DIR_EST','TEL1_EST','TEL2_EST','EMAIL_EST',null); //set column field database for datatable orderable
-	var $column_search = array('DOC_EST','NOM1_EST','APE1_EST'); //set column field database for datatable searchable just firstname , lastname , address are searchable
+	'APE2_EST','FECH_NAC_EST','CIU_EST','DIR_EST','TEL1_EST','TEL2_EST','EMAIL_EST',null);
+	var $column_search = array('DOC_EST','NOM1_EST','APE1_EST'); 
 	var $order = array('DOC_EST' => 'desc'); // default order 
 	var $gradoEst = 'Primero';
 	public function __construct()
