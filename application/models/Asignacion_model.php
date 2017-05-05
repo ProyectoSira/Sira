@@ -4,53 +4,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Asignacion_model extends CI_Model {
 
 	var $table = 'tbl_estudiante';
-	var $column_order = array('DOC_EST','ID_TIP_DOC_EST','COD_DANE_INST','TBL_ACUDIENTE_DOC_ACU','NOM1_EST', 'NOM2_EST','APE1_EST', 
-	'APE2_EST','FECH_NAC_EST','CIU_EST','DIR_EST','TEL1_EST','TEL2_EST','EMAIL_EST',null);
-	var $column_search = array('DOC_EST','NOM1_EST','APE1_EST'); 
+	var $column_order = array('DOC_EST','ID_TIP_DOC_EST','COD_DANE_INST','DOC_ACU','NOM1_EST', 'NOM2_EST','APE1_EST', 
+	'APE2_EST','GRADO_EST','FECH_NAC_EST','CIU_EST','DIR_EST','TEL1_EST','TEL2_EST','EMAIL_EST',null);
+	var $column_search = array('DOC_EST','NOM1_EST','NOM2_EST','APE1_EST','APE2_EST'); 
 	var $order = array('DOC_EST' => 'desc'); // default order 
-	var $gradoEst = 'Primero';
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->database();
 	}
-
-
-	function get_grado(){
-      $Grado = $this->db->get('tbl_grado');
-       if ($Grado -> num_rows()>0)
-       {
-       	return $Grado->result();
-       }
-
-	}	
-
 	
 
-	
-	function get_grupo(){
-       
-      $this->db->select('*');
-      $this->db->from('tbl_grupo');
-      $this->db->join('tbl_grado', 'tbl_grado.COD_GRADO = tbl_grupo.COD_GRADO');
-      $this->db->order_by('NOM_GRADO', 'asc' and 'NUM_GRUPO','asc');
-     $grupo =  $this->db->get();
-     if($grupo -> num_rows()>0)
-     {
-
-      return $grupo->result();
-     }
-
-}
-
-	private function _get_datatables_query()
+	public function _get_datatables_query()
 	{
-		$this->db->select('*');
-		$this->db->from('tbl_estudiante');
-        $this->db->join('tbl_tipo_documento','tbl_tipo_documento.ID_TIP_DOC = tbl_estudiante.ID_TIP_DOC_EST');
-        $this->db->join('tbl_acudiente','tbl_acudiente.DOC_ACU = tbl_estudiante.TBL_ACUDIENTE_DOC_ACU');
-        $this->db->join('tbl_institucion','tbl_institucion.COD_DANE_INST = tbl_estudiante.COD_DANE_INST');
-        $this->db->where('GRADO_EST', $this->gradoEst);
+		if ($this->input->post('GRADO_EST')) {
+			$this->db->Where('GRADO_EST', $this->input->post('GRADO_EST'));
+		}
+
+		$this->db->from($this->table);
 
         
 		$i = 0;
@@ -109,5 +80,39 @@ class Asignacion_model extends CI_Model {
 		return $this->db->count_all_results();
 	}
 
-	
+	public function insertar($data)
+	{
+		$this->db->insert('tbl_grupo_estudio', $data);
+		return $this->db->insert_id();
+	}
+
+	public function get_list_Grado(){
+		$this->db->select('GRADO_EST');
+		$this->db->from($this->table);
+		$this->db->order_by('GRADO_EST');
+		$query = $this->db->get();
+		$result = $query->result();
+
+		$grados = array();
+		foreach ($result as $row) {
+			$grados[] = $row->GRADO_EST;
+		}
+		return $grados;
+	}
+
+	public function get_grupo(){
+       
+	    $this->db->select('*');
+	    $this->db->from('tbl_grupo');
+	    $this->db->join('tbl_grado', 'tbl_grado.COD_GRADO = tbl_grupo.COD_GRADO');
+	    $this->db->order_by('NOM_GRADO', 'asc' and 'NUM_GRUPO','asc');
+	    $grupo =  $this->db->get();
+	    if($grupo -> num_rows()>0)
+	    {
+	    	return $grupo->result();
+	    }
+	}
+
+
 }
+

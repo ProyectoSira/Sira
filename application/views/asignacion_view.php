@@ -4,28 +4,21 @@
     <h1 style="font-size:20pt">Registro de asignacion</h1>
     <h3>Datos de asignacion</h3>
     <br>
+    <div id="result"></div>
         <div class="row">
             <div class="col-md-3">
-                 <form action="#">
                      <div class="form-group">
-                        <label>Grado</label>  
-                        <select name="COD_GRADO" class="selectpicker form-control" data-live-search = "true" id="grado">
-                            <?php 
-                            foreach ($grado as $fila) {
-                            ?>
-                            <option value="<?= $fila->NOM_GRADO ?>"><?= $fila->NOM_GRADO?></option>
-                            <?php 
-                            }
-                            ?>
-                        </select>                      
+                        <label>Grado</label> 
+                        <?php echo $form_grado;?>                      
                      </div>
                      <div class="form-group">
-                     <button class="btn btn-info form-control"><i class="glyphicon glyphicon-search"></i> Buscar</button>
+                     <button class="btn btn-info form-control" id="btnBuscar"><i class="glyphicon glyphicon-search"></i> Buscar</button>
                      </div>
                      <br>
                      <div class="form-group">
-                        <label>Grupo</label>  
-                        <select name="COD_GRADO" class="selectpicker form-control" data-live-search = "true" id="grado">
+                     <label>Grupo</label>  
+                        <select name="COD_GRADO" class="selectpicker form-control" data-live-search = "true" id="COD_GRADO">
+                        <option value="">--Seleccione--</option>
                             <?php 
                                 foreach ($grupo as $fila) {
                                 ?>
@@ -33,12 +26,13 @@
                                 <?php 
                                  }
                             ?>
-                        </select>                      
+                        </select>
+                        </div>   
+                        <div class="form-group">
+                     <button id="btnRegistrar" class="btn btn-success form-control" onclick="registrar()">
+                     <i class="glyphicon glyphicon-plus"></i> Registrar
+                     </button>
                      </div>
-                     <div class="form-group">
-                     <button class="btn btn-success form-control"><i class="glyphicon glyphicon-plus"></i> Registrar</button>
-                     </div>
-                 </form>
             </div>
             <div class="col-md-9">
                 <div id="result"></div>
@@ -47,6 +41,7 @@
                             <tr>
                                 <th>Documento</th>
                                 <th>Nombres y Apellidos</th>
+                                <th>Grado</th>
                                 <th style="width:20px;">Asignar</th>
                             </tr>
                         </thead>
@@ -70,8 +65,7 @@
 <script type="text/javascript">
 
 var save_method;
-var table;
-$(document).ready(function() {
+$(document).ready(function(){
      table = $('#table').DataTable({ 
 
             "processing": true, //Feature control the processing indicator.
@@ -81,7 +75,10 @@ $(document).ready(function() {
             // Load data for the table's content from an Ajax source
             "ajax": {
                 "url": "<?php echo site_url('asignacion/ajax_list')?>",
-                "type": "POST"
+                "type": "POST",
+                "data": function (data) {
+                    data.GRADO_EST = $('#GRADO_EST').val();
+                }
             },
 
             //Set column definition initialisation properties.
@@ -121,6 +118,8 @@ $(document).ready(function() {
 
  //for save method string
     //datepicker
+
+
     $('.datepicker').datepicker({
         autoclose: true,
         format: "yyyy-mm-dd",
@@ -146,7 +145,9 @@ $(document).ready(function() {
 
 });
 
-
+$('#btnBuscar').click(function () {
+    table.ajax.reload(null,false);
+});
 
 
 
@@ -156,160 +157,54 @@ function cerrarAlerta(){
     $('#result').text('');
 }
 
-function add_person()
-{
 
-    
-    save_method = 'add'; 
-   
+
+function reload_table()
+{
+    table.ajax.reload(null,false); //reload datatable ajax 
+}
+
+function abrir()
+{
     $('#form')[0].reset(); // reset form on modals
-    $('.form-group').removeClass('has-error'); // clear error class
-    $('.help-block').empty(); // clear error string
     $('#modal_form').modal('show'); // show bootstrap modal
-    $('.modal-title').text('Nueva Asignacion'); // Set Title to Bootstrap modal title
-    //var doc_est = document.getElementById('DOC_EST');
-    //doc_est.disabled = false;
-    document.getElementById('ID_EST_GRUP').readOnly = false;
-     $('select[name="DOC_EST"]').val();
-    $('select[name="DOC_EST"]').change();
-    $('select[name="COD_GRUPO"]').val();
-     $('select[name="COD_GRUPO"]').change();
-
 }
 
-function edit_person(id)
-{
-    save_method = 'update';
-    $('#form')[0].reset(); // reset form on modals
-    $('.form-group').removeClass('has-error'); // clear error class
-    $('.help-block').empty(); // clear error string
-    var doc_est = document.getElementById('DOC_EST');
-    doc_est.disabled = true;
-      
-    document.getElementById('ID_EST_GRUP').readOnly = true;
 
-    //Ajax Load data from ajax
-    $.ajax({
-        url : "<?php echo site_url('Asignacion/ajax_edit/')?>/" + id,
-        type: "GET",
-        dataType: "JSON",
-        success: function(data)
-        {
-            $('[name="ID_EST_GRUP"]').val(data.ID_EST_GRUP);
-            $('select[name="DOC_EST"]').val(data.DOC_EST);
-            $('select[name="DOC_EST"]').change();
-            $('[name="COD_GRUPO"]').val(data.COD_GRUPO);
-            $('select[name="COD_GRUPO"]').change();
-            $('[name="FECH_INGR_GRUP"]').val(data.FECH_INGR_GRUP);
-            $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
-            $('.modal-title').text('Editar Asignacion'); // Set title to Bootstrap modal title
-
-        },
-        error: function (jqXHR, textStatus, errorThrown)
-        {
-            alert('Error get data from ajax');
-        }
+function registrar() {
+    var list_id = [];
+    $('.data-check:checked').each(function() {
+        list_id.push(this.value);
     });
-}
-function justNumbers(e){
-    var keynum = window.event ? window.event.keyCode : e.which;
-    if ((keynum == 8) || (keynum == 46))
-    return true;
-    return /\d/.test(String.fromCharCode(keynum));
-}
-function validar(e) { 
-    tecla = (document.all) ? e.keyCode : e.which; 
-    if (tecla==8) return true; 
-        patron =/[A-Za-z\s]/; 
-        te = String.fromCharCode(tecla); 
-        return patron.test(te); 
-
-}  
-
-
-function save()
-{
-    $('#btnSave').text('Guardando...'); //change button text
-    $('#btnSave').attr('disabled',true); //set button disable 
-    var url;
- 
-    if(save_method == 'add') {
-        url = "<?php echo site_url('asignacion/ajax_add')?>";
-    } else {
-        url = "<?php echo site_url('asignacion/ajax_update')?>";
+    if (list_id.length > 0) {
+        if (confirm('Desea registrar '+list_id.length+' alumnos a este grupo?')) {
+            $.ajax({
+                type: "POST",
+                data: {DOC_EST:list_id}, 
+                url: "<?php echo site_url('asignacion/ajax_registrar')?>;",
+                dataType: "JSON",
+                success: function(data){
+                    if (data.status) {
+                        reload_table();
+                    }else{
+                        alert('Error');
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                    alert('Error al insetar los alumnos');
+                }
+            });
+        }
     }
- 
-    // ajax adding data to database
-    $.ajax({
-        url : url,
-        type: "POST",
-        data: $('#form').serialize(),
-        dataType: "JSON",
-        success: function(data)
-        {
- 
-            if(data.status) //if success close modal and reload ajax table
-            {
-                $('#modal_form').modal('hide');
-                reload_table();
-                if (save_method == 'add') {
-                    $("#result").addClass("alert alert-success");
-                    $('#result').text('Registro Exitoso'); 
-                }else{
-                    $("#result").addClass("alert alert-info");
-                    $('#result').text('Registro Modificado Exitosamente'); 
-                }
-                setTimeout("cerrarAlerta()",2000);
-            }
-            else
-            {
-                for (var i = 0; i < data.inputerror.length; i++) 
-                {
-                    $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
-                }
-            }
-            $('#btnSave').text('Guardar'); //change button text
-            $('#btnSave').attr('disabled',false); //set button enable 
- 
- 
-        },
-        error: function (jqXHR, textStatus, errorThrown)
-        {
-            alert('Error al insertar / Actualizar Datos');
-            $('#btnSave').text('Guardar'); //change button text
-            $('#btnSave').attr('disabled',false); //set button enable 
- 
-        }
-    });
-}   
-
-function delete_person(id)
-{
-    if(confirm('Desea eliminar este registro?'))
-    {
-        // ajax delete data to database
-        $.ajax({
-            url : "<?php echo site_url('asignacion/ajax_delete')?>/"+id,
-            type: "POST",
-            dataType: "JSON",
-            success: function(data)
-            {
-                //if success reload ajax table
-                $('#modal_form').modal('hide');
-                reload_table();
-            },
-            error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error Al Eliminar');
-            }
-        });
-
+    else{
+        alert('No ha seleccionado ningun alumno');
     }
 }
 
 </script>
 
 </section>
+
   
 <script src="<?php echo base_url('assets/js/jquery.nicescroll.js')?>"></script>
 <script src="<?php echo base_url('assets/js/scripts.js')?>"></script>

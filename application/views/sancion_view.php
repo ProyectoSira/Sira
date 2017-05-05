@@ -337,7 +337,7 @@ function delete_person(id)
                         <div class="form-group">
                             <label class="control-label col-md-3">Documento Estudiante <span style="color: red;">*</span></label>
                             <div class="col-md-9">
-                                <select name="DOC_EST" class="selectpicker form-control">
+                                <select name="DOC_EST" class="selectpicker form-control" data-live-search="true">
                                     <option value="">--Seleccionar--</option>
                                     <?php 
                                       foreach ($estudiante as $filas) 

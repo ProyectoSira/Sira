@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Empleado_model extends CI_Model {
 
 	var $table = 'tbl_empleado';
-	var $column_order = array('DOC_EMP','ID_TIP_DOC','ID_TIP_EMP','COD_DANE_INST','NOM1_EMP" "NOM2_EMP','APE1_EMP" "APE2_EMP','CIU_EMP','FECH_NAC_EMP','DIR_EMP','EMAIL_EMP','TEL1_EMP','TEL2_EMP',null); //set column field database for datatable orderable
+	var $column_order = array('DOC_EMP','ID_TIP_DOC','ID_TIP_EMP','NOM1_EMP" "NOM2_EMP','APE1_EMP" "APE2_EMP','CIU_EMP','FECH_NAC_EMP','DIR_EMP','EMAIL_EMP','TEL1_EMP','TEL2_EMP',null); //set column field database for datatable orderable
 	var $column_search = array('DOC_EMP','NOM1_EMP','NOM2_EMP'); //set column field database for datatable searchable just firstname , lastname , address are searchable
 	var $order = array('DOC_EMP' => 'desc'); // default order 
 
@@ -33,14 +33,6 @@ class Empleado_model extends CI_Model {
 
 	}
 
-	function get_institucion(){
-      $institucion = $this->db->get('tbl_institucion');
-       if ($institucion -> num_rows()>0)
-       {
-       	return $institucion->result();
-       }
-
-	}
 
 	private function _get_datatables_query()
 	{
@@ -49,7 +41,6 @@ class Empleado_model extends CI_Model {
 		$this->db->from('tbl_empleado');
         $this->db->join('tbl_tipo_documento','tbl_tipo_documento.ID_TIP_DOC = tbl_empleado.ID_TIP_DOC');
         $this->db->join('tbl_tipo_empleado','tbl_tipo_empleado.ID_TIP_EMP = tbl_empleado.ID_TIP_EMP');
-        $this->db->join('tbl_institucion','tbl_institucion.COD_DANE_INST = tbl_empleado.COD_DANE_INST');
 
 
 		$i = 0;

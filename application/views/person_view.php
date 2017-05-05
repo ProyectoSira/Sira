@@ -170,8 +170,6 @@ function add_person()
     $('select[name="ID_TIP_DOC_EST"]').change();
     $('select[name="TBL_ACUDIENTE_DOC_ACU"]').val();
     $('select[name="TBL_ACUDIENTE_DOC_ACU"]').change();
-    $('select[name="COD_DANE_INST"]').val();
-    $('select[name="COD_DANE_INST"]').change();
     $('select[name="GRADO_EST"]').val();
     $('select[name="GRADO_EST"]').change();
 }
@@ -194,9 +192,7 @@ function edit_person(id)
             $('[name="DOC_EST"]').val(data.DOC_EST);
             $('select[name="ID_TIP_DOC_EST"]').val(data.ID_TIP_DOC_EST);
             $('select[name="ID_TIP_DOC_EST"]').change();
-            $('select[name="COD_DANE_INST"]').val(data.COD_DANE_INST);
-            $('select[name="COD_DANE_INST"]').change();
-            $('select[name="TBL_ACUDIENTE_DOC_ACU"]').val(data.TBL_ACUDIENTE_DOC_ACU);
+            $('select[name="TBL_ACUDIENTE_DOC_ACU"]').val(data.DOC_ACU);
             $('select[name="TBL_ACUDIENTE_DOC_ACU"]').change();
             $('[name="NOM1_EST"]').val(data.NOM1_EST);
             $('[name="NOM2_EST"]').val(data.NOM2_EST);
@@ -232,7 +228,6 @@ function view_person(id)
         {
             $('[name="DOC_EST_L"]').text(data.DOC_EST);
             $('[name="ID_TIP_DOC_EST_L"]').text(data.NOM_TIP_DOC);
-            $('[name="COD_DANE_INST_L"]').text(data.NOM_INST);
             $('[name="TBL_ACUDIENTE_DOC_ACU_L"]').text(data.NOM1_ACU+" "+data.NOM2_ACU+" "+data.APE1_ACU+" "+data.APE2_ACU);
             $('[name="NOM1_EST_L"]').text(data.NOM1_EST+" "+data.NOM2_EST);
             $('[name="APE1_EST_L"]').text(data.APE1_EST+" "+data.APE2_EST);
@@ -395,22 +390,6 @@ function delete_person(id)
                                 </select>
                             <span class="help-block"></span>
                         </div>
-                         <div class="form-group">
-                            <label>Codigo Dane <span style="color: red;">*</span></label>
-                                <select name="COD_DANE_INST" class="selectpicker form-control">
-                                    <option value="">--SELECCINAR--</option>
-                                     <?php 
-                                      foreach ($institucion as $filas) 
-                                      {
-                                   ?>
-                                   <option value="<?= $filas->COD_DANE_INST ?>">
-                                   <?= $filas->NOM_INST ?></option>
-                                   <?php 
-                                        }
-                                    ?>
-                                </select>
-                                <span class="help-block"></span>
-                        </div>
                         <div class="form-group">
                             <label>Documento Acudiente <span style="color: red;">*</span></label>
                                 <select name="TBL_ACUDIENTE_DOC_ACU" id="DOC_ACU" class="selectpicker form-control" data-live-search="true">
@@ -426,11 +405,7 @@ function delete_person(id)
                                 </select>
                                 <span class="help-block"></span>
                         </div>
-                        <div class="form-group">
-                            <label>Fecha Nacimiento <span style="color: red;">*</span></label>
-                                <input name="FECH_NAC_EST" placeholder="YYYY-MM-DD" class="form-control" data-date-end-date="-4y" id="datepicker" type="text">
-                                <span class="help-block"></span>
-                        </div>
+                        
                         <div class="form-group">
                             <label>Nombre 1 <span style="color: red;">*</span></label>
                                 <input name="NOM1_EST" placeholder="NOMBRE 1" class="form-control" type="text" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" onkeypress="return validar(event)">
@@ -441,8 +416,6 @@ function delete_person(id)
                                 <input name="NOM2_EST" placeholder="NOMBRE 2" class="form-control" type="text" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" onkeypress="return validar(event)">
                                 <span class="help-block"></span>
                         </div>
-                    </div>
-                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Apellido 1 <span style="color: red;">*</span></label>
                                 <input name="APE1_EST" placeholder="APELLIDO 1" class="form-control" type="text" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" onkeypress="return validar(event)">
@@ -453,6 +426,13 @@ function delete_person(id)
                                 <input name="APE2_EST" placeholder="APELLIDO 2" class="form-control" type="text" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" onkeypress="return validar(event)">
                                 <span class="help-block"></span>
                         </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Fecha Nacimiento <span style="color: red;">*</span></label>
+                                <input name="FECH_NAC_EST" placeholder="YYYY-MM-DD" class="form-control" data-date-end-date="-4y" id="datepicker" type="text">
+                                <span class="help-block"></span>
+                        </div>
                         <div class="form-group">
                             <label>Grado <span style="color: red;">*</span></label>
                                 <select name="GRADO_EST" class="selectpicker form-control" data-live-search="true">
@@ -461,7 +441,7 @@ function delete_person(id)
                                       foreach ($Grado as $filas) 
                                       {
                                    ?>
-                                   <option value="<?= $filas->NOM_GRADO ?>" ><?= $filas->NOM_GRADO ?></option>
+                                   <option value="<?= $filas->COD_GRADO ?>" ><?= $filas->NOM_GRADO ?></option>
                                    <?php 
                                         }
                                     ?>
@@ -470,7 +450,17 @@ function delete_person(id)
                         </div>
                         <div class="form-group">
                             <label>Ciudad <span style="color: red;">*</span></label>
-                                <input name="CIU_EST" placeholder="CIUDAD" class="form-control" type="text" onkeypress="return justNumbers(event);">
+                                <select name="CIU_EST" class="selectpicker form-control" data-live-search="true">
+                                    <option value="">--SELECCIONAR--</option>
+                                    <?php 
+                                      foreach ($ciudad as $filas) 
+                                      {
+                                   ?>
+                                   <option value="<?= $filas->COD_CIUDAD ?>"><?= $filas->NOM_CIUDAD ?></option>
+                                   <?php 
+                                        }
+                                    ?>
+                                </select>
                                 <span class="help-block"></span>
                         </div>
                         <div class="form-group">
@@ -529,10 +519,6 @@ acudiente
                         <div class="form-group">
                             <label class="control-label col-md-6">Tipo Documento:</label>
                             <label style="text-align: left;" class="control-label col-md-6 text-muted" name="ID_TIP_DOC_EST_L"></label>
-                        </div>
-                         <div class="form-group">
-                            <label class="control-label col-md-6">Codigo Dane:</label>
-                            <label style="text-align: left;" class="control-label col-md-6 text-muted" name="COD_DANE_INST_L"></label>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-6">Acudiente:</label>

@@ -171,7 +171,7 @@ function edit_person(id)
         {
             $('[name="COD_AREA"]').val(data.COD_AREA);
             $('[name="NOM_AREA"]').val(data.NOM_AREA);
-            $('select[name="TBL_EMPLEADO_DOC_EMP"]').val(data.TBL_EMPLEADO_DOC_EMP);
+            $('select[name="TBL_EMPLEADO_DOC_EMP"]').val(data.DOC_EMP);
             $('select[name="TBL_EMPLEADO_DOC_EMP"]').change();
             $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
             $('.modal-title').text('Editar Area'); // Set title to Bootstrap modal title

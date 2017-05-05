@@ -14,7 +14,6 @@ class Empleado extends CI_Controller {
 		$this->load->helper('url');
 		$data['tipoDocumento'] = $this->empleado->get_tipodocumento();
 		$data['tipoEmpleado'] = $this->empleado->get_tipoEmpleado();
-		$data['institucion'] = $this->empleado->get_institucion();
 		$this->load->view('empleado_view', $data);
         
 
@@ -69,7 +68,6 @@ public function ajax_list()
 		$this->db->where('DOC_EMP', $id);
         $this->db->join('tbl_tipo_documento','tbl_tipo_documento.ID_TIP_DOC = tbl_empleado.ID_TIP_DOC');
         $this->db->join('tbl_tipo_empleado','tbl_tipo_empleado.ID_TIP_EMP = tbl_empleado.ID_TIP_EMP');
-        $this->db->join('tbl_institucion','tbl_institucion.COD_DANE_INST = tbl_empleado.COD_DANE_INST');
         $data = $this->db->get()->row_array();
 		echo json_encode($data);
 	}
@@ -81,7 +79,6 @@ public function ajax_list()
 				'DOC_EMP' => $this->input->post('DOC_EMP'),
 				'ID_TIP_DOC' => $this->input->post('ID_TIP_DOC'),
                 'ID_TIP_EMP' => $this->input->post('ID_TIP_EMP'),
-                'COD_DANE_INST' => $this->input->post('COD_DANE_INST'),
                 'NOM1_EMP' => $this->input->post('NOM1_EMP'),
                 'NOM2_EMP' => $this->input->post('NOM2_EMP'),
                 'APE1_EMP' => $this->input->post('APE1_EMP'),
@@ -104,7 +101,6 @@ public function ajax_list()
 				'DOC_EMP' => $this->input->post('DOC_EMP'),
 				'ID_TIP_DOC' => $this->input->post('ID_TIP_DOC'),
                 'ID_TIP_EMP' => $this->input->post('ID_TIP_EMP'),
-                'COD_DANE_INST' => $this->input->post('COD_DANE_INST'),
                 'NOM1_EMP' => $this->input->post('NOM1_EMP'),
                 'NOM2_EMP' => $this->input->post('NOM2_EMP'),
                 'APE1_EMP' => $this->input->post('APE1_EMP'),
@@ -151,11 +147,6 @@ public function ajax_list()
             $data['status'] = FALSE;
         }
 
-          if($this->input->post('COD_DANE_INST') == '')
-        {
-            $data['inputerror'][] = 'COD_DANE_INST';
-            $data['status'] = FALSE;
-        }
 
           if($this->input->post('NOM1_EMP') == '')
         {

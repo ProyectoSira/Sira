@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Area_model extends CI_Model {
 
 	var $table = 'tbl_area';
-	var $column_order = array('COD_AREA','NOM_AREA','TBL_EMPLEADO_DOC_EMP',null); //set column field database for datatable orderable
+	var $column_order = array('COD_AREA','NOM_AREA','DOC_EMP',null); //set column field database for datatable orderable
 	var $column_search = array('COD_AREA','NOM_AREA'); //set column field database for datatable searchable just firstname , lastname , address are searchable
 	var $order = array('COD_AREA' => 'desc'); // default order 
 
@@ -34,7 +34,7 @@ class Area_model extends CI_Model {
 		
 		$this->db->select('*');
 		$this->db->from('tbl_area');
-        $this->db->join('tbl_empleado','tbl_empleado.DOC_EMP = tbl_area.TBL_EMPLEADO_DOC_EMP');
+        $this->db->join('tbl_empleado','tbl_empleado.DOC_EMP = tbl_area.DOC_EMP');
 
 		$i = 0;
 	

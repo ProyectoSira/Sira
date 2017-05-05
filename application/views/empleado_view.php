@@ -164,8 +164,6 @@ function add_person()
     $('select[name="ID_TIP_DOC"]').change();
     $('select[name="ID_TIP_EMP"]').val();
     $('select[name="ID_TIP_EMP"]').change();
-    $('select[name="COD_DANE_INST"]').val();
-    $('select[name="COD_DANE_INST"]').change();
 }
 
 function edit_person(id)
@@ -188,8 +186,6 @@ function edit_person(id)
             $('select[name="ID_TIP_DOC"]').change();
             $('select[name="ID_TIP_EMP"]').val(data.ID_TIP_EMP);
             $('select[name="ID_TIP_EMP"]').change();
-            $('select[name="COD_DANE_INST"]').val(data.COD_DANE_INST);
-            $('select[name="COD_DANE_INST"]').change();
             $('[name="NOM1_EMP"]').val(data.NOM1_EMP);
             $('[name="NOM2_EMP"]').val(data.NOM2_EMP);
             $('[name="APE1_EMP"]').val(data.APE1_EMP);
@@ -242,7 +238,6 @@ function view_person(id)
             $('[name="DOC_EMP_L"]').text(data.DOC_EMP);
             $('[name="ID_TIP_DOC_L"]').text(data.SIGLA_DOC);
             $('[name="ID_TIP_EMP_L"]').text(data.NOM_CARGO_EMP);
-            $('[name="COD_DANE_INST_L"]').text(data.NOM_INST);
             $('[name="NOM1_EMP_L"]').text(data.NOM1_EMP);
             $('[name="NOM2_EMP_L"]').text(data.NOM2_EMP);
             $('[name="APE1_EMP_L"]').text(data.APE1_EMP);
@@ -399,22 +394,6 @@ function delete_person(id)
                                 <span class="help-block"></span>
                         </div>
 
-                        <div class="form-group">
-                            <label>Codigo Dane <span style="color: red;">*</span></label>
-                                <select name="COD_DANE_INST" class="selectpicker form-control">
-                                    <option value="">--SELECCIONAR--</option>
-                                    <?php 
-                                      foreach ($institucion as $filas) 
-                                      {
-                                   ?>
-                                   <option value="<?= $filas->COD_DANE_INST ?>">
-                                   <?= $filas->NOM_INST ?></option>
-                                   <?php 
-                                        }
-                                    ?>
-                                </select>
-                                <span class="help-block"></span>
-                        </div>
                 
                         <div class="form-group">
                             <label>Nombre 1 <span style="color: red;">*</span></label>

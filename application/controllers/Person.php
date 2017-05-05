@@ -14,8 +14,8 @@ class Person extends CI_Controller {
 		$this->load->helper('url');
 		$data['tipoDocumento'] = $this->person->get_tipodocumento();
 		$data['acudiente'] = $this->person->get_acudiente();
-		$data['institucion'] = $this->person->get_institucion();
 		$data['Grado'] = $this->person->get_grado();
+		$data['ciudad'] = $this->person->get_ciudad();
 		$this->load->view('person_view', $data);
         
 
@@ -67,8 +67,7 @@ class Person extends CI_Controller {
 		$this->db->from('tbl_estudiante');
 		$this->db->where('DOC_EST', $id);
         $this->db->join('tbl_tipo_documento','tbl_tipo_documento.ID_TIP_DOC = tbl_estudiante.ID_TIP_DOC_EST');
-        $this->db->join('tbl_acudiente','tbl_acudiente.DOC_ACU = tbl_estudiante.TBL_ACUDIENTE_DOC_ACU');
-        $this->db->join('tbl_institucion','tbl_institucion.COD_DANE_INST = tbl_estudiante.COD_DANE_INST');
+        $this->db->join('tbl_acudiente','tbl_acudiente.DOC_ACU = tbl_estudiante.DOC_ACU');
         $data = $this->db->get()->row_array();
 		echo json_encode($data);
 	}
@@ -79,19 +78,18 @@ class Person extends CI_Controller {
 		$data = array(
 				'DOC_EST' => $this->input->post('DOC_EST'),
 				'ID_TIP_DOC_EST' => $this->input->post('ID_TIP_DOC_EST'),
-                'COD_DANE_INST' => $this->input->post('COD_DANE_INST'),
-                'TBL_ACUDIENTE_DOC_ACU' => $this->input->post('TBL_ACUDIENTE_DOC_ACU'),
+                'DOC_ACU' => $this->input->post('TBL_ACUDIENTE_DOC_ACU'),
                 'NOM1_EST' => $this->input->post('NOM1_EST'),
                 'NOM2_EST' => $this->input->post('NOM2_EST'),
                 'APE1_EST' => $this->input->post('APE1_EST'),
                 'APE2_EST' => $this->input->post('APE2_EST'),
-                'GRADO_EST' => $this->input->post('GRADO_EST'),
                 'FECH_NAC_EST' => $this->input->post('FECH_NAC_EST'),
                 'CIU_EST' => $this->input->post('CIU_EST'),
                 'DIR_EST' => $this->input->post('DIR_EST'),
                 'TEL1_EST' => $this->input->post('TEL1_EST'),
                 'TEL2_EST' => $this->input->post('TEL2_EST'),
                 'EMAIL_EST' => $this->input->post('EMAIL_EST'),
+                'GRADO_EST' => $this->input->post('GRADO_EST'),
 			);
 		$insert = $this->person->save($data);
 		echo json_encode(array("status" => TRUE));
@@ -102,19 +100,18 @@ class Person extends CI_Controller {
 		$this->_validate();
 		$data = array(
 				'ID_TIP_DOC_EST' => $this->input->post('ID_TIP_DOC_EST'),
-				'COD_DANE_INST' => $this->input->post('COD_DANE_INST'),
-				'TBL_ACUDIENTE_DOC_ACU' => $this->input->post('TBL_ACUDIENTE_DOC_ACU'),
+				'DOC_ACU' => $this->input->post('TBL_ACUDIENTE_DOC_ACU'),
 				'NOM1_EST' => $this->input->post('NOM1_EST'),
 				'NOM2_EST' => $this->input->post('NOM2_EST'),
 				'APE1_EST' => $this->input->post('APE1_EST'),
 				'APE2_EST' => $this->input->post('APE2_EST'),
-				'GRADO_EST' => $this->input->post('GRADO_EST'),
 				'FECH_NAC_EST' => $this->input->post('FECH_NAC_EST'),
 				'CIU_EST' => $this->input->post('CIU_EST'),
 				'DIR_EST' => $this->input->post('DIR_EST'),
 				'TEL1_EST' => $this->input->post('TEL1_EST'),
 				'TEL2_EST' => $this->input->post('TEL2_EST'),
 				'EMAIL_EST' => $this->input->post('EMAIL_EST'),
+				'GRADO_EST' => $this->input->post('GRADO_EST'),
 			);
 		$this->person->update(array('DOC_EST' => $this->input->post('DOC_EST')), $data);
 		echo json_encode(array("status" => TRUE));
@@ -123,7 +120,7 @@ class Person extends CI_Controller {
 	public function ajax_delete($id)
 	{
 		$data = array(
-				'ESTADO' => 'Inactivo',
+				'ESTADO_ACU' => 'Inactivo',
 			);
 		$this->person->update(array('DOC_EST' => $id), $data);
 		echo json_encode(array("status" => TRUE));
@@ -147,12 +144,6 @@ class Person extends CI_Controller {
 			$data['inputerror'][] = 'ID_TIP_DOC_EST';
 			$data['status'] = FALSE;
 		}
-
-        if($this->input->post('COD_DANE_INST') == '')
-        {
-            $data['inputerror'][] = 'COD_DANE_INST';
-            $data['status'] = FALSE;
-        }
 
         if($this->input->post('TBL_ACUDIENTE_DOC_ACU') == '')
         {

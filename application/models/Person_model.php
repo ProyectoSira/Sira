@@ -4,8 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Person_model extends CI_Model {
 
 	var $table = 'tbl_estudiante';
-	var $column_order = array('DOC_EST','ID_TIP_DOC_EST','COD_DANE_INST','TBL_ACUDIENTE_DOC_ACU','NOM1_EST', 'NOM2_EST','APE1_EST', 
-	'APE2_EST','FECH_NAC_EST','CIU_EST','DIR_EST','TEL1_EST','TEL2_EST','EMAIL_EST',null); //set column field database for datatable orderable
+	var $column_order = array('DOC_EST','ID_TIP_DOC_EST','DOC_ACU','NOM1_EST', 'NOM2_EST','APE1_EST', 
+	'APE2_EST','FECH_NAC_EST','CIU_EST','DIR_EST','TEL1_EST','TEL2_EST','EMAIL_EST','GRADO_EST',null); //set column field database for datatable orderable
 	var $column_search = array('DOC_EST','NOM1_EST','APE1_EST'); //set column field database for datatable searchable just firstname , lastname , address are searchable
 	var $order = array('DOC_EST' => 'desc'); // default order 
 
@@ -42,11 +42,11 @@ class Person_model extends CI_Model {
 
 	}
 
-	function get_institucion(){
-      $institucion = $this->db->get('tbl_institucion');
-       if ($institucion -> num_rows()>0)
+	function get_ciudad(){
+      $ciudad = $this->db->get('tbl_ciudad');
+       if ($ciudad -> num_rows()>0)
        {
-       	return $institucion->result();
+       	return $ciudad->result();
        }
 
 	}
@@ -58,9 +58,8 @@ class Person_model extends CI_Model {
 		$this->db->select('*');
 		$this->db->from('tbl_estudiante');
         $this->db->join('tbl_tipo_documento','tbl_tipo_documento.ID_TIP_DOC = tbl_estudiante.ID_TIP_DOC_EST');
-        $this->db->join('tbl_acudiente','tbl_acudiente.DOC_ACU = tbl_estudiante.TBL_ACUDIENTE_DOC_ACU');
-        $this->db->join('tbl_institucion','tbl_institucion.COD_DANE_INST = tbl_estudiante.COD_DANE_INST');
-        $this->db->where('ESTADO', 'Activo');
+        $this->db->join('tbl_acudiente','tbl_acudiente.DOC_ACU = tbl_estudiante.DOC_ACU');
+        $this->db->where('ESTADO_ACU', 'Activo');
 
         
 		$i = 0;

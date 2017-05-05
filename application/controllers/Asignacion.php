@@ -12,9 +12,17 @@ class Asignacion extends CI_Controller {
 	public function index()
 	{
 		$this->load->helper('url');
-	    $data['grado'] = $this->asignacion->get_grado();
-	    $data['grupo'] = $this->asignacion->get_grupo();
+		$this->load->helper('form');
+		$grados = $this->asignacion->get_list_Grado();
+		$data['grupo'] = $this->asignacion->get_grupo();
+		$opt = array('' => 'Todos los Grados');
+		foreach ($grados as $grados) {
+			$opt[$grados] = $grados;
+		}
+		$data['form_grado'] = form_dropdown('', $opt, '','id="GRADO_EST" class="selectpicker form-control" data-live-search="true"');
+
 		$this->load->view('asignacion_view', $data );
+
 	}
 
 
@@ -29,9 +37,9 @@ class Asignacion extends CI_Controller {
 			$row = array();
 			$row[] = $asignacion->	DOC_EST;
 			$row[] = $asignacion->NOM1_EST." ".$asignacion->NOM2_EST." ".$asignacion->APE1_EST." ".$asignacion->APE2_EST;
-
+			$row[] = $asignacion->GRADO_EST;
 			//add html for action
-			$row[] = '<input id="checkAsignar" type="checkbox">';
+			$row[] = '<input class="data-check" value="'.$asignacion->DOC_EST.'" type="checkbox">';
 		
 			$data[] = $row;
 		}
@@ -46,6 +54,17 @@ class Asignacion extends CI_Controller {
 		echo json_encode($output);
 	}
 
-
+	public function ajax_registrar()
+	{
+		$list_id = $this->input->post('DOC_EST');
+		foreach ($list_id as $id) {
+			$data = array(
+				'DOC_EST' => $this->input->post($id), 
+				'COD_GRUPO' => $this->input->post('COD_GRUPO'),
+				);
+			$insert = $this->asignacion->insertar($data);
+		}
+		return json_encode(array("status" => TRUE));
+	}
 
 }

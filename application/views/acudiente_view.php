@@ -161,6 +161,9 @@ function add_person()
     document.getElementById('DOC_ACU').readOnly = false;
     $('select[name="ID_TIP_DOC"]').val();
     $('select[name="ID_TIP_DOC"]').change();
+    $('select[name="CIU_ACU"]').val();
+    $('select[name="CIU_ACU"]').change();
+    
 }
 
 
@@ -187,7 +190,8 @@ function edit_person(id)
             $('[name="APE2_ACU"]').val(data.APE2_ACU);
              $('[name="FECH_NAC_ACU"]').datepicker('update',data.FECH_NAC_ACU);
              $('[name="EMAIL_ACU"]').val(data.EMAIL_ACU);
-            $('[name="CIU_ACU"]').val(data.CIU_ACU);
+            $('select[name="CIU_ACU"]').val(data.CIU_ACU);
+            $('select[name="CIU_ACU"]').change();
             $('[name="DIR_ACU"]').val(data.DIR_ACU);
             $('[name="TEL1_ACU"]').val(data.TEL1_ACU);
             $('[name="TEL2_ACU"]').val(data.TEL2_ACU);
@@ -405,7 +409,17 @@ function delete_person(id)
                       </div>
                         <div class="form-group">
                             <label>Ciudad <span style="color: red;">*</span></label>
-                                <input name="CIU_ACU" placeholder="CIUDAD" class="form-control" type="text" onkeypress="return justNumbers(event);">
+                                <select name="CIU_ACU" class="selectpicker form-control" data-live-search="true">
+                                    <option value="">--SELECCIONAR--</option>
+                                    <?php 
+                                      foreach ($ciudad as $filas) 
+                                      {
+                                   ?>
+                                   <option value="<?= $filas->COD_CIUDAD ?>"><?= $filas->NOM_CIUDAD ?></option>
+                                   <?php 
+                                        }
+                                    ?>
+                                </select>
                                 <span class="help-block"></span>
                         </div>
                         <div class="form-group">
