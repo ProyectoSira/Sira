@@ -59,7 +59,7 @@ class Grupo_model extends CI_Model {
 		$this->db->from('tbl_tipo_empleado');
 	
 		$this->db->join('tbl_empleado', 'tbl_empleado.ID_TIP_EMP = tbl_tipo_empleado.ID_TIP_EMP');
-		$this->db->Where('tbl_empleado.ID_TIP_EMP', 1);
+		$this->db->Where('tbl_empleado.ID_TIP_EMP', 3);
       $empleado = $this->db->get();
        if ($empleado -> num_rows()>0)
        {

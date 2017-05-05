@@ -33,6 +33,15 @@ class Empleado_model extends CI_Model {
 
 	}
 
+	function get_ciudad(){
+      $ciudad = $this->db->get('tbl_ciudad');
+       if ($ciudad -> num_rows()>0)
+       {
+       	return $ciudad->result();
+       }
+
+	}
+
 
 	private function _get_datatables_query()
 	{

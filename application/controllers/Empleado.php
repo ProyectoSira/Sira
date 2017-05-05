@@ -14,6 +14,7 @@ class Empleado extends CI_Controller {
 		$this->load->helper('url');
 		$data['tipoDocumento'] = $this->empleado->get_tipodocumento();
 		$data['tipoEmpleado'] = $this->empleado->get_tipoEmpleado();
+		$data['ciudad'] = $this->empleado->get_ciudad();
 		$this->load->view('empleado_view', $data);
         
 

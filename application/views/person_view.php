@@ -172,6 +172,8 @@ function add_person()
     $('select[name="TBL_ACUDIENTE_DOC_ACU"]').change();
     $('select[name="GRADO_EST"]').val();
     $('select[name="GRADO_EST"]').change();
+    $('select[name="CIU_EST"]').val();
+    $('select[name="CIU_EST"]').change();
 }
 
 
@@ -201,7 +203,8 @@ function edit_person(id)
             $('select[name="GRADO_EST"]').val(data.GRADO_EST);
             $('select[name="GRADO_EST"]').change();
             $('[name="FECH_NAC_EST"]').datepicker('update',data.FECH_NAC_EST);
-            $('[name="CIU_EST"]').val(data.CIU_EST);
+            $('select[name="CIU_EST"]').val(data.CIU_EST);
+            $('select[name="CIU_EST"]').change();
             $('[name="DIR_EST"]').val(data.DIR_EST);
             $('[name="TEL1_EST"]').val(data.TEL1_EST);
             $('[name="TEL2_EST"]').val(data.TEL2_EST);

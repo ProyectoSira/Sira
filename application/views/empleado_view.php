@@ -164,6 +164,8 @@ function add_person()
     $('select[name="ID_TIP_DOC"]').change();
     $('select[name="ID_TIP_EMP"]').val();
     $('select[name="ID_TIP_EMP"]').change();
+    $('select[name="CIU_EMP"]').val();
+    $('select[name="CIU_EMP"]').change();
 }
 
 function edit_person(id)
@@ -190,7 +192,8 @@ function edit_person(id)
             $('[name="NOM2_EMP"]').val(data.NOM2_EMP);
             $('[name="APE1_EMP"]').val(data.APE1_EMP);
             $('[name="APE2_EMP"]').val(data.APE2_EMP);
-            $('[name="CIU_EMP"]').val(data.CIU_EMP);
+            $('select[name="CIU_EMP"]').val(data.CIU_EMP);
+            $('select[name="CIU').change();
             $('[name="FECH_NAC_EMP"]').datepicker('update',data.FECH_NAC_EMP);
             $('[name="DIR_EMP"]').val(data.DIR_EMP);
             $('[name="EMAIL_EMP"]').val(data.EMAIL_EMP);
@@ -407,7 +410,17 @@ function delete_person(id)
                         </div>
                         <div class="form-group">
                             <label>Ciudad <span style="color: red;">*</span></label>
-                                <input name="CIU_EMP" placeholder="CIUDAD" class="form-control" type="text" onkeypress="return justNumbers(event);">
+                                <select name="CIU_EMP" class="selectpicker form-control">
+                                    <option value="">--SELECCIONAR--</option>
+                                    <?php 
+                                      foreach ($ciudad as $filas) 
+                                      {
+                                   ?>
+                                   <option value="<?= $filas->COD_CIUDAD ?>" ><?= $filas->NOM_CIUDAD ?></option>
+                                   <?php 
+                                        }
+                                    ?>
+                                </select>
                                 <span class="help-block"></span>
                         </div>
                         </div>
