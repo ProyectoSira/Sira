@@ -60,14 +60,13 @@ class Programacion extends CI_Controller {
 
 	public function ajax_edit($id)
 	{
-		$data = $this->sancion->get_by_id($id);
-		$data->FECH_SANC = ($data->FECH_SANC == '0000-00-00') ? '' : $data->FECH_SANC; // if 0000-00-00 set tu empty for datepicker compatibility
+		$data = $this->programacion->get_by_id($id);
 		echo json_encode($data);
 	}
 
 	public function ajax_view($id)
 	{
-		$data = $this->sancion->get_by_id($id);
+		$data = $this->programacion->get_by_id($id);
 		echo json_encode($data);
 	}
 
@@ -75,15 +74,17 @@ class Programacion extends CI_Controller {
 	{
 		$this->_validate();
 		$data = array(
-				'COD_SANC' => $this->input->post('COD_SANC'),
-				'COD_TIP_SANC' => $this->input->post('COD_TIP_SANC'),
-                'DOC_EST' => $this->input->post('DOC_EST'),
-                'DOC_EMP' => $this->input->post('DOC_EMP'),
-                'RAZON_SANC' => $this->input->post('RAZON_SANC'),
-                'FECH_SANC' => $this->input->post('FECH_SANC'),
-                'ESTADO' => $this->input->post('ESTADO'),
+				'COD_PROGRA' => $this->input->post('COD_PROGRA'),
+				'DOC_EMP' => $this->input->post('DOC_EMP'),
+                'COD_ASIG' => $this->input->post('COD_ASIG'),
+                'COD_AULA' => $this->input->post('COD_AULA'),
+                'HORA_INI' => $this->input->post('HORA_INI'),
+                'HORA_FIN' => $this->input->post('HORA_FIN'),
+                'DIA_SEM' => $this->input->post('DIA_SEM'),
+                'COD_CAL' => $this->input->post('COD_CAL'),
+                'COD_GUPO' => $this->input->post('COD_GUPO'),
 			);
-		$insert = $this->sancion->save($data);
+		$insert = $this->programacion->save($data);
 		echo json_encode(array("status" => TRUE));
 	}
 
@@ -93,20 +94,22 @@ class Programacion extends CI_Controller {
 	{
 		$this->_validate();
 		$data = array(
-				'COD_TIP_SANC' => $this->input->post('COD_TIP_SANC'),
-                'DOC_EST' => $this->input->post('DOC_EST'),
-                'DOC_EMP' => $this->input->post('DOC_EMP'),
-                'RAZON_SANC' => $this->input->post('RAZON_SANC'),
-                'FECH_SANC' => $this->input->post('FECH_SANC'),
-                'ESTADO' => $this->input->post('ESTADO'),
+				'DOC_EMP' => $this->input->post('DOC_EMP'),
+                'COD_ASIG' => $this->input->post('COD_ASIG'),
+                'COD_AULA' => $this->input->post('COD_AULA'),
+                'HORA_INI' => $this->input->post('HORA_INI'),
+                'HORA_FIN' => $this->input->post('HORA_FIN'),
+                'DIA_SEM' => $this->input->post('DIA_SEM'),
+                'COD_CAL' => $this->input->post('COD_CAL'),
+                'COD_GUPO' => $this->input->post('COD_GUPO'),
 			);
-		$this->sancion->update(array('COD_SANC' => $this->input->post('COD_SANC')), $data);
+		$this->programacion->update(array('COD_PROGRA' => $this->input->post('COD_PROGRA')), $data);
 		echo json_encode(array("status" => TRUE));
 	}
 
 	public function ajax_delete($id)
 	{
-		$this->sancion->delete_by_id($id);
+		$this->programacion->delete_by_id($id);
 		echo json_encode(array("status" => TRUE));
 	}
 
@@ -117,48 +120,59 @@ class Programacion extends CI_Controller {
 		$data['inputerror'] = array();
 		$data['status'] = TRUE;
 
-		if($this->input->post('COD_SANC') == '')
+		if($this->input->post('COD_PROGRA') == '')
 		{
-			$data['inputerror'][] = 'COD_SANC';
+			$data['inputerror'][] = 'COD_PROGRA';
 			$data['status'] = FALSE;
 		}
 
-		if($this->input->post('COD_TIP_SANC') == '')
+		if($this->input->post('DOC_EMP') == '')
 		{
-			$data['inputerror'][] = 'COD_TIP_SANC';
+			$data['inputerror'][] = 'DOC_EMP';
 			$data['status'] = FALSE;
 		}
 
-        if($this->input->post('DOC_EST') == '')
+        if($this->input->post('COD_ASIG') == '')
         {
-            $data['inputerror'][] = 'DOC_EST';
+            $data['inputerror'][] = 'COD_ASIG';
             $data['status'] = FALSE;
         }
 
-        if($this->input->post('DOC_EMP') == '')
+        if($this->input->post('COD_AULA') == '')
         {
-            $data['inputerror'][] = 'DOC_EMP';
+            $data['inputerror'][] = 'COD_AULA';
             $data['status'] = FALSE;
         }
 
-        if($this->input->post('RAZON_SANC') == '')
+        if($this->input->post('HORA_INI') == '')
         {
-            $data['inputerror'][] = 'RAZON_SANC';
+            $data['inputerror'][] = 'HORA_INI';
             $data['status'] = FALSE;
         }
 
-        if($this->input->post('FECH_SANC') == '')
+        if($this->input->post('HORA_FIN') == '')
         {
-            $data['inputerror'][] = 'FECH_SANC';
+            $data['inputerror'][] = 'HORA_FIN';
             $data['status'] = FALSE;
         }
 
-		if($this->input->post('ESTADO') == '')
+		if($this->input->post('DIA_SEM') == '')
 		{
-			$data['inputerror'][] = 'ESTADO';
+			$data['inputerror'][] = 'DIA_SEM';
 			$data['status'] = FALSE;
 		}
 
+		if($this->input->post('COD_CAL') == '')
+		{
+			$data['inputerror'][] = 'COD_CAL';
+			$data['status'] = FALSE;
+		}
+
+		if($this->input->post('COD_GUPO') == '')
+		{
+			$data['inputerror'][] = 'COD_GUPO';
+			$data['status'] = FALSE;
+		}
 		
 		if($data['status'] === FALSE)
 		{
