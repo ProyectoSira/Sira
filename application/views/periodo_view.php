@@ -3,9 +3,9 @@
 
 <div class="container-fluid">
  
-        <h1 style="font-size:20pt">Registro de Sanciones</h1>
+        <h1 style="font-size:20pt">Registro de Periodos</h1>
 
-        <h3>Datos de la Sancion</h3>
+        <h3>Datos del Periodo</h3>
         <div id="result"></div>
         <br />
         <button class="btn btn-success" onclick="add_person()"><i class="glyphicon glyphicon-plus"></i> Nuevo</button>
@@ -15,13 +15,11 @@
         <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
                 <tr>
-                    <th>Id Sancion</th>
-                    <th>Tipo Sancion</th>
-                    <th>Estudiante</th>
-                    <th>Profesor</th>
-                    <th>Descripcion</th>
-                    <th>Fecha</th>
-                    <th>Estado</th>
+                    <th>Id Periodo</th>
+                    <th>Numero</th>
+                    <th>Nombre</th>
+                    <th>Fecha Inicio</th>
+                    <th>Fecha Fin</th>
                     <th style="width:55px;">Accion</th>
                 </tr>
             </thead>
@@ -30,13 +28,11 @@
 
             <tfoot>
                 <tr>
-                    <th>Id Sancion</th>
-                    <th>Tipo Sancion</th>
-                    <th>Estudiante</th>
-                    <th>Profesor</th>
-                    <th>Descripcion</th>
-                    <th>Fecha</th>
-                    <th>Estado</th>
+                    <th>Id Periodo</th>
+                    <th>Numero</th>
+                    <th>Nombre</th>
+                    <th>Fecha Inicio</th>
+                    <th>Fecha Fin</th>
                     <th>Accion</th>
                 </tr>
             </tfoot>
@@ -77,7 +73,7 @@ $(document).ready(function() {
 
         // Load data for the table's content from an Ajax source
         "ajax": {
-            "url": "<?php echo site_url('sancion/ajax_list')?>",
+            "url": "<?php echo site_url('periodo/ajax_list')?>",
             "type": "POST"
         },
 
@@ -126,6 +122,15 @@ $(document).ready(function() {
         todayHighlight: true,  
     });
 
+    $('#datepicker1').datepicker({
+        autoclose: true,
+        format: "yyyy-mm-dd",
+        todayHighlight: true,
+        orientation: "top auto",
+        todayBtn: true,
+        todayHighlight: true,  
+    });
+
     //set input/textarea/select event when change value, remove class error and remove text help block 
     $("input").change(function(){
         $(this).parent().parent().removeClass('has-error');
@@ -156,16 +161,9 @@ function add_person()
     $('.form-group').removeClass('has-error'); // clear error class
     $('.help-block').empty(); // clear error string
     $('#modal_form').modal('show'); // show bootstrap modal
-    $('.modal-title').text('Nueva Sancion'); // Set Title to Bootstrap modal title
-    document.getElementById('COD_SANC').readOnly = false;
-    $('select[name="COD_TIP_SANC"]').val();
-    $('select[name="COD_TIP_SANC"]').change();
-    $('select[name="DOC_EST"]').val();
-    $('select[name="DOC_EST"]').change();
-    $('select[name="DOC_EMP"]').val();
-    $('select[name="DOC_EMP"]').change();
-    $('select[name="ESTADO"]').val();
-    $('select[name="ESTADO"]').change();
+    $('.modal-title').text('Nuevo Periodo'); // Set Title to Bootstrap modal title
+    document.getElementById('COD_PER').readOnly = false;
+
 }
 
 function edit_person(id)
@@ -174,27 +172,21 @@ function edit_person(id)
     $('#form')[0].reset(); // reset form on modals
     $('.form-group').removeClass('has-error'); // clear error class
     $('.help-block').empty(); // clear error string
-    document.getElementById('COD_SANC').readOnly = true;
+    document.getElementById('COD_PER').readOnly = true;
     //Ajax Load data from ajax
     $.ajax({
-        url : "<?php echo site_url('sancion/ajax_edit/')?>/" + id,
+        url : "<?php echo site_url('periodo/ajax_edit/')?>/" + id,
         type: "GET",
         dataType: "JSON",
         success: function(data)
         {
-            $('[name="COD_SANC"]').val(data.COD_SANC);
-            $('select[name="COD_TIP_SANC"]').val(data.COD_TIP_SANC);
-            $('select[name="COD_TIP_SANC"]').change();
-            $('select[name="DOC_EST"]').val(data.DOC_EST);
-            $('select[name="DOC_EST"]').change();
-            $('select[name="DOC_EMP"]').val(data.DOC_EMP);
-            $('select[name="DOC_EMP"]').change();
-            $('[name="RAZON_SANC"]').val(data.RAZON_SANC);
-            $('[name="FECH_SANC"]').datepicker('update',data.FECH_SANC);
-            $('select[name="ESTADO"]').val(data.ESTADO);
-            $('select[name="ESTADO"]').change();
+            $('[name="COD_PER"]').val(data.COD_PER);
+            $('[name="NUM_PER"]').val(data.NUM_PER);
+            $('[name="NOM_PER"]').val(data.NOM_PER);
+            $('[name="FECH_INI_PER"]').val(data.FECH_INI_PER);
+            $('[name="FECH_FIN_PER"]').val(data.FECH_FIN_PER);
             $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
-            $('.modal-title').text('Editar Sancion');
+            $('.modal-title').text('Editar Periodo');
 
         },
         error: function (jqXHR, textStatus, errorThrown)
@@ -218,9 +210,9 @@ function save()
     var url;
  
     if(save_method == 'add') {
-        url = "<?php echo site_url('sancion/ajax_add')?>";
+        url = "<?php echo site_url('periodo/ajax_add')?>";
     } else {
-        url = "<?php echo site_url('sancion/ajax_update')?>";
+        url = "<?php echo site_url('periodo/ajax_update')?>";
     }
  
     // ajax adding data to database
@@ -274,7 +266,7 @@ function delete_person(id)
     {
         // ajax delete data to database
         $.ajax({
-            url : "<?php echo site_url('sancion/ajax_delete')?>/"+id,
+            url : "<?php echo site_url('periodo/ajax_delete')?>/"+id,
             type: "POST",
             dataType: "JSON",
             success: function(data)
@@ -310,6 +302,7 @@ function validar(e) {
 
 } 
 
+
 </script>
 
 <!-- Bootstrap modal -->
@@ -324,88 +317,37 @@ function validar(e) {
                 <form action="#" id="form" class="form-horizontal">
                     <div class="form-body">
                         <div class="form-group">
-                            <label class="control-label col-md-3">Id Sancion <span style="color: red;">*</span></label>
+                            <label class="control-label col-md-3">Id Periodo <span style="color: red;">*</span></label>
                             <div class="col-md-9">
-                                <input name="COD_SANC" placeholder="ID SANCION" class="form-control" type="text" id="COD_SANC" onkeypress="return justNumbers(event);">
+                                <input name="COD_PER" placeholder="ID PERIODO" class="form-control" type="text" id="COD_PER" onkeypress="return justNumbers(event);">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                       <div class="form-group">
+                            <label class="control-label col-md-3">Numero Periodo <span style="color: red;">*</span></label>
+                            <div class="col-md-9">
+                                <input name="NUM_PER" placeholder="NUMERO DE PERIODO" class="form-control" type="text" onkeypress="return justNumbers(event);">
                                 <span class="help-block"></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3">Tipo Sancion <span style="color: red;">*</span></label>
+                            <label class="control-label col-md-3">Nombre Periodo <span style="color: red;">*</span></label>
                             <div class="col-md-9">
-                                <select name="COD_TIP_SANC" class="selectpicker form-control">
-                                    <option value="">--SELECCIONAR--</option>
-                                    <?php 
-                                      foreach ($tipoSancion as $filas) 
-                                      {
-                                   ?>
-                                   <option value="<?= $filas->COD_TIP_SANC ?>" data-subtext="<?=$filas->COD_TIP_SANC ?>">
-                                   <?= $filas->NOM_SANC ?></option>
-                                   <?php 
-                                        }
-                                    ?>
-                                </select>
+                                <input name="NOM_PER" placeholder="NOMBRE DE PERIODO" class="form-control" type="text"  style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" onkeypress="return validar(event)">
                                 <span class="help-block"></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3">Documento Estudiante <span style="color: red;">*</span></label>
+                            <label class="control-label col-md-3">Fecha Inicio <span style="color: red;">*</span></label>
                             <div class="col-md-9">
-                                <select name="DOC_EST" class="selectpicker form-control" data-live-search="true">
-                                    <option value="">--SELECCIONAR--</option>
-                                    <?php 
-                                      foreach ($estudiante as $filas) 
-                                      {
-                                   ?>
-                                   <option value="<?= $filas->DOC_EST ?>" data-subtext="<?=$filas->NOM1_EST," ",$filas->NOM2_EST," ",$filas->APE1_EST ?>">
-                                   <?= $filas->DOC_EST ?></option>
-                                   <?php 
-                                        }
-                                    ?>
-                                </select>
+                                <input name="FECH_INI_PER" placeholder="YYYY-MM-DD" class="form-control" id="datepicker" type="text">
                                 <span class="help-block"></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3">documento Profesor <span style="color: red;">*</span></label>
+                            <label class="control-label col-md-3">Fecha Fin <span style="color: red;">*</span></label>
                             <div class="col-md-9">
-                                <select name="DOC_EMP" class="selectpicker form-control">
-                                    <option value="">--SELECCIONAR--</option>
-                                    <?php 
-                                      foreach ($empleado as $filas) 
-                                      {
-                                   ?>
-                                   <option value="<?= $filas->DOC_EMP ?>" data-subtext="<?=$filas->NOM1_EMP," ",$filas->NOM2_EMP," ",$filas->APE1_EMP ?>">
-                                   <?= $filas->DOC_EMP ?></option>
-                                   <?php 
-                                        }
-                                    ?>
-                                </select>
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Descripcion <span style="color: red;">*</span></label>
-                            <div class="col-md-9">
-                                <textarea name="RAZON_SANC" placeholder="DESCRIPCION" class="form-control"  style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" onkeypress="return validar(event)"></textarea>
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Fecha Sancion <span style="color: red;">*</span></label>
-                            <div class="col-md-9">
-                                <input name="FECH_SANC" placeholder="YYYY-MM-DD" class="form-control" id="datepicker" type="text">
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Estado <span style="color: red;">*</span></label>
-                            <div class="col-md-9">
-                                <select name="ESTADO" class="selectpicker form-control">
-                                    <option value="">--ESTADO--</option>
-                                    <option value="0">ACTIVA</option>
-                                    <option value="1">INACTIVA</option>
-                                </select>
+                                <input name="FECH_FIN_PER" placeholder="YYYY-MM-DD" class="form-control" id="datepicker1" type="text">
                                 <span class="help-block"></span>
                             </div>
                         </div>

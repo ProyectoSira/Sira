@@ -17,7 +17,7 @@
                      <br>
                      <div class="form-group">
                      <label>Grupo</label>  
-                        <select name="COD_GRADO" class="selectpicker form-control" data-live-search = "true" id="COD_GRADO">
+                        <select name="COD_GRUPO" class="selectpicker form-control" data-live-search = "true" id="COD_GRUPO">
                         <option value="">--Seleccione--</option>
                             <?php 
                                 foreach ($grupo as $fila) {
@@ -173,6 +173,7 @@ function abrir()
 
 function registrar() {
     var list_id = [];
+    var grupo = 1;
     $('.data-check:checked').each(function() {
         list_id.push(this.value);
     });
@@ -180,7 +181,7 @@ function registrar() {
         if (confirm('Desea registrar '+list_id.length+' alumnos a este grupo?')) {
             $.ajax({
                 type: "POST",
-                data: {DOC_EST:list_id}, 
+                data: {DOC_EST:list_id, COD_GRU:grupo}, 
                 url: "<?php echo site_url('asignacion/ajax_registrar')?>;",
                 dataType: "JSON",
                 success: function(data){

@@ -1,30 +1,23 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Asignacion_model extends CI_Model {
+class Periodo_model extends CI_Model {
 
-	var $table = 'tbl_estudiante';
-	var $table1 = 'tbl_grupo_estudio';
-	var $column_order = array('DOC_EST','ID_TIP_DOC_EST','COD_DANE_INST','DOC_ACU','NOM1_EST', 'NOM2_EST','APE1_EST', 
-	'APE2_EST','GRADO_EST','FECH_NAC_EST','CIU_EST','DIR_EST','TEL1_EST','TEL2_EST','EMAIL_EST',null);
-	var $column_search = array('DOC_EST','NOM1_EST','NOM2_EST','APE1_EST','APE2_EST'); 
-	var $order = array('DOC_EST' => 'desc'); // default order 
+	var $table = 'tbl_periodo';
+	var $column_order = array('COD_PER','NUM_PER','NOM_PER','FECH_INI_PER','FECH_fiN_PER',null); //set column field database for datatable orderable
+	var $column_search = array('COD_PER','NUM_PER','NOM_PER'); //set column field database for datatable searchable just firstname , lastname , address are searchable
+	var $order = array('COD_PER' => 'desc'); // default order 
+
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->database();
 	}
-	
 
-	public function _get_datatables_query()
+
+	private function _get_datatables_query()
 	{
-		if ($this->input->post('GRADO_EST')) {
-			$this->db->Where('GRADO_EST', $this->input->post('GRADO_EST'));
-		}
-
 		$this->db->from($this->table);
-
-        
 		$i = 0;
 	
 		foreach ($this->column_search as $item) // loop column 
@@ -81,39 +74,32 @@ class Asignacion_model extends CI_Model {
 		return $this->db->count_all_results();
 	}
 
+	public function get_by_id($id)
+	{
+		$this->db->from($this->table);
+		$this->db->where('COD_PER',$id);
+		$query = $this->db->get();
+
+		return $query->row();
+	}
+
 	public function save($data)
 	{
-		$this->db->insert($this->table1, $data);
+		$this->db->insert($this->table, $data);
 		return $this->db->insert_id();
 	}
 
-	public function get_list_Grado(){
-		$this->db->select('*');
-		$this->db->from('tbl_grado');
-		$this->db->order_by('COD_GRADO');
-		$query = $this->db->get();
-		$result = $query->result();
-
-		$grados = array();
-		foreach ($result as $row) {
-			$grados[] = $row->NOM_GRADO;
-		}
-		return $grados;
+	public function update($where, $data)
+	{
+		$this->db->update($this->table, $data, $where);
+		return $this->db->affected_rows();
 	}
 
-	public function get_grupo(){
-       
-	    $this->db->select('*');
-	    $this->db->from('tbl_grupo');
-	    $this->db->join('tbl_grado', 'tbl_grado.COD_GRADO = tbl_grupo.COD_GRADO');
-	    $this->db->order_by('NOM_GRADO', 'asc' and 'NUM_GRUPO','asc');
-	    $grupo =  $this->db->get();
-	    if($grupo -> num_rows()>0)
-	    {
-	    	return $grupo->result();
-	    }
+	public function delete_by_id($id)
+	{
+		$this->db->where('COD_PER', $id);
+		$this->db->delete($this->table);
 	}
 
 
 }
-

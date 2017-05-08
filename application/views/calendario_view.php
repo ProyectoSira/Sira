@@ -3,9 +3,9 @@
 
 <div class="container-fluid">
  
-        <h1 style="font-size:20pt">Registro de Sanciones</h1>
+        <h1 style="font-size:20pt">Registro de Calendario</h1>
 
-        <h3>Datos de la Sancion</h3>
+        <h3>Datos del Calendario</h3>
         <div id="result"></div>
         <br />
         <button class="btn btn-success" onclick="add_person()"><i class="glyphicon glyphicon-plus"></i> Nuevo</button>
@@ -15,13 +15,9 @@
         <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
                 <tr>
-                    <th>Id Sancion</th>
-                    <th>Tipo Sancion</th>
-                    <th>Estudiante</th>
-                    <th>Profesor</th>
-                    <th>Descripcion</th>
-                    <th>Fecha</th>
-                    <th>Estado</th>
+                    <th style="width:100px;">Id Calendario</th>
+                    <th style="width:100px;">Año</th>
+                    <th style="width:100px;">Periodo</th>
                     <th style="width:55px;">Accion</th>
                 </tr>
             </thead>
@@ -29,16 +25,12 @@
             </tbody>
 
             <tfoot>
-                <tr>
-                    <th>Id Sancion</th>
-                    <th>Tipo Sancion</th>
-                    <th>Estudiante</th>
-                    <th>Profesor</th>
-                    <th>Descripcion</th>
-                    <th>Fecha</th>
-                    <th>Estado</th>
-                    <th>Accion</th>
-                </tr>
+            <tr>
+                <th>Id Calendario</th>
+                <th>Año</th>
+                <th>Periodo</th>
+                <th>Accion</th>
+            </tr>
             </tfoot>
         </table>
         </div>
@@ -61,6 +53,7 @@
 <script src="<?php echo base_url('assets/select/js/bootstrap-select.min.js')?>"></script>
 
 
+
 <script type="text/javascript">
 
 var save_method; //for save method string
@@ -77,7 +70,7 @@ $(document).ready(function() {
 
         // Load data for the table's content from an Ajax source
         "ajax": {
-            "url": "<?php echo site_url('sancion/ajax_list')?>",
+            "url": "<?php echo site_url('calendario/ajax_list')?>",
             "type": "POST"
         },
 
@@ -103,7 +96,7 @@ $(document).ready(function() {
             "sInfoThousands":  ",",
             "sLoadingRecords": "Cargando...",
             "oPaginate": {
-                "sFirst":    "Primero",
+                "sFirst":    "Primero",                
                 "sLast":     "Último",
                 "sNext":     "Siguiente",
                 "sPrevious": "Anterior"
@@ -117,7 +110,7 @@ $(document).ready(function() {
     });
 
     //datepicker
-    $('#datepicker').datepicker({
+    $('.datepicker').datepicker({
         autoclose: true,
         format: "yyyy-mm-dd",
         todayHighlight: true,
@@ -156,16 +149,10 @@ function add_person()
     $('.form-group').removeClass('has-error'); // clear error class
     $('.help-block').empty(); // clear error string
     $('#modal_form').modal('show'); // show bootstrap modal
-    $('.modal-title').text('Nueva Sancion'); // Set Title to Bootstrap modal title
-    document.getElementById('COD_SANC').readOnly = false;
-    $('select[name="COD_TIP_SANC"]').val();
-    $('select[name="COD_TIP_SANC"]').change();
-    $('select[name="DOC_EST"]').val();
-    $('select[name="DOC_EST"]').change();
-    $('select[name="DOC_EMP"]').val();
-    $('select[name="DOC_EMP"]').change();
-    $('select[name="ESTADO"]').val();
-    $('select[name="ESTADO"]').change();
+    $('.modal-title').text('Nuevo Calendario'); // Set Title to Bootstrap modal title
+    document.getElementById('COD_CAL').readOnly = false;
+    $('select[name="COD_PER"]').val();
+    $('select[name="COD_PER"]').change();
 }
 
 function edit_person(id)
@@ -174,27 +161,20 @@ function edit_person(id)
     $('#form')[0].reset(); // reset form on modals
     $('.form-group').removeClass('has-error'); // clear error class
     $('.help-block').empty(); // clear error string
-    document.getElementById('COD_SANC').readOnly = true;
+    document.getElementById('COD_CAL').readOnly = true;
     //Ajax Load data from ajax
     $.ajax({
-        url : "<?php echo site_url('sancion/ajax_edit/')?>/" + id,
+        url : "<?php echo site_url('calendario/ajax_edit/')?>/" + id,
         type: "GET",
         dataType: "JSON",
         success: function(data)
         {
-            $('[name="COD_SANC"]').val(data.COD_SANC);
-            $('select[name="COD_TIP_SANC"]').val(data.COD_TIP_SANC);
-            $('select[name="COD_TIP_SANC"]').change();
-            $('select[name="DOC_EST"]').val(data.DOC_EST);
-            $('select[name="DOC_EST"]').change();
-            $('select[name="DOC_EMP"]').val(data.DOC_EMP);
-            $('select[name="DOC_EMP"]').change();
-            $('[name="RAZON_SANC"]').val(data.RAZON_SANC);
-            $('[name="FECH_SANC"]').datepicker('update',data.FECH_SANC);
-            $('select[name="ESTADO"]').val(data.ESTADO);
-            $('select[name="ESTADO"]').change();
+            $('[name="COD_CAL"]').val(data.COD_CAL);
+            $('[name="AÑO_CAL"]').val(data.AÑO_CAL);
+            $('select[name="COD_PER"]').val(data.COD_PER);
+            $('select[name="COD_PER"]').change();
             $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
-            $('.modal-title').text('Editar Sancion');
+            $('.modal-title').text('Editar Calendario'); // Set title to Bootstrap modal title
 
         },
         error: function (jqXHR, textStatus, errorThrown)
@@ -203,9 +183,20 @@ function edit_person(id)
         }
     });
 }
+function justNumbers(e){
+    var keynum = window.event ? window.event.keyCode : e.which;
+    if ((keynum == 8) || (keynum == 46))
+    return true;
+    return /\d/.test(String.fromCharCode(keynum));
+}
+function validar(e) { 
+    tecla = (document.all) ? e.keyCode : e.which; 
+    if (tecla==8) return true; 
+        patron =/[A-Za-z\s]/; 
+        te = String.fromCharCode(tecla); 
+        return patron.test(te); 
 
-
-
+}           
 function reload_table()
 {
     table.ajax.reload(null,false); //reload datatable ajax 
@@ -218,9 +209,9 @@ function save()
     var url;
  
     if(save_method == 'add') {
-        url = "<?php echo site_url('sancion/ajax_add')?>";
+        url = "<?php echo site_url('calendario/ajax_add')?>";
     } else {
-        url = "<?php echo site_url('sancion/ajax_update')?>";
+        url = "<?php echo site_url('calendario/ajax_update')?>";
     }
  
     // ajax adding data to database
@@ -236,7 +227,6 @@ function save()
             {
                 $('#modal_form').modal('hide');
                 reload_table();
-                i = 0;
                 if (save_method == 'add') {
                     $("#result").addClass("alert alert-success");
                     $('#result').text('Registro Exitoso'); 
@@ -244,7 +234,7 @@ function save()
                     $("#result").addClass("alert alert-info");
                     $('#result').text('Registro Modificado Exitosamente'); 
                 }
-                setTimeout("cerrarAlerta()",2000);       
+                setTimeout("cerrarAlerta()",2000);
             }
             else
             {
@@ -274,7 +264,7 @@ function delete_person(id)
     {
         // ajax delete data to database
         $.ajax({
-            url : "<?php echo site_url('sancion/ajax_delete')?>/"+id,
+            url : "<?php echo site_url('calendario/ajax_delete')?>/"+id,
             type: "POST",
             dataType: "JSON",
             success: function(data)
@@ -295,21 +285,6 @@ function delete_person(id)
     }
 }
 
-function justNumbers(e){
-    var keynum = window.event ? window.event.keyCode : e.which;
-    if ((keynum == 8) || (keynum == 46))
-    return true;
-    return /\d/.test(String.fromCharCode(keynum));
-}
-function validar(e) { 
-    tecla = (document.all) ? e.keyCode : e.which; 
-    if (tecla==8) return true; 
-        patron =/[A-Za-z\s]/; 
-        te = String.fromCharCode(tecla); 
-        return patron.test(te); 
-
-} 
-
 </script>
 
 <!-- Bootstrap modal -->
@@ -324,91 +299,36 @@ function validar(e) {
                 <form action="#" id="form" class="form-horizontal">
                     <div class="form-body">
                         <div class="form-group">
-                            <label class="control-label col-md-3">Id Sancion <span style="color: red;">*</span></label>
+                            <label class="control-label col-md-3">Id Calendario <span style="color: red;">*</span></label>
                             <div class="col-md-9">
-                                <input name="COD_SANC" placeholder="ID SANCION" class="form-control" type="text" id="COD_SANC" onkeypress="return justNumbers(event);">
+                                <input name="COD_CAL" placeholder="ID CALENDARIO" class="form-control" type="text" id="COD_CAL" onkeypress="return justNumbers(event);">
                                 <span class="help-block"></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3">Tipo Sancion <span style="color: red;">*</span></label>
+                            <label class="control-label col-md-3">Año <span style="color: red;">*</span></label>
                             <div class="col-md-9">
-                                <select name="COD_TIP_SANC" class="selectpicker form-control">
-                                    <option value="">--SELECCIONAR--</option>
-                                    <?php 
-                                      foreach ($tipoSancion as $filas) 
+                                <input name="AÑO_CAL" placeholder="AÑO" class="form-control" type="text" onkeypress="return justNumbers(event);">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Periodo <span style="color: red;">*</span></label>
+                            <div class="col-md-9">
+                                <select name="COD_PER" class="selectpicker form-control">
+                                    <option value="">--SELECCIONE--</option>
+                                   <?php 
+                                      foreach ($periodo as $periodo) 
                                       {
                                    ?>
-                                   <option value="<?= $filas->COD_TIP_SANC ?>" data-subtext="<?=$filas->COD_TIP_SANC ?>">
-                                   <?= $filas->NOM_SANC ?></option>
+                                   <option value="<?= $periodo->COD_PER ?>" data-subtext="<?=$periodo->COD_PER?>">
+                                   <?= $periodo->NOM_PER ?></option>
                                    <?php 
                                         }
                                     ?>
                                 </select>
                                 <span class="help-block"></span>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Documento Estudiante <span style="color: red;">*</span></label>
-                            <div class="col-md-9">
-                                <select name="DOC_EST" class="selectpicker form-control" data-live-search="true">
-                                    <option value="">--SELECCIONAR--</option>
-                                    <?php 
-                                      foreach ($estudiante as $filas) 
-                                      {
-                                   ?>
-                                   <option value="<?= $filas->DOC_EST ?>" data-subtext="<?=$filas->NOM1_EST," ",$filas->NOM2_EST," ",$filas->APE1_EST ?>">
-                                   <?= $filas->DOC_EST ?></option>
-                                   <?php 
-                                        }
-                                    ?>
-                                </select>
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3">documento Profesor <span style="color: red;">*</span></label>
-                            <div class="col-md-9">
-                                <select name="DOC_EMP" class="selectpicker form-control">
-                                    <option value="">--SELECCIONAR--</option>
-                                    <?php 
-                                      foreach ($empleado as $filas) 
-                                      {
-                                   ?>
-                                   <option value="<?= $filas->DOC_EMP ?>" data-subtext="<?=$filas->NOM1_EMP," ",$filas->NOM2_EMP," ",$filas->APE1_EMP ?>">
-                                   <?= $filas->DOC_EMP ?></option>
-                                   <?php 
-                                        }
-                                    ?>
-                                </select>
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Descripcion <span style="color: red;">*</span></label>
-                            <div class="col-md-9">
-                                <textarea name="RAZON_SANC" placeholder="DESCRIPCION" class="form-control"  style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" onkeypress="return validar(event)"></textarea>
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Fecha Sancion <span style="color: red;">*</span></label>
-                            <div class="col-md-9">
-                                <input name="FECH_SANC" placeholder="YYYY-MM-DD" class="form-control" id="datepicker" type="text">
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Estado <span style="color: red;">*</span></label>
-                            <div class="col-md-9">
-                                <select name="ESTADO" class="selectpicker form-control">
-                                    <option value="">--ESTADO--</option>
-                                    <option value="0">ACTIVA</option>
-                                    <option value="1">INACTIVA</option>
-                                </select>
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
                     </div>
                 </form>
             </div>

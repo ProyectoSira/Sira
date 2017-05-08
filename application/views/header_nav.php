@@ -60,7 +60,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                     </li>
                                      <li>
                                         <a href="<?php echo base_url('index.php/asignatura'); ?>">Asignaturas</a>
-                                    </li>                                   
+                                    </li>       
+                                    <li>
+                                        <a href="<?php echo base_url('index.php/periodo'); ?>">Periodos</a>
+                                    </li>                             
                                     <li>
                                         <a href="<?php echo base_url('index.php/grado'); ?>">Grados</a>
                                     </li>
@@ -75,6 +78,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                     </li>
                                 </ul>
                         </li>
+                        <li class="menu-list">
+                            <a ><i class="glyphicon glyphicon-calendar"></i>
+                                <span>Calendario</span></a>
+                                <ul class="sub-menu-list">    
+                                    <li>
+                                        <a href="<?php echo base_url('index.php/calendario'); ?>">Calendario</a>
+                                    </li> 
+                                    <li>
+                                        <a href="<?php echo base_url('index.php/periodo'); ?>">Periodos</a>
+                                    </li>   
+                                    <li>
+                                        <a href="<?php echo base_url('index.php/programacion'); ?>">Programacion</a>
+                                    </li>                          
+                                </ul>
+                        </li>
                         <li><a href="<?php echo base_url('index.php/asistencia'); ?>">
                         <i class="glyphicon glyphicon-check"></i> <span> Registro Asistencia</span></a>
                         </li>
@@ -82,10 +100,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <li><a href="<?php echo base_url(); ?>">
                         <i class="lnr lnr-list"></i> <span> Reportes</span></a>
                         </li>              
-    
-                        <li><a href="<?php echo base_url(); ?>">
-                        <i class="lnr lnr-book"></i> <span> Excusas</span></a>
-                        </li>    
+
 
                         <li><a href="<?php echo base_url('index.php/sancion'); ?>">
                         <i class="glyphicon glyphicon-alert"></i> <span> Sanciones</span></a>

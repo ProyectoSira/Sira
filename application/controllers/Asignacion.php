@@ -57,12 +57,13 @@ class Asignacion extends CI_Controller {
 	public function ajax_registrar()
 	{
 		$list_id = $this->input->post('DOC_EST');
+		$grupo = $this->input->post('COD_GRU');
 		foreach ($list_id as $id) {
 			$data = array(
 				'DOC_EST' => $this->input->post($id), 
-				'COD_GRUPO' => $this->input->post('COD_GRUPO'),
+				'COD_GRUPO' => $this->input->post($grupo),
 				);
-			$insert = $this->asignacion->insertar($data);
+			$insert = $this->asignacion->save($data);
 		}
 		return json_encode(array("status" => TRUE));
 	}
