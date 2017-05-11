@@ -81,9 +81,11 @@ class Asignacion_model extends CI_Model {
 		return $this->db->count_all_results();
 	}
 
-	public function save($data)
+	public function save($id, $grupo)
 	{
-		$this->db->insert($this->table1, $data);
+		$array = array('DOC_EST' => $id, 'COD_GRUPO' => $grupo);
+		$this->db->set($array);
+		$this->db->insert('tbl_grupo_estudio'); 
 		return $this->db->insert_id();
 	}
 

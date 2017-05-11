@@ -39,7 +39,7 @@ class Asignacion extends CI_Controller {
 			$row[] = $asignacion->NOM1_EST." ".$asignacion->NOM2_EST." ".$asignacion->APE1_EST." ".$asignacion->APE2_EST;
 			$row[] = $asignacion->GRADO_EST;
 			//add html for action
-			$row[] = '<input class="data-check" value="'.$asignacion->DOC_EST.'" type="checkbox">';
+			$row[] = '<input type="checkbox" class="data-check" value="'.$asignacion->DOC_EST.'">';
 		
 			$data[] = $row;
 		}
@@ -56,16 +56,12 @@ class Asignacion extends CI_Controller {
 
 	public function ajax_registrar()
 	{
-		$list_id = $this->input->post('DOC_EST');
-		$grupo = $this->input->post('COD_GRU');
+		$list_id = $this->input->post('id');
+		$grupo = $this->input->post('grupo');
 		foreach ($list_id as $id) {
-			$data = array(
-				'DOC_EST' => $this->input->post($id), 
-				'COD_GRUPO' => $this->input->post($grupo),
-				);
-			$insert = $this->asignacion->save($data);
+			$this->asignacion->save($id, $grupo);
 		}
-		return json_encode(array("status" => TRUE));
+		echo json_encode(array("status" => TRUE));
 	}
 
 }

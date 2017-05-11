@@ -433,7 +433,8 @@ function delete_person(id)
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Fecha Nacimiento <span style="color: red;">*</span></label>
-                                <input name="FECH_NAC_EST" placeholder="YYYY-MM-DD" class="form-control" data-date-end-date="-4y" id="datepicker" type="text">
+                                <input name="FECH_NAC_EST" placeholder="YYYY-MM-DD" class="form-control" data-date-end-date="-4y" 
+                                id="datepicker" type="text">
                                 <span class="help-block"></span>
                         </div>
                         <div class="form-group">
@@ -444,7 +445,7 @@ function delete_person(id)
                                       foreach ($Grado as $filas) 
                                       {
                                    ?>
-                                   <option value="<?= $filas->COD_GRADO ?>" ><?= $filas->NOM_GRADO ?></option>
+                                   <option value="<?= $filas->NOM_GRADO ?>" ><?= $filas->NOM_GRADO ?></option>
                                    <?php 
                                         }
                                     ?>

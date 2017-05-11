@@ -149,8 +149,6 @@ $('#btnBuscar').click(function () {
     table.ajax.reload(null,false);
 });
 
-
-
 function cerrarAlerta(){
     $("#result").removeClass("alert alert-success");
     $("#result").removeClass("alert alert-info");
@@ -164,29 +162,26 @@ function reload_table()
     table.ajax.reload(null,false); //reload datatable ajax 
 }
 
-function abrir()
-{
-    $('#form')[0].reset(); // reset form on modals
-    $('#modal_form').modal('show'); // show bootstrap modal
-}
-
 
 function registrar() {
+    var grup = $('#COD_GRUPO').val();
     var list_id = [];
-    var grupo = 1;
-    $('.data-check:checked').each(function() {
-        list_id.push(this.value);
+    $(".data-check:checked").each(function() {
+            list_id.push(this.value);
     });
     if (list_id.length > 0) {
         if (confirm('Desea registrar '+list_id.length+' alumnos a este grupo?')) {
             $.ajax({
+                url: "<?php echo site_url('asignacion/ajax_registrar')?>",
                 type: "POST",
-                data: {DOC_EST:list_id, COD_GRU:grupo}, 
-                url: "<?php echo site_url('asignacion/ajax_registrar')?>;",
+                data: {id:list_id, grupo:grup}, 
                 dataType: "JSON",
                 success: function(data){
                     if (data.status) {
                         reload_table();
+                        $("#result").addClass("alert alert-success");
+                        $('#result').text('Registro Exitoso'); 
+                        setTimeout("cerrarAlerta()",2000);
                     }else{
                         alert('Error');
                     }

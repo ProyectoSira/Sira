@@ -60,10 +60,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                     </li>
                                      <li>
                                         <a href="<?php echo base_url('index.php/asignatura'); ?>">Asignaturas</a>
-                                    </li>       
-                                    <li>
-                                        <a href="<?php echo base_url('index.php/periodo'); ?>">Periodos</a>
-                                    </li>                             
+                                    </li>                                    
                                     <li>
                                         <a href="<?php echo base_url('index.php/grado'); ?>">Grados</a>
                                     </li>
