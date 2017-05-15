@@ -22,7 +22,8 @@ class Asignacion_model extends CI_Model {
 			$this->db->Where('GRADO_EST', $this->input->post('GRADO_EST'));
 		}
 
-		$this->db->from($this->table);
+		$this->db->select('*')->from('tbl_estudiante');
+		$this->db->where('`DOC_EST` NOT IN (SELECT `DOC_EST` FROM `tbl_grupo_estudio`)', NULL, FALSE);
 
         
 		$i = 0;
@@ -59,6 +60,7 @@ class Asignacion_model extends CI_Model {
 		}
 	}
 
+
 	function get_datatables()
 	{
 		$this->_get_datatables_query();
@@ -80,6 +82,7 @@ class Asignacion_model extends CI_Model {
 		$this->db->from($this->table);
 		return $this->db->count_all_results();
 	}
+
 
 	public function save($id, $grupo)
 	{

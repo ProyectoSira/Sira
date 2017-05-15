@@ -15,7 +15,8 @@ class Asignacion extends CI_Controller {
 		$this->load->helper('form');
 		$grados = $this->asignacion->get_list_Grado();
 		$data['grupo'] = $this->asignacion->get_grupo();
-		$opt = array('' => 'Todos los Grados');
+		$opt = array('NADA' => '--SELECCIONE--');
+		$opt2 = array();
 		foreach ($grados as $grados) {
 			$opt[$grados] = $grados;
 		}
@@ -24,7 +25,6 @@ class Asignacion extends CI_Controller {
 		$this->load->view('asignacion_view', $data );
 
 	}
-
 
 
 	public function ajax_list()
@@ -53,6 +53,7 @@ class Asignacion extends CI_Controller {
 		//output to json format
 		echo json_encode($output);
 	}
+
 
 	public function ajax_registrar()
 	{

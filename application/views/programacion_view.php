@@ -199,8 +199,8 @@ function edit_person(id)
             $('select[name="DIA_SEM"]').change();
             $('select[name="COD_CAL"]').val(data.COD_CAL);
             $('select[name="COD_CAL"]').change();
-            $('select[name="COD_GUPO"]').val(data.COD_GUPO);
-            $('select[name="COD_GUPO"]').change();
+            $('select[name="COD_GRUPO"]').val(data.COD_GRUPO);
+            $('select[name="COD_GRUPO"]').change();
             $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
             $('.modal-title').text('Editar Programacion');
 
@@ -341,7 +341,7 @@ function validar(e) {
                         <div class="form-group">
                             <label class="control-label col-md-3">Empleado <span style="color: red;">*</span></label>
                             <div class="col-md-9">
-                                <select name="DOC_EMP" class="selectpicker form-control">
+                                <select name="DOC_EMP" class="selectpicker form-control" data-live-search="true">
                                     <option value="">--SELECCIONAR--</option>
                                     <?php 
                                       foreach ($empleado as $filas) 
@@ -357,16 +357,16 @@ function validar(e) {
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3">Asignacion <span style="color: red;">*</span></label>
+                            <label class="control-label col-md-3">Asignatura <span style="color: red;">*</span></label>
                             <div class="col-md-9">
                                 <select name="COD_ASIG" class="selectpicker form-control" data-live-search="true">
                                     <option value="">--SELECCIONAR--</option>
                                     <?php 
-                                      foreach ($asignacion as $filas) 
+                                      foreach ($asignatura as $filas) 
                                       {
                                    ?>
-                                   <option value="<?= $filas->ID_EST_GRUP ?>">
-                                   <?= $filas->ID_EST_GRUP ?></option>
+                                   <option value="<?= $filas->COD_ASIG ?>">
+                                   <?= $filas->NOM_ASIG ?></option>
                                    <?php 
                                         }
                                     ?>
@@ -395,14 +395,14 @@ function validar(e) {
                         <div class="form-group">
                             <label class="control-label col-md-3">Hora Inicio <span style="color: red;">*</span></label>
                             <div class="col-md-9">
-                                <input name="HORA_INI" placeholder="HORA INICIO" class="form-control" type="text" id="HORA_INI" onkeypress="return justNumbers(event);">
+                                <input name="HORA_INI" placeholder="HORA INICIO" class="form-control" type="text" id="HORA_INI">
                                 <span class="help-block"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3">Hora Fin <span style="color: red;">*</span></label>
                             <div class="col-md-9">
-                                <input name="HORA_FIN" placeholder="HORA FIN" class="form-control" type="text" id="HORA_FIN" onkeypress="return justNumbers(event);">
+                                <input name="HORA_FIN" placeholder="HORA FIN" class="form-control" type="text" id="HORA_FIN">
                                 <span class="help-block"></span>
                             </div>
                         </div>
@@ -441,7 +441,7 @@ function validar(e) {
                         <div class="form-group">
                             <label class="control-label col-md-3">Grupo <span style="color: red;">*</span></label>
                             <div class="col-md-9">
-                                <select name="COD_GUPO" class="selectpicker form-control">
+                                <select name="COD_GRUPO" class="selectpicker form-control">
                                     <option value="">--SELECCIONAR--</option>
                                     <?php 
                                 foreach ($grupo as $fila) {

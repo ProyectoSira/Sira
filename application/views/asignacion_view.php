@@ -1,8 +1,7 @@
 <?php $this->load->view('header_nav'); ?>
 <div id="page-wrapper">
     <div class="container-fluid">
-    <h1 style="font-size:20pt">Registro de asignacion</h1>
-    <h3>Datos de asignacion</h3>
+    <h1 style="font-size:20pt">Registro de Grupo de Estudio</h1>
     <br>
     <div id="result"></div>
         <div class="row">
@@ -17,7 +16,7 @@
                      <br>
                      <div class="form-group">
                      <label>Grupo</label>  
-                        <select name="COD_GRUPO" class="selectpicker form-control" data-live-search = "true" id="COD_GRUPO">
+                        <select name="COD_GRUPO" class="selectpicker form-control tablaDatos" data-live-search = "true" id="COD_GRUPO">
                         <option value="">--Seleccione--</option>
                             <?php 
                                 foreach ($grupo as $fila) {
@@ -32,10 +31,10 @@
                      <button id="btnRegistrar" class="btn btn-success form-control" onclick="registrar()">
                      <i class="glyphicon glyphicon-plus"></i> Registrar
                      </button>
+                     <br><br>
                      </div>
             </div>
             <div class="col-md-9">
-                <div id="result"></div>
                     <table id="table" class="table table-striped" cellspacing="0" width="100%">
                         <thead>
                             <tr>
@@ -159,14 +158,14 @@ function cerrarAlerta(){
 
 function reload_table()
 {
-    table.ajax.reload(null,false); //reload datatable ajax 
+    table.ajax.reload(null,false); //reload datatable ajax
 }
 
 
 function registrar() {
     var grup = $('#COD_GRUPO').val();
     var list_id = [];
-    $(".data-check:checked").each(function() {
+    $(".data-check:checked").each(function() { 
             list_id.push(this.value);
     });
     if (list_id.length > 0) {

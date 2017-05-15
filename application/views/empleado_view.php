@@ -409,8 +409,20 @@ function delete_person(id)
                                 <span class="help-block"></span>
                         </div>
                         <div class="form-group">
+                            <label>Apellido 1 <span style="color: red;">*</span></label>
+                                <input name="APE1_EMP" placeholder="APELLIDO 1" class="form-control" type="text" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" onkeypress="return validar(event)">
+                                <span class="help-block"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>Apellido 2</label>
+                                <input name="APE2_EMP" placeholder="APELLIDO 2" class="form-control" type="text" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" onkeypress="return validar(event)">
+                                <span class="help-block"></span>
+                        </div>
+                        </div>
+                        <div class="col-md-6">
+                        <div class="form-group">
                             <label>Ciudad <span style="color: red;">*</span></label>
-                                <select name="CIU_EMP" class="selectpicker form-control">
+                                <select name="CIU_EMP" class="selectpicker form-control" data-live-search="true">
                                     <option value="">--SELECCIONAR--</option>
                                     <?php 
                                       foreach ($ciudad as $filas) 
@@ -421,18 +433,6 @@ function delete_person(id)
                                         }
                                     ?>
                                 </select>
-                                <span class="help-block"></span>
-                        </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                            <label>Apellido 1 <span style="color: red;">*</span></label>
-                                <input name="APE1_EMP" placeholder="APELLIDO 1" class="form-control" type="text" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" onkeypress="return validar(event)">
-                                <span class="help-block"></span>
-                        </div>
-                        <div class="form-group">
-                            <label>Apellido 2</label>
-                                <input name="APE2_EMP" placeholder="APELLIDO 2" class="form-control" type="text" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" onkeypress="return validar(event)">
                                 <span class="help-block"></span>
                         </div>
                            <div class="form-group">

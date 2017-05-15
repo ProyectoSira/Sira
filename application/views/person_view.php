@@ -553,7 +553,7 @@ acudiente
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-6">Direccion:</label>
-                            <label class="control-label col-md-1 text-muted" name="DIR_EST_L"></label>
+                            <label style="text-align: left;" class="control-label col-md-6 text-muted" name="DIR_EST_L"></label>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-6">Telefono 1:</label>

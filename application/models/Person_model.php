@@ -6,7 +6,7 @@ class Person_model extends CI_Model {
 	var $table = 'tbl_estudiante';
 	var $column_order = array('DOC_EST','ID_TIP_DOC_EST','DOC_ACU','NOM1_EST', 'NOM2_EST','APE1_EST', 
 	'APE2_EST','FECH_NAC_EST','CIU_EST','DIR_EST','TEL1_EST','TEL2_EST','EMAIL_EST','GRADO_EST',null); //set column field database for datatable orderable
-	var $column_search = array('DOC_EST','NOM1_EST','APE1_EST'); //set column field database for datatable searchable just firstname , lastname , address are searchable
+	var $column_search = array('DOC_EST','NOM1_EST','APE1_EST','GRADO_EST'); //set column field database for datatable searchable just firstname , lastname , address are searchable
 	var $order = array('DOC_EST' => 'desc'); // default order 
 
 	public function __construct()

@@ -15,11 +15,11 @@
         <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
                 <tr>
-                    <th>Codigo Grupo</th>
-                    <th>Numero Grupo</th>
+                    <th style="width:120px;">Codigo Grupo</th>
+                    <th style="width:120px;">Numero Grupo</th>
                     <th>Grado</th>
                     <th>Empleado</th>
-                    <th>Jornada</th>
+                    <th style="width:120px;">Jornada</th>
                     <th style="width:55px;">Accion</th>
                 </tr>
             </thead>

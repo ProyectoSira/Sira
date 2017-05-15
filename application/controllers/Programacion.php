@@ -1,4 +1,4 @@
-<?php
+	<?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Programacion extends CI_Controller {
@@ -38,7 +38,7 @@ class Programacion extends CI_Controller {
 			$row[] = $programacion->HORA_FIN;
 			$row[] = $programacion->DIA_SEM;
 			$row[] = $programacion->COD_CAL;
-			$row[] = $programacion->COD_GUPO;
+			$row[] = $programacion->COD_GRUPO;
 
 
 			//add html for action
@@ -82,7 +82,7 @@ class Programacion extends CI_Controller {
                 'HORA_FIN' => $this->input->post('HORA_FIN'),
                 'DIA_SEM' => $this->input->post('DIA_SEM'),
                 'COD_CAL' => $this->input->post('COD_CAL'),
-                'COD_GUPO' => $this->input->post('COD_GUPO'),
+                'COD_GRUPO' => $this->input->post('COD_GRUPO'),
 			);
 		$insert = $this->programacion->save($data);
 		echo json_encode(array("status" => TRUE));
@@ -101,7 +101,7 @@ class Programacion extends CI_Controller {
                 'HORA_FIN' => $this->input->post('HORA_FIN'),
                 'DIA_SEM' => $this->input->post('DIA_SEM'),
                 'COD_CAL' => $this->input->post('COD_CAL'),
-                'COD_GUPO' => $this->input->post('COD_GUPO'),
+                'COD_GRUPO' => $this->input->post('COD_GRUPO'),
 			);
 		$this->programacion->update(array('COD_PROGRA' => $this->input->post('COD_PROGRA')), $data);
 		echo json_encode(array("status" => TRUE));
@@ -168,7 +168,7 @@ class Programacion extends CI_Controller {
 			$data['status'] = FALSE;
 		}
 
-		if($this->input->post('COD_GUPO') == '')
+		if($this->input->post('COD_GRUPO') == '')
 		{
 			$data['inputerror'][] = 'COD_GUPO';
 			$data['status'] = FALSE;

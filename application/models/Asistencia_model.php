@@ -2,10 +2,10 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Asistencia_model extends CI_Model {
-    var $table = 'tbl_asistencia_clase';
-	var $column_order = array('ID_ASIS_CLAS','DOC_EST','COD_GRUPO','FECH_INGR_CLAS','HORA_INGRESO', 'PUNTUALIDAD', null); //set column field database for datatable orderable
-	var $column_search = array('ID_ASIS_CLAS','DOC_EST','COD_GRUPO'); //set column field database for datatable searchable just firstname , lastname , address are searchable
-	var $order = array('ID_ASIS_CLAS' => 'desc'); // default order 
+    var $table = 'tbl_grupo_estudio';
+	var $column_order = array('ID_EST_GRUP','DOC_EST','COD_GRUPO', null); //set column field database for datatable orderable
+	var $column_search = array('NOM1_EST', 'NOM2_EST', 'APE1_EST', 'APE2_EST'); //set column field database for datatable searchable just firstname , lastname , address are searchable
+	var $order = array('APE1_EST' => 'asc', 'APE2_EST' =>'asc', 'NOM1_EST' =>'asc', 'NOM2' =>'asc'); // default order 
 
 	public function __construct()
 	{
@@ -13,14 +13,18 @@ class Asistencia_model extends CI_Model {
 		$this->load->database();
 	}
 
-	private function _get_datatables_query()
+	public function _get_datatables_query()
 	{
+		if ($this->input->post('COD_GRUPO')) {
+			$this->db->Where('COD_GRUPO', $this->input->post('COD_GRUPO'));
+		}
 
 		$this->db->select('*');
-		$this->db->from('tbl_asistencia_clase');
-		$this->db->join('tbl_estudiante', 'tbl_estudiante.DOC_EST = tbl_asistencia_clase.DOC_EST');
-        $this->db->join('tbl_grupo', 'tbl_grupo.COD_GRUPO = tbl_asistencia_clase.COD_GRUPO');
+		$this->db->from('tbl_grupo_estudio');
+        $this->db->join('tbl_estudiante','tbl_estudiante.DOC_EST = tbl_grupo_estudio.DOC_EST');
 
+
+        
 		$i = 0;
 	
 		foreach ($this->column_search as $item) // loop column 
@@ -54,38 +58,7 @@ class Asistencia_model extends CI_Model {
 			$this->db->order_by(key($order), $order[key($order)]);
 		}
 	}
-	function get_estudiante(){
-      $estudiante = $this->db->get('tbl_estudiante');
-       if ($estudiante -> num_rows()>0)
-       {
-       	return $estudiante->result();
-       }
 
-	}
-	function get_grupo(){
-       $this->db->select('*');
-      $this->db->from('tbl_grupo');
-      $this->db->join('tbl_grado', 'tbl_grado.COD_GRADO = tbl_grupo.COD_GRADO');
-     // $this->db->order_by('NUM_GRUPO','asc');
-      $this->db->order_by('NOM_GRADO', 'asc' and 'NUM_GRUPO','asc');
-     $grupo =  $this->db->get();
-     if($grupo -> num_rows()>0)
-     {
-
-      return $grupo->result();
-     }
-	}
-	function get_jornada(){
-
-	      $this->db->select('*');
-		  $this->db->from('tbl_jornada');
-		  $this->db->join('tbl_tip_jornada', 'tbl_tip_jornada.ID_TIP_JORN = tbl_jornada.ID_TIP_JORN ');
-		  
-          $jornada = $this->db->get();
-          if ($jornada ->num_rows()>0) {
-            return $jornada->result();
-          }
-	}
 
 	function get_datatables()
 	{
@@ -103,38 +76,32 @@ class Asistencia_model extends CI_Model {
 		return $query->num_rows();
 	}
 
-	 function count_all()
+	public function count_all()
 	{
 		$this->db->from($this->table);
 		return $this->db->count_all_results();
 	}
 
-	 function get_by_id($id)
-	{
-		$this->db->from($this->table);
-		$this->db->where('ID_ASIS_CLAS',$id);
-		$query = $this->db->get();
 
-		return $query->row();
-	}
-
-	 function save($data)
+	public function save($id, $grupo)
 	{
-		$this->db->insert($this->table, $data);
+		$array = array('DOC_EST' => $id, 'COD_GRUPO' => $grupo);
+		$this->db->set($array);
+		$this->db->insert('tbl_grupo_estudio'); 
 		return $this->db->insert_id();
 	}
 
-	 function update($where, $data)
-	{
-		$this->db->update($this->table, $data, $where);
-		return $this->db->affected_rows();
+	public function get_grupo(){
+       
+	    $this->db->select('*');
+	    $this->db->from('tbl_grupo');
+	    $this->db->join('tbl_grado', 'tbl_grado.COD_GRADO = tbl_grupo.COD_GRADO');
+	    $this->db->order_by('NOM_GRADO', 'asc' and 'NUM_GRUPO','asc');
+	    $grupo =  $this->db->get();
+	    if($grupo -> num_rows()>0)
+	    {
+	    	return $grupo->result();
+	    }
 	}
-
-	 function delete_by_id($id)
-	{
-		$this->db->where('ID_ASIS_CLAS', $id);
-		$this->db->delete($this->table);
-	}
-
 
 }
