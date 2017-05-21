@@ -53,7 +53,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </li>
                         <li class="menu-list">
                             <a ><i class="lnr lnr-cog"></i>
-                                <span>Configuracion</span></a>
+                                <span> Configuracion</span></a>
                                 <ul class="sub-menu-list">
                                     <li>
                                         <a href="<?php echo base_url('index.php/area'); ?>">Areas</a>
@@ -77,7 +77,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </li>
                         <li class="menu-list">
                             <a ><i class="lnr lnr-calendar-full"></i>
-                                <span>Calendario</span></a>
+                                <span> Calendario</span></a>
                                 <ul class="sub-menu-list">    
                                     <li>
                                         <a href="<?php echo base_url('index.php/calendario'); ?>">Calendario</a>
@@ -99,7 +99,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <i class="lnr lnr-spell-check"></i> <span> Registro Asistencia</span></a>
                         </li>
 
-                        <li><a href="<?php echo base_url(); ?>">
+                        <li><a href="<?php echo base_url('index.php/reportes'); ?>">
                         <i class="lnr lnr-list"></i> <span> Reportes</span></a>
                         </li>              
 
