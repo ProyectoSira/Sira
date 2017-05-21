@@ -49,7 +49,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <!--sidebar nav start-->
                     <ul class="nav nav-pills nav-stacked custom-nav">
                         <li><a href="<?php echo base_url('index.php/acudiente'); ?>">
-                        <i class="glyphicon glyphicon-th"></i> <span> Matricula</span></a>
+                        <i class="lnr lnr-layers"></i> <span> Matricula</span></a>
                         </li>
                         <li class="menu-list">
                             <a ><i class="lnr lnr-cog"></i>
@@ -76,7 +76,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 </ul>
                         </li>
                         <li class="menu-list">
-                            <a ><i class="glyphicon glyphicon-calendar"></i>
+                            <a ><i class="lnr lnr-calendar-full"></i>
                                 <span>Calendario</span></a>
                                 <ul class="sub-menu-list">    
                                     <li>
@@ -90,8 +90,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                     </li>                          
                                 </ul>
                         </li>
+
+                        <li><a href="<?php echo base_url('index.php/llegadatarde'); ?>">
+                        <i class="lnr lnr-clock"></i> <span> Llegadas Tarde</span></a>
+                        </li>
+
                         <li><a href="<?php echo base_url('index.php/asistencia'); ?>">
-                        <i class="glyphicon glyphicon-check"></i> <span> Registro Asistencia</span></a>
+                        <i class="lnr lnr-spell-check"></i> <span> Registro Asistencia</span></a>
                         </li>
 
                         <li><a href="<?php echo base_url(); ?>">
@@ -100,7 +105,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 
                         <li><a href="<?php echo base_url('index.php/sancion'); ?>">
-                        <i class="glyphicon glyphicon-alert"></i> <span> Sanciones</span></a>
+                        <i class="lnr lnr-warning"></i> <span> Sanciones</span></a>
                         </li>  
 
                         <li><a href="<?php echo base_url(); ?>">
