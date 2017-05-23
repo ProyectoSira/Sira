@@ -19,20 +19,24 @@ class Login extends CI_Controller {
 	public function iniciar_sesion()
 	{
 		$this->_validate();
-		$pass = $this->input->post('pasWord');
 		$usu = $this->input->post('nomUsu');
-		$result = $this->login->get_login($usu);
-		if ($result != false) {
-			foreach ($result as $login) {
-				if ($pass == $login->PASS_USU) {
-					$sess_array = array();
-				    $sess_array = array(
-				        'username' => $login->NOM_USU,
-				        'rol' => $login->NOM_ROL_USU,
-				    );
-				    $this->session->set_userdata('logged_in', $sess_array);
-				    echo json_encode(array("status" => TRUE));
-				}
+		$pass = $this->input->post('pasWord');
+		$entrar = $this->login->get_login($usu);
+		$passw = "";
+		$rol = "";
+		if ($entrar != false) {
+			foreach ($entrar as $fila) {
+				$passw = $fila->PASS_USU;
+				$rol = $fila->NOM_ROL_USU;
+			}
+			if ($pass == $passw) {
+				$sess_array = array();
+				$sess_array = array(
+				    'username' => $usu,
+				    'rol' => $rol,
+				);
+				$this->session->set_userdata('logged_in', $sess_array);
+				echo json_encode(array("status" => TRUE));
 			}
 		}
 	}

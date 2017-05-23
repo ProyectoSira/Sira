@@ -78,7 +78,7 @@
             <div class="account-wall">
                 <img class="profile-img" src="<?php echo base_url('assets/img/profile-pictures.png')?>"
                     alt="">
-                <form class="form-signin" action="#">
+                <div class="form-signin">
                 <input type="text" class="form-control" placeholder="USUARIO" name="nomUsu" id="nomUsu" autofocus>
                 <span class="help-block"></span>
                 <br>
@@ -87,7 +87,7 @@
                 <br>
                 <button class="btn btn-lg btn-primary btn-block" id="btnLogin">
                     Iniciar Sesion</button>
-                </form>
+                </div>
             </div>
             <a href="#" class="text-center new-account">Olvido su Contraseña? </a>
         </div>
@@ -103,18 +103,18 @@
 	}
 
     $('#btnLogin').click(function () {
-    	var nomUsu = $('#nomUsu').val();
-		var pasWord = $('#pasWord').val();
+    	var nom = $('#nomUsu').val();
+		var pass = $('#pasWord').val();
 		$.ajax({
 	        url : "<?php echo site_url('login/iniciar_sesion')?>",
 	        type: "POST",
-	        data: {nomUsu:nomUsu, pasWord:pasWord},
+	        data: {nomUsu:nom, pasWord:pass},
 	        dataType: "JSON",
 	        success: function(data)
 	        {
 	            if(data.status) 
 	            {
-	                location.href = 'http://localhost:8888/Sira/index.php/home';
+	                location.href = 'http://localhost:8888/Sira/index.php/home'; 
 	            }
 	            else
 	            {

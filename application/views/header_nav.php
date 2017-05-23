@@ -187,7 +187,7 @@ header("location: login");
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                     <div class="profile_img">   
                                          <div class="user-name">
-                                            <p>".$username."<span>".$rol."</span></p>
+                                            <p><?php echo $username ?><span><?php echo $rol ?></span></p>
                                          </div>
                                          <i class="lnr lnr-chevron-down"></i>
                                          <i class="lnr lnr-chevron-up"></i>
@@ -197,7 +197,7 @@ header("location: login");
                                 <ul class="dropdown-menu drp-mnu">
                                     <li> <a href="#"><i class="fa fa-cog"></i> Configuracion</a> </li> 
                                     <li> <a href="#"><i class="fa fa-user"></i>Perfil</a> </li> 
-                                    <li> <a href="sign-up.html"><i class="fa fa-sign-out"></i> Cerrar Sesion</a> </li>
+                                    <li> <a href="<?php echo base_url('index.php/login/logout'); ?>"><i class="fa fa-sign-out"></i> Cerrar Sesion</a> </li>
                                 </ul>
                             </li>
                             <div class="clearfix"> </div>
