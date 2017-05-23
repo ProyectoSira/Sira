@@ -31,6 +31,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </head> 
    
  <body class="sticky-header left-side-collapsed"  onload="initMap()">
+
+<?php
+if (isset($this->session->userdata['logged_in'])) {
+$username = ($this->session->userdata['logged_in']['username']);
+$rol = ($this->session->userdata['logged_in']['rol']);
+} else {
+header("location: login");
+}
+?>
+
     <section>
     <!-- left side start-->
         <div class="left-side sticky-left-side">
@@ -177,7 +187,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                     <div class="profile_img">   
                                          <div class="user-name">
-                                            <p>Michael<span>Administrator</span></p>
+                                            <p>".$username."<span>".$rol."</span></p>
                                          </div>
                                          <i class="lnr lnr-chevron-down"></i>
                                          <i class="lnr lnr-chevron-up"></i>
