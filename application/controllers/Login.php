@@ -23,17 +23,27 @@ class Login extends CI_Controller {
 		$pass = $this->input->post('pasWord');
 		$entrar = $this->login->get_login($usu);
 		$passw = "";
-		$rol = "";
+		$nomRol = "";
+		$idRol = "";
 		if ($entrar != false) {
 			foreach ($entrar as $fila) {
 				$passw = $fila->PASS_USU;
-				$rol = $fila->NOM_ROL_USU;
+				$nomRol = $fila->NOM_ROL_USU;
+				$idRol = $fila->ROL_USU;
 			}
 			if ($pass == $passw) {
+				$pintar = $this->login->get_menu($idRol);
+				$menu = "";
+				foreach ($pintar as $value) {
+					$menu .= "<li><a href='".$value->ULR_MENU."'>
+                        <i class='".$value->ICONO."'></i> <span> ".$value->NOM_OPC_MENU."</span></a>
+                        </li>";
+				}
 				$sess_array = array();
 				$sess_array = array(
 				    'username' => $usu,
-				    'rol' => $rol,
+				    'rol' => $nomRol,
+				    'menu' => $menu,
 				);
 				$this->session->set_userdata('logged_in', $sess_array);
 				echo json_encode(array("status" => TRUE));

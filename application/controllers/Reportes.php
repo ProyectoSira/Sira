@@ -20,15 +20,15 @@ class Reportes extends CI_Controller {
     $list = $this->reportes->get_llegadasTarde();
     $no = $_POST['start'];
     $data = array();
-    $hoy = date("d/m/y"); 
+    $hoy = date("d/m/y");
+    $cuerpo = ""; 
     foreach ($list as $tabla) {
       $no++;
-      $row = array();
-      $row[] = $tabla->DOC_EST;
-      $row[] = $tabla->NOM1_EST." ".$tabla->NOM2_EST." ".$tabla->APE1_EST." ".$tabla->APE2_EST;
-      $row[] = $tabla->GRADO_EST;
-      $row[] = $tabla->NUM_GRUPO;
-      $data[] = $row;
+      $cuerpo .= "<tr><td>".$no."</td>
+      <td>".$tabla->DOC_EST."</td>
+      <td>".$tabla->NOM1_EST." ".$tabla->NOM2_EST." ".$tabla->APE1_EST." ".$tabla->APE2_EST."</td>
+      <td>".$tabla->GRADO_EST."</td>
+      <td>".$tabla->NUM_GRUPO."</td></tr>";
     }
 
     $html = "<style>@page {
@@ -53,6 +53,7 @@ class Reportes extends CI_Controller {
                   </tr>
                 </thead>
                 <tbody>
+                ".$cuerpo."
                 </tbody>
             </table>
         </body>";

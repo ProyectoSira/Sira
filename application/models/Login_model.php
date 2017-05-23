@@ -20,4 +20,13 @@ class Login_model extends CI_Model {
 		return $query->result();
 	}
 
+	function get_menu($rol){
+		$this->db->select('NOM_OPC_MENU, ULR_MENU, ICONO');
+		$this->db->from('tbl_opcion_menu');
+		$this->db->join('tbl_asignacion_rol', 'tbl_asignacion_rol.ID_OPC_MENU = tbl_opcion_menu.ID_OPC_MENU');
+		$this->db->Where('tbl_asignacion_rol.ROL_USU',$rol);
+      	$query = $this->db->get();
+		return $query->result();
+	}
+
 }
