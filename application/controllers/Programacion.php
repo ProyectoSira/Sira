@@ -170,7 +170,7 @@ class Programacion extends CI_Controller {
 
 		if($this->input->post('COD_GRUPO') == '')
 		{
-			$data['inputerror'][] = 'COD_GUPO';
+			$data['inputerror'][] = 'COD_GRUPO';
 			$data['status'] = FALSE;
 		}
 		
