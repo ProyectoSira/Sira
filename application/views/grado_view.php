@@ -9,6 +9,7 @@
         <div id="result"></div>
         <br />
         <button class="btn btn-success" onclick="add_person()"><i class="glyphicon glyphicon-plus"></i> Nuevo</button>
+        <a href="<?php echo base_url('index.php/grupo');?>" class="btn btn-default"><i class="glyphicon glyphicon-search"></i> Grupos</a>
         <br />
         <br />
         <div class="table-responsive">

@@ -1,0 +1,32 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Login_model extends CI_Model {
+
+
+	public function __construct()
+	{
+		parent::__construct();
+		$this->load->database();
+	}
+
+	function get_login($usu)
+	{
+		$this->db->select('ID_USU, PASS_USU, ROL_USU, NOM_ROL_USU');
+		$this->db->from('tbl_usuario');
+		$this->db->join('tbl_rol_usuario', 'tbl_rol_usuario.COD_ROL_USU = tbl_usuario.ROL_USU');
+		$this->db->Where('NOM_USU',$usu);
+      	$query = $this->db->get();
+		return $query->result();
+	}
+
+	function get_menu($rol){
+		$this->db->select('NOM_OPC_MENU, ULR_MENU, ICONO');
+		$this->db->from('tbl_opcion_menu');
+		$this->db->join('tbl_asignacion_rol', 'tbl_asignacion_rol.ID_OPC_MENU = tbl_opcion_menu.ID_OPC_MENU');
+		$this->db->Where('tbl_asignacion_rol.ROL_USU',$rol);
+      	$query = $this->db->get();
+		return $query->result();
+	}
+
+}

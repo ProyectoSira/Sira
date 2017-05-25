@@ -394,7 +394,7 @@ function validar(e) {
                         <div class="form-group">
                             <label class="control-label col-md-3">Fecha Sancion <span style="color: red;">*</span></label>
                             <div class="col-md-9">
-                                <input name="FECH_SANC" placeholder="YYYY-MM-DD" class="form-control" id="datepicker" type="text">
+                                <input name="FECH_SANC" placeholder="YYYY-MM-DD" class="form-control" id="datepicker" type="text" data-date-end-date="0d" readonly="false">
                                 <span class="help-block"></span>
                             </div>
                         </div>
@@ -402,7 +402,7 @@ function validar(e) {
                             <label class="control-label col-md-3">Estado <span style="color: red;">*</span></label>
                             <div class="col-md-9">
                                 <select name="ESTADO" class="selectpicker form-control">
-                                    <option value="">--ESTADO--</option>
+                                    <option value="">--SELECCIONAR--</option>
                                     <option value="0">ACTIVA</option>
                                     <option value="1">INACTIVA</option>
                                 </select>

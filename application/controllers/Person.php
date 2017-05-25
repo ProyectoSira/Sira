@@ -29,7 +29,7 @@ class Person extends CI_Controller {
 		foreach ($list as $person) {
 			$no++;
 			$row = array();
-			$row[] = '<a class="btn btn-sm btn-default" href="javascript:void(0)" title="Hapus" onclick="view_person('."'".$person->DOC_EST."'".')"><i class="glyphicon glyphicon-eye-open"></i></a>'." ".$person->	DOC_EST;
+			$row[] = '<a class="btn btn-sm btn-default" href="javascript:void(0)" title="Hapus" onclick="view_person('."'".$person->DOC_EST."'".')"><i class="glyphicon glyphicon-eye-open"></i></a>'." ".$person->DOC_EST;
 			$row[] = $person->SIGLA_DOC;
 			$row[] = $person->NOM1_EST." ".$person->NOM2_EST;
 			$row[] = $person->APE1_EST." ".$person->APE2_EST;

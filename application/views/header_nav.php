@@ -37,16 +37,27 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </head> 
    
  <body class="sticky-header left-side-collapsed"  onload="initMap()">
+
+<?php
+if (isset($this->session->userdata['logged_in'])) {
+$username = ($this->session->userdata['logged_in']['username']);
+$rol = ($this->session->userdata['logged_in']['rol']);
+$menu = ($this->session->userdata['logged_in']['menu']);
+} else {
+header("location: login");
+}
+?>
+
     <section>
     <!-- left side start-->
         <div class="left-side sticky-left-side">
 
             <!--logo and iconic logo start-->
             <div class="logo">
-                <h1><a href="<?php echo base_url()?>">SI<span>RA</span></a></h1>
+                <h1><a href="<?php echo base_url('index.php/home')?>">SI<span>RA</span></a></h1>
             </div>
             <div class="logo-icon text-center">
-                <a href="<?php echo base_url()?>"><i class="lnr lnr-home"></i> </a>
+                <a href="<?php echo base_url('index.php/home')?>"><i class="lnr lnr-home"></i> </a>
             </div>
 
             <!--logo and iconic logo end-->
@@ -54,65 +65,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
                 <!--sidebar nav start-->
                     <ul class="nav nav-pills nav-stacked custom-nav">
-                        <li><a href="<?php echo base_url('index.php/acudiente'); ?>">
-                        <i class="glyphicon glyphicon-th"></i> <span> Matricula</span></a>
-                        </li>
-                        <li class="menu-list">
-                            <a ><i class="lnr lnr-cog"></i>
-                                <span>Configuracion</span></a>
-                                <ul class="sub-menu-list">
-                                    <li>
-                                        <a href="<?php echo base_url('index.php/area'); ?>">Areas</a>
-                                    </li>
-                                     <li>
-                                        <a href="<?php echo base_url('index.php/asignatura'); ?>">Asignaturas</a>
-                                    </li>                                    
-                                    <li>
-                                        <a href="<?php echo base_url('index.php/grado'); ?>">Grados</a>
-                                    </li>
-                                    <li>
-                                        <a href="<?php echo base_url('index.php/grupo'); ?>">Grupos</a>
-                                    </li>
-                                    <li>
-                                        <a href="<?php echo base_url('index.php/empleado'); ?>">Empleado</a>
-                                    </li>                                  
-                                    <li>    
-                                        <a href="<?php echo base_url('index.php/asignacion'); ?>">Grupo de Estudio</a>
-                                    </li>
-                                </ul>
-                        </li>
-                        <li class="menu-list">
-                            <a ><i class="glyphicon glyphicon-calendar"></i>
-                                <span>Calendario</span></a>
-                                <ul class="sub-menu-list">    
-                                    <li>
-                                        <a href="<?php echo base_url('index.php/calendario'); ?>">Calendario</a>
-                                    </li> 
-                                    <li>
-                                        <a href="<?php echo base_url('index.php/periodo'); ?>">Periodos</a>
-                                    </li>   
-                                    <li>
-                                        <a href="<?php echo base_url('index.php/programacion'); ?>">Programacion</a>
-                                    </li>                          
-                                </ul>
-                        </li>
-                        <li><a href="<?php echo base_url('index.php/asistencia'); ?>">
-                        <i class="glyphicon glyphicon-check"></i> <span> Registro Asistencia</span></a>
-                        </li>
-
-                        <li><a href="<?php echo base_url(); ?>">
-                        <i class="lnr lnr-list"></i> <span> Reportes</span></a>
-                        </li>              
-
-
-                        <li><a href="<?php echo base_url('index.php/sancion'); ?>">
-                        <i class="glyphicon glyphicon-alert"></i> <span> Sanciones</span></a>
-                        </li>  
-
-                        <li><a href="<?php echo base_url(); ?>">
-                        <i class="lnr lnr-paperclip"></i> <span> Planeacion</span></a>
-                        </li>  
-
+                        <?php echo $menu ?>
                     </ul>
                 <!--sidebar nav end-->
             </div>
@@ -178,7 +131,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                     <div class="profile_img">   
                                          <div class="user-name">
+<<<<<<< HEAD
                                             <p><?php echo  $username ?><span><?php echo  $rol ?></span></p>
+=======
+                                            <p><?php echo $username ?><span><?php echo $rol ?></span></p>
+>>>>>>> adbfe2875cadcc967a96259a6abcf2bb105192b1
                                          </div>
                                          <i class="lnr lnr-chevron-down"></i>
                                          <i class="lnr lnr-chevron-up"></i>
