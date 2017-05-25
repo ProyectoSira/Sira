@@ -32,8 +32,8 @@ class Recuperacion extends CI_Controller
 				'protocol' => 'smtp',
 				'smtp_host' => 'ssl://smtp.googlemail.com',
 				'smtp_port' => 465,
-				'smtp_user' => 'juanfer.072013.jm@gmail.com',
-				'smtp_pass' => '25873468',
+				'smtp_user' => 'incsira@gmail.com',
+				'smtp_pass' => '@sira12345',
 				'mailtype' => 'html',
 				'charset' => 'utf-8',
 				'wordwrap' => TRUE,
@@ -42,7 +42,7 @@ class Recuperacion extends CI_Controller
 			//cargamos la configuración para enviar con gmail
 			$this->load->library("email", $configGmail);
 	 
-			$this->email->from('juanfer.072013.jm@gmail.com');
+			$this->email->from('incsira@gmail.com');
 			$this->email->to($email);
 			$this->email->subject('Recuperacion de contraseña SIRA');
 			$mensaje = '<html>

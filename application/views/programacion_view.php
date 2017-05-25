@@ -162,14 +162,18 @@ function add_person()
     $('#modal_form').modal('show'); // show bootstrap modal
     $('.modal-title').text('Nueva Programacion'); // Set Title to Bootstrap modal title
     document.getElementById('COD_PROGRA').readOnly = false;
-    $('select[name="COD_TIP_SANC"]').val();
-    $('select[name="COD_TIP_SANC"]').change();
-    $('select[name="DOC_EST"]').val();
-    $('select[name="DOC_EST"]').change();
+    $('select[name="DIA_SEM"]').val();
+    $('select[name="DIA_SEM"]').change();
+    $('select[name="COD_CAL"]').val();
+    $('select[name="COD_CAL"]').change();
     $('select[name="DOC_EMP"]').val();
     $('select[name="DOC_EMP"]').change();
-    $('select[name="ESTADO"]').val();
-    $('select[name="ESTADO"]').change();
+    $('select[name="COD_GRUPO"]').val();
+    $('select[name="COD_GRUPO"]').change();
+    $('select[name="COD_ASIG"]').val();
+    $('select[name="COD_ASIG"]').change();
+    $('select[name="COD_AULA"]').val();
+    $('select[name="COD_AULA"]').change();
 }
 
 function edit_person(id)

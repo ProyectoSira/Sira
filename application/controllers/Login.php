@@ -30,6 +30,7 @@ class Login extends CI_Controller {
 				$passw = $fila->PASS_USU;
 				$nomRol = $fila->NOM_ROL_USU;
 				$idRol = $fila->ROL_USU;
+				$usu = $fila->NOM_USU;
 			}
 			if ($pass == $passw) {
 				$pintar = $this->login->get_menu($idRol);

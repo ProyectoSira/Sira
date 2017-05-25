@@ -33,11 +33,15 @@ class Sancion_model extends CI_Model {
 	}
 
 	function get_empleado(){
-      $empleado = $this->db->get('tbl_empleado');
-       if ($empleado -> num_rows()>0)
-       {
+		$this->db->select('*');
+		$this->db->from('tbl_empleado');
+		$this->db->join('tbl_tipo_empleado','tbl_tipo_empleado.ID_TIP_EMP = tbl_empleado.ID_TIP_EMP');
+		$this->db->where('tbl_empleado.ID_TIP_EMP',3);
+        $empleado = $this->db->get();
+        if ($empleado -> num_rows()>0)
+        {
        	return $empleado->result();
-       }
+        }
 
 	}
 

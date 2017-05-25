@@ -2,8 +2,9 @@
 <html>
 <?php
 if (isset($this->session->userdata['logged_in'])) {
-$username = ($this->session->userdata['logged_in']['NOM_USU']);
-$rol = ($this->session->userdata['logged_in']['ROL_USU']);
+$username = ($this->session->userdata['logged_in']['username']);
+$rol = ($this->session->userdata['logged_in']['rol']);
+$menu = ($this->session->userdata['logged_in']['menu']);
 }
 ?>
 <head>
@@ -131,11 +132,7 @@ header("location: login");
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                     <div class="profile_img">   
                                          <div class="user-name">
-<<<<<<< HEAD
                                             <p><?php echo  $username ?><span><?php echo  $rol ?></span></p>
-=======
-                                            <p><?php echo $username ?><span><?php echo $rol ?></span></p>
->>>>>>> adbfe2875cadcc967a96259a6abcf2bb105192b1
                                          </div>
                                          <i class="lnr lnr-chevron-down"></i>
                                          <i class="lnr lnr-chevron-up"></i>
