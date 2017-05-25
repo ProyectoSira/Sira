@@ -89,7 +89,7 @@
                     Iniciar Sesion</button>
                 </div>
             </div>
-            <a href="#" class="text-center new-account">Olvido su Contraseña? </a>
+            <a href="<?php echo base_url('index.php/recuperacion')?>" class="text-center new-account">Olvido su Contraseña? </a>
         </div>
     </div>
 </div>

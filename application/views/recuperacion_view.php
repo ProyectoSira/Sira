@@ -86,10 +86,10 @@
                 <span class="help-block"></span>
                 <br>
                 <button class="btn btn-lg btn-primary btn-block" id="btnLogin">
-                    Iniciar Sesion</button>
+                    Enviar Correo</button>
                 </div>
             </div>
-            <a href="#" class="text-center new-account">Olvido su Contraseña? </a>
+            <a href="<?php echo base_url()?>" class="text-center new-account">Volver </a>
         </div>
     </div>
 </div>
@@ -101,12 +101,17 @@
 	    $("#result").removeClass("alert alert-danger");
 	    $('#result').text('');
 	}
+	function cerrarAlerta2(){
+	    $("#result").removeClass("alert alert-success");
+	    $('#result').text('');
+	    location.href = 'http://localhost:8888/Sira';
+	}
 
     $('#btnLogin').click(function () {
     	var nom = $('#nomUsu').val();
 		var email = $('#email').val();
 		$.ajax({
-	        url : "<?php echo site_url('login/iniciar_sesion')?>",
+	        url : "<?php echo site_url('recuperacion/enviarMail')?>",
 	        type: "POST",
 	        data: {nomUsu:nom, email:email},
 	        dataType: "JSON",
@@ -115,8 +120,9 @@
 	            if(data.status) 
 	            {
 	                $("#result").addClass("alert alert-success");
-		            $('#result').text('Se ha enviado un correo electronico con el link para crear tu nueva contraseña'); 
-		            setTimeout("Recup()",5000);
+		            $('#result').text('Se ha enviado un correo electronico con el link para crear tu nueva contraseña. En instantes esta pagina se redireccionara al Login'); 
+		            setTimeout("cerrarAlerta2()",8000);
+
 	            }
 	            else
 	            {
