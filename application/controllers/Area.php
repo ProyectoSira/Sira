@@ -60,7 +60,7 @@ public function ajax_list()
 		$data = array(
 				'COD_AREA' => $this->input->post('COD_AREA'),
 				'NOM_AREA' => $this->input->post('NOM_AREA'),
-                'DOC_EMP' => $this->input->post('TBL_EMPLEADO_DOC_EMP'),
+                'DOC_EMP' => $this->input->post('DOC_EMP'),
 			);
 		$insert = $this->area->save($data);
 		echo json_encode(array("status" => TRUE));
@@ -71,7 +71,7 @@ public function ajax_list()
 		$this->_validate();
 		$data = array(
 				'NOM_AREA' => $this->input->post('NOM_AREA'),
-                'DOC_EMP' => $this->input->post('TBL_EMPLEADO_DOC_EMP'),
+                'DOC_EMP' => $this->input->post('DOC_EMP'),
                 );
 		$this->area->update(array('COD_AREA' => $this->input->post('COD_AREA')), $data);
 		echo json_encode(array("status" => TRUE));
@@ -102,9 +102,9 @@ public function ajax_list()
 			$data['status'] = FALSE;
 		}
 
-        if($this->input->post('TBL_EMPLEADO_DOC_EMP') == '')
+        if($this->input->post('DOC_EMP') == '')
         {
-            $data['inputerror'][] = 'TBL_EMPLEADO_DOC_EMP';
+            $data['inputerror'][] = 'DOC_EMP';
             $data['status'] = FALSE;
         }
 
