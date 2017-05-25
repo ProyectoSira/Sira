@@ -1,5 +1,11 @@
 <!DOCTYPE HTML>
 <html>
+<?php
+if (isset($this->session->userdata['logged_in'])) {
+$username = ($this->session->userdata['logged_in']['NOM_USU']);
+$rol = ($this->session->userdata['logged_in']['ROL_USU']);
+}
+?>
 <head>
 <title>Sira</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -172,7 +178,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                     <div class="profile_img">   
                                          <div class="user-name">
-                                            <p>Michael<span>Administrator</span></p>
+                                            <p><?php echo  $username ?><span><?php echo  $rol ?></span></p>
                                          </div>
                                          <i class="lnr lnr-chevron-down"></i>
                                          <i class="lnr lnr-chevron-up"></i>
@@ -182,7 +188,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <ul class="dropdown-menu drp-mnu">
                                     <li> <a href="#"><i class="fa fa-cog"></i> Configuracion</a> </li> 
                                     <li> <a href="#"><i class="fa fa-user"></i>Perfil</a> </li> 
-                                    <li> <a href="sign-up.html"><i class="fa fa-sign-out"></i> Cerrar Sesion</a> </li>
+                                    <li> <a href="<?php echo base_url('index.php/login/logout'); ?>"><i class="fa fa-sign-out"></i> Cerrar Sesion</a> </li>
                                 </ul>
                             </li>
                             <div class="clearfix"> </div>

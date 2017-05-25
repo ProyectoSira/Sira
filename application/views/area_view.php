@@ -135,6 +135,7 @@ $(document).ready(function() {
 
 });
 
+
 function cerrarAlerta(){
     $("#result").removeClass("alert alert-success");
     $("#result").removeClass("alert alert-info");
@@ -151,8 +152,8 @@ function add_person()
     $('#modal_form').modal('show'); // show bootstrap modal
     $('.modal-title').text('Nueva Area'); // Set Title to Bootstrap modal title
     document.getElementById('COD_AREA').readOnly = false;
-    $('select[name="TBL_EMPLEADO_DOC_EMP"]').val();
-    $('select[name="TBL_EMPLEADO_DOC_EMP"]').change();
+    $('select[name="DOC_EMP"]').val();
+    $('select[name="DOC_EMP"]').change();
 }
 
 function edit_person(id)
@@ -171,8 +172,8 @@ function edit_person(id)
         {
             $('[name="COD_AREA"]').val(data.COD_AREA);
             $('[name="NOM_AREA"]').val(data.NOM_AREA);
-            $('select[name="TBL_EMPLEADO_DOC_EMP"]').val(data.DOC_EMP);
-            $('select[name="TBL_EMPLEADO_DOC_EMP"]').change();
+            $('select[name="DOC_EMP"]').val(data.DOC_EMP);
+            $('select[name="DOC_EMP"]').change();
             $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
             $('.modal-title').text('Editar Area'); // Set title to Bootstrap modal title
 
@@ -315,13 +316,13 @@ function delete_person(id)
                         <div class="form-group">
                             <label class="control-label col-md-3">Profesor <span style="color: red;">*</span></label>
                             <div class="col-md-9">
-                                <select name="TBL_EMPLEADO_DOC_EMP" class="selectpicker form-control"  data-live-search="true">
+                                <select name="DOC_EMP" class="selectpicker form-control"  data-live-search="true">
                                     <option value="">--Seleccione--</option>
                                    <?php 
                                       foreach ($empleado as $empleado) 
                                       {
                                    ?>
-                                   <option value="<?= $empleado->DOC_EMP ?>" data-subtext="<?=$empleado->NOM1_EMP, " " , $empleado->APE1_EMP ?>"><?= $empleado->DOC_EMP ?></option>
+                                   <option value="<?= $empleado->DOC_EMP ?>" data-subtext="<?=$empleado->DOC_EMP ?>"><?= $empleado->NOM1_EMP, " " , $empleado->APE1_EMP ?></option>
                                    <?php 
                                         }
                                     ?>
