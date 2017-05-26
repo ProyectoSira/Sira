@@ -3,13 +3,13 @@
 
 <div class="container-fluid">
  
-        <h1 style="font-size:20pt">Registro de Acudiente</h1>
+        <h1 style="font-size:20pt">Registro de Alumnos</h1>
 
-        <h3>Datos del Acudiente</h3>
+        <h3>Datos Personales</h3>
         <div id="result"></div>
         <br />
-        <button class="btn btn-success" onclick="add_estudiante()"><i class="glyphicon glyphicon-plus"></i> Nuevo</button>
-        <a href="<?php echo base_url('index.php/Estudiante');?>" class="btn btn-default"><i class="glyphicon glyphicon-search"></i> Alumnos</a>
+        <button class="btn btn-success" onclick="add_person()"><i class="glyphicon glyphicon-plus"></i> Nuevo</button>
+        <a href="<?php echo base_url('index.php/acudiente');?>" class="btn btn-default"><i class="glyphicon glyphicon-search"></i> Acudientes</a>
         <br />
         <br />
         <div class="table-responsive">
@@ -21,7 +21,7 @@
                     <th>Nombres</th>
                     <th>Apellidos</th>
                     <th>Telefono 1</th>
-                    <th>Telefono 2</th>
+                    <th>Grado</th>
                     <th>Correo</th>
                     <th style="width:55px;">Accion</th>
                 </tr>
@@ -31,14 +31,14 @@
 
             <tfoot>
             <tr>
-                    <th>Documento</th>
-                    <th>Tipo Doc.</th>
-                    <th>Nombres</th>
-                    <th>Apellidos</th>
-                    <th>Telefono 1</th>
-                    <th>Telefono 2</th>
-                    <th>Correo</th>
-                    <th>Accion</th>
+                <th>Documento</th>
+                <th>Tipo Doc.</th>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Telefono 1</th>
+                <th>Grado</th>
+                <th>Correo</th>
+                <th>Accion</th>
             </tr>
             </tfoot>
         </table>
@@ -64,6 +64,8 @@
 
 <script type="text/javascript">
 
+
+
 var save_method; //for save method string
 var table;
 
@@ -78,7 +80,7 @@ $(document).ready(function() {
 
         // Load data for the table's content from an Ajax source
         "ajax": {
-            "url": "<?php echo site_url('acudiente/ajax_list')?>",
+            "url": "<?php echo site_url('person/ajax_list')?>",
             "type": "POST"
         },
 
@@ -118,14 +120,19 @@ $(document).ready(function() {
     });
 
     //datepicker
-    $('.datepicker').datepicker({
+    $('#datepicker').datepicker({
         autoclose: true,
         format: "yyyy-mm-dd",
         todayHighlight: true,
         orientation: "top auto",
         todayBtn: true,
-        todayHighlight: true,  
+        todayHighlight: true,
     });
+
+
+
+
+
 
     //set input/textarea/select event when change value, remove class error and remove text help block 
     $("input").change(function(){
@@ -150,20 +157,23 @@ function cerrarAlerta(){
     $('#result').text('');
 }
 
-function add_estudiante()
+function add_person()
 {
     save_method = 'add';
     $('#form')[0].reset(); // reset form on modals
     $('.form-group').removeClass('has-error'); // clear error class
     $('.help-block').empty(); // clear error string
     $('#modal_form').modal('show'); // show bootstrap modal
-    $('.modal-title').text('Nuevo acudiente'); // Set Title to Bootstrap modal title
-    document.getElementById('DOC_ACU').readOnly = false;
-    $('select[name="ID_TIP_DOC"]').val();
-    $('select[name="ID_TIP_DOC"]').change();
-    $('select[name="CIU_ACU"]').val();
-    $('select[name="CIU_ACU"]').change();
-    
+    $('.modal-title').text('Nuevo Alumno'); // Set Title to Bootstrap modal title
+    document.getElementById('DOC_EST').readOnly = false;
+    $('select[name="ID_TIP_DOC_EST"]').val();
+    $('select[name="ID_TIP_DOC_EST"]').change();
+    $('select[name="TBL_ACUDIENTE_DOC_ACU"]').val();
+    $('select[name="TBL_ACUDIENTE_DOC_ACU"]').change();
+    $('select[name="GRADO_EST"]').val();
+    $('select[name="GRADO_EST"]').change();
+    $('select[name="CIU_EST"]').val();
+    $('select[name="CIU_EST"]').change();
 }
 
 
@@ -173,30 +183,34 @@ function edit_person(id)
     $('#form')[0].reset(); // reset form on modals
     $('.form-group').removeClass('has-error'); // clear error class
     $('.help-block').empty(); // clear error string
-    document.getElementById('DOC_ACU').readOnly = true;
+    document.getElementById('DOC_EST').readOnly = true;
     //Ajax Load data from ajax
     $.ajax({
-        url : "<?php echo site_url('acudiente/ajax_edit/')?>/" + id,
+        url : "<?php echo site_url('person/ajax_edit/')?>/" + id,
         type: "GET",
         dataType: "JSON",
         success: function(data)
         {
-            $('[name="DOC_ACU"]').val(data.DOC_ACU);
-            $('select[name="ID_TIP_DOC"]').val(data.ID_TIP_DOC);
-            $('select[name="ID_TIP_DOC"]').change();
-            $('[name="NOM1_ACU"]').val(data.NOM1_ACU);
-            $('[name="NOM2_ACU"]').val(data.NOM2_ACU);
-            $('[name="APE1_ACU"]').val(data.APE1_ACU);
-            $('[name="APE2_ACU"]').val(data.APE2_ACU);
-             $('[name="FECH_NAC_ACU"]').datepicker('update',data.FECH_NAC_ACU);
-             $('[name="EMAIL_ACU"]').val(data.EMAIL_ACU);
-            $('select[name="CIU_ACU"]').val(data.CIU_ACU);
-            $('select[name="CIU_ACU"]').change();
-            $('[name="DIR_ACU"]').val(data.DIR_ACU);
-            $('[name="TEL1_ACU"]').val(data.TEL1_ACU);
-            $('[name="TEL2_ACU"]').val(data.TEL2_ACU);
+            $('[name="DOC_EST"]').val(data.DOC_EST);
+            $('select[name="ID_TIP_DOC_EST"]').val(data.ID_TIP_DOC_EST);
+            $('select[name="ID_TIP_DOC_EST"]').change();
+            $('select[name="TBL_ACUDIENTE_DOC_ACU"]').val(data.DOC_ACU);
+            $('select[name="TBL_ACUDIENTE_DOC_ACU"]').change();
+            $('[name="NOM1_EST"]').val(data.NOM1_EST);
+            $('[name="NOM2_EST"]').val(data.NOM2_EST);
+            $('[name="APE1_EST"]').val(data.APE1_EST);
+            $('[name="APE2_EST"]').val(data.APE2_EST);
+            $('select[name="GRADO_EST"]').val(data.GRADO_EST);
+            $('select[name="GRADO_EST"]').change();
+            $('[name="FECH_NAC_EST"]').datepicker('update',data.FECH_NAC_EST);
+            $('select[name="CIU_EST"]').val(data.CIU_EST);
+            $('select[name="CIU_EST"]').change();
+            $('[name="DIR_EST"]').val(data.DIR_EST);
+            $('[name="TEL1_EST"]').val(data.TEL1_EST);
+            $('[name="TEL2_EST"]').val(data.TEL2_EST);
+            $('[name="EMAIL_EST"]').val(data.EMAIL_EST);
             $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
-            $('.modal-title').text('Editar Acudiente'); // Set title to Bootstrap modal title
+            $('.modal-title').text('Editar Alumno');
 
         },
         error: function (jqXHR, textStatus, errorThrown)
@@ -210,23 +224,23 @@ function view_person(id)
 {
     //Ajax Load data from ajax
     $.ajax({
-        url : "<?php echo site_url('acudiente/ajax_view/')?>/" + id,
+        url : "<?php echo site_url('person/ajax_view/')?>/" + id,
         type: "GET",
         dataType: "JSON",
         success: function(data)
         {
-            $('[name="DOC_ACU_L"]').text(data.DOC_ACU);
-            $('[name="ID_TIP_DOC_L"]').text(data.SIGLA_DOC);
-            $('[name="NOM1_ACU_L"]').text(data.NOM1_ACU);
-            $('[name="NOM2_ACU_L"]').text(data.NOM2_ACU);
-            $('[name="APE1_ACU_L"]').text(data.APE1_ACU);
-            $('[name="APE2_ACU_L"]').text(data.APE2_ACU);
-            $('[name="FECH_NAC_ACU_L"]').text(data.FECH_NAC_ACU);
-            $('[name="EMAIL_ACU_L"]').text(data.EMAIL_ACU);
-            $('[name="CIU_ACU_L"]').text(data.CIU_ACU);
-            $('[name="DIR_ACU_L"]').text(data.DIR_ACU);
-            $('[name="TEL1_ACU_L"]').text(data.TEL1_ACU);
-            $('[name="TEL2_ACU_L"]').text(data.TEL2_ACU);
+            $('[name="DOC_EST_L"]').text(data.DOC_EST);
+            $('[name="ID_TIP_DOC_EST_L"]').text(data.NOM_TIP_DOC);
+            $('[name="TBL_ACUDIENTE_DOC_ACU_L"]').text(data.NOM1_ACU+" "+data.NOM2_ACU+" "+data.APE1_ACU+" "+data.APE2_ACU);
+            $('[name="NOM1_EST_L"]').text(data.NOM1_EST+" "+data.NOM2_EST);
+            $('[name="APE1_EST_L"]').text(data.APE1_EST+" "+data.APE2_EST);
+            $('[name="GRADO_EST_L"]').text(data.GRADO_EST);
+            $('[name="FECH_NAC_EST_L"]').text(data.FECH_NAC_EST);
+            $('[name="CIU_EST_L"]').text(data.CIU_EST);
+            $('[name="DIR_EST_L"]').text(data.DIR_EST);
+            $('[name="TEL1_EST_L"]').text(data.TEL1_EST);
+            $('[name="TEL2_EST_L"]').text(data.TEL2_EST);
+            $('[name="EMAIL_EST_L"]').text(data.EMAIL_EST);
             $('#modal_form1').modal('show'); // show bootstrap modal when complete loaded
             $('.modal-title1').text('Informacion Personal'); // Set title to Bootstrap modal title
 
@@ -237,7 +251,6 @@ function view_person(id)
         }
     });
 }
-
 function justNumbers(e){
     var keynum = window.event ? window.event.keyCode : e.which;
     if ((keynum == 8) || (keynum == 46))
@@ -251,7 +264,7 @@ function validar(e) {
         te = String.fromCharCode(tecla); 
         return patron.test(te); 
 
-}           
+}  
 function reload_table()
 {
     table.ajax.reload(null,false); //reload datatable ajax 
@@ -263,10 +276,10 @@ function save()
     $('#btnSave').attr('disabled',true); //set button disable 
     var url;
  
-     if(save_method == 'add') {
-        url = "<?php echo site_url('acudiente/ajax_add')?>";
+    if(save_method == 'add') {
+        url = "<?php echo site_url('person/ajax_add')?>";
     } else {
-        url = "<?php echo site_url('acudiente/ajax_update')?>";
+        url = "<?php echo site_url('person/ajax_update')?>";
     }
  
     // ajax adding data to database
@@ -282,6 +295,7 @@ function save()
             {
                 $('#modal_form').modal('hide');
                 reload_table();
+               
                 if (save_method == 'add') {
                     $("#result").addClass("alert alert-success");
                     $('#result').text('Registro Exitoso'); 
@@ -295,10 +309,7 @@ function save()
             {
                 for (var i = 0; i < data.inputerror.length; i++) 
                 {
-                   
-                    $('[name="'+data.inputerror[i]+'"]').next().
-                    html("<div style='color: red;'>"+data.error_string[i]+"</div>"); //select span help-block class set text error string
-                    
+                    $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
                 }
             }
             $('#btnSave').text('Guardar'); //change button text
@@ -316,13 +327,15 @@ function save()
     });
 }   
 
+
+
 function delete_person(id)
 {
     if(confirm('Desea eliminar este registro?'))
     {
         // ajax delete data to database
         $.ajax({
-            url : "<?php echo site_url('acudiente/ajax_delete')?>/"+id,
+            url : "<?php echo site_url('person/ajax_delete')?>/"+id,
             type: "POST",
             dataType: "JSON",
             success: function(data)
@@ -343,9 +356,10 @@ function delete_person(id)
     }
 }
 
+
 </script>
 
-<!-- Bootstrap modal -->
+<!-- Bootstrap modal estudiante-->
 <div class="modal fade" id="modal_form" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -354,17 +368,20 @@ function delete_person(id)
                 <h3 class="modal-title"></h3>
             </div>
             <div class="modal-body form">
-                <form action="#" id="form" >
-                    <div class="form-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
+                <div class="row">
+                <form action="#" id="form">
+                <div class="form-body">
+                    <div class="col-md-6">
+                        <div class="form-group">
                             <label>Documento <span style="color: red;">*</span></label>
-                                <input name="DOC_ACU" placeholder="DOCUMENTO" class="form-control" type="text" id="DOC_ACU" onkeypress="return justNumbers(event);">
-                                <span class="help-block" id="error" style="color: red;"></span> 
+                            <input name="DOC_EST" placeholder="DOCUMENTO" class="form-control" type="text" id="DOC_EST" onkeypress="return justNumbers(event);">
+                            <span class="help-block"></span>
+
+                        </div>
+                        <div class="form-group">
                             <label>Tipo Documento <span style="color: red;">*</span></label>
-                                <select name="ID_TIP_DOC" class="selectpicker form-control">
-                                    <option value="">--SELECCIONAR--</option>
+                                <select name="ID_TIP_DOC_EST" class="selectpicker form-control">
+                                <option value="">--SELECCIONAR--</option>
                                     <?php 
                                       foreach ($tipoDocumento as $filas) 
                                       {
@@ -374,43 +391,70 @@ function delete_person(id)
                                         }
                                     ?>
                                 </select>
-                                <span class="help-block"></span>
+                            <span class="help-block"></span>
                         </div>
                         <div class="form-group">
+                            <label>Documento Acudiente <span style="color: red;">*</span></label>
+                                <select name="TBL_ACUDIENTE_DOC_ACU" id="DOC_ACU" class="selectpicker form-control" data-live-search="true">
+                                    <option value="">--SELECCIONAR--</option>
+                                    <?php 
+                                      foreach ($acudiente as $filas) 
+                                      {
+                                   ?>
+                                   <option value="<?= $filas->DOC_ACU ?>" data-subtext="<?=$filas->NOM1_ACU," ",$filas->APE1_ACU ?>"><?= $filas->DOC_ACU ?></option>
+                                   <?php 
+                                        }
+                                    ?>
+                                </select>
+                                <span class="help-block"></span>
+                        </div>
+                        
+                        <div class="form-group">
                             <label>Nombre 1 <span style="color: red;">*</span></label>
-                                <input name="NOM1_ACU" placeholder="NOMBRE 1" class="form-control" type="text" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" onkeypress="return validar(event)">
+                                <input name="NOM1_EST" placeholder="NOMBRE 1" class="form-control" type="text" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" onkeypress="return validar(event)">
                                 <span class="help-block"></span>
                         </div>
                         <div class="form-group">
                             <label>Nombre 2</label>
-                                <input name="NOM2_ACU" placeholder="NOMBRE 2" class="form-control" type="text" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" onkeypress="return validar(event)">
+                                <input name="NOM2_EST" placeholder="NOMBRE 2" class="form-control" type="text" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" onkeypress="return validar(event)">
                                 <span class="help-block"></span>
                         </div>
                         <div class="form-group">
                             <label>Apellido 1 <span style="color: red;">*</span></label>
-                                <input name="APE1_ACU" placeholder="APELLIDO 1" class="form-control" type="text" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" onkeypress="return validar(event)">
+                                <input name="APE1_EST" placeholder="APELLIDO 1" class="form-control" type="text" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" onkeypress="return validar(event)">
                                 <span class="help-block"></span>
                         </div>
                         <div class="form-group">
                             <label>Apellido 2</label>
-                                <input name="APE2_ACU" placeholder="APELLIDO 2" class="form-control" type="text" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" onkeypress="return validar(event)">
+                                <input name="APE2_EST" placeholder="APELLIDO 2" class="form-control" type="text" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" onkeypress="return validar(event)">
                                 <span class="help-block"></span>
                         </div>
-                        </div>     
-                        <div class="col-md-6">
-                            <div class="form-group">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
                             <label>Fecha Nacimiento <span style="color: red;">*</span></label>
-                                <input name="FECH_NAC_ACU" placeholder="YYYY-MM-DD" data-date-end-date="-18y" class="form-control datepicker" type="text">
+                                <input name="FECH_NAC_EST" placeholder="YYYY-MM-DD" class="form-control" data-date-end-date="-4y" 
+                                id="datepicker" type="text">
                                 <span class="help-block"></span>
                         </div>
                         <div class="form-group">
-                            <label>Correo <span style="color: red;">*</span></label>
-                                <input name="EMAIL_ACU" placeholder="CORREO" class="form-control" type="text" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
-                                <span class="help-block"></span>
-                      </div>
+                            <label>Grado <span style="color: red;">*</span></label>
+                                <select name="GRADO_EST" class="selectpicker form-control" data-live-search="true">
+                                <option value="">--SELECCIONAR--</option>
+                                    <?php 
+                                      foreach ($Grado as $filas) 
+                                      {
+                                   ?>
+                                   <option value="<?= $filas->NOM_GRADO ?>" ><?= $filas->NOM_GRADO ?></option>
+                                   <?php 
+                                        }
+                                    ?>
+                                </select>
+                            <span class="help-block"></span>
+                        </div>
                         <div class="form-group">
                             <label>Ciudad <span style="color: red;">*</span></label>
-                                <select name="CIU_ACU" class="selectpicker form-control" data-live-search="true">
+                                <select name="CIU_EST" class="selectpicker form-control" data-live-search="true">
                                     <option value="">--SELECCIONAR--</option>
                                     <?php 
                                       foreach ($ciudad as $filas) 
@@ -425,22 +469,28 @@ function delete_person(id)
                         </div>
                         <div class="form-group">
                             <label>Direccion <span style="color: red;">*</span></label>
-                                <input name="DIR_ACU" placeholder="DIRECCION" class="form-control" type="text" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                                <input name="DIR_EST" placeholder="DIRECCION" class="form-control" type="text" onkeyup="javascript:this.value=this.value.toUpperCase();">
                                 <span class="help-block"></span>
                         </div>
                         <div class="form-group">
                             <label>Telefono 1 <span style="color: red;">*</span></label>
-                                <input name="TEL1_ACU" placeholder="TELEFONO 1" class="form-control" type="text" onkeypress="return justNumbers(event);">
+                                <input name="TEL1_EST" placeholder="TELEFONO 1" class="form-control" type="text" onkeypress="return justNumbers(event);">
                                 <span class="help-block"></span>
                         </div>
                         <div class="form-group">
                             <label>Telefono 2</label>
-                                <input name="TEL2_ACU" placeholder="TELEFONO 2" class="form-control" type="text" onkeypress="return justNumbers(event);">
+                                <input name="TEL2_EST" placeholder="TELEFONO 2" class="form-control" type="text" onkeypress="return justNumbers(event);">
                                 <span class="help-block"></span>
                         </div>
-                        </div>                   
+                        <div class="form-group">
+                            <label>Correo <span style="color: red;">*</span></label>
+                                <input name="EMAIL_EST" placeholder="CORREO" class="form-control" type="text" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                                <span class="help-block"></span>
+                        </div>
                     </div>
-                  </div>
+                </div>
+                    
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -451,6 +501,10 @@ function delete_person(id)
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+
+<!-- 
+acudiente
+ -->
 
 <div class="modal fade" id="modal_form1" role="dialog">
     <div class="modal-dialog">
@@ -464,51 +518,54 @@ function delete_person(id)
                     <div class="form-body">
                         <div class="form-group">
                             <label class="control-label col-md-6">Documento:</label>
-                                <label class="control-label col-md-1 text-muted" name="DOC_ACU_L"></label>
+                                <label class="control-label col-md-1 text-muted" name="DOC_EST_L"></label>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-6">Tipo Documento:</label>
-                            <label class="control-label col-md-1 text-muted" name="ID_TIP_DOC_L"></label>
+                            <label style="text-align: left;" class="control-label col-md-6 text-muted" name="ID_TIP_DOC_EST_L"></label>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-6">Nombre 1:</label>
-                            <label class="control-label col-md-1 text-muted" name="NOM1_ACU_L"></label>
+                            <label class="control-label col-md-6">Acudiente:</label>
+                            <label style="text-align: left;" class="control-label col-md-6 text-muted" name="TBL_ACUDIENTE_DOC_ACU_L"></label>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-6">Nombre 2:</label>
-                            <label class="control-label col-md-1 text-muted" name="NOM2_ACU_L"></label>
+                            <label class="control-label col-md-6">Nombres:</label>
+                            <label style="text-align: left;" class="control-label col-md-6 text-muted" name="NOM1_EST_L"></label>
                         </div>
+
                         <div class="form-group">
-                            <label class="control-label col-md-6">Apellido 1:</label>
-                            <label class="control-label col-md-1 text-muted" name="APE1_ACU_L"></label>
+                            <label class="control-label col-md-6">Apellidos:</label>
+                            <label style="text-align: left;" class="control-label col-md-6 text-muted" name="APE1_EST_L"></label>
                         </div>
+
                         <div class="form-group">
-                            <label class="control-label col-md-6">Apellido 2:</label>
-                            <label class="control-label col-md-1 text-muted" name="APE2_ACU_L"></label>
+                            <label class="control-label col-md-6">Grado:</label>
+                            <label style="text-align: left;" class="control-label col-md-6 text-muted" name="GRADO_EST_L"></label>
                         </div>
+
                         <div class="form-group">
                             <label class="control-label col-md-6">Fecha Nacimiento:</label>
-                            <label class="control-label col-md-1 text-muted" name="FECH_NAC_ACU_L"></label>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-6">Correo:</label>
-                            <label class="control-label col-md-1 text-muted" name="EMAIL_ACU_L"></label>
+                            <label class="control-label col-md-1 text-muted" name="FECH_NAC_EST_L"></label>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-6">Ciudad:</label>
-                            <label class="control-label col-md-1 text-muted" name="CIU_ACU_L"></label>
+                            <label class="control-label col-md-1 text-muted" name="CIU_EST_L"></label>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-6">Direccion:</label>
-                            <label class="control-label col-md-1 text-muted" name="DIR_ACU_L"></label>
+                            <label style="text-align: left;" class="control-label col-md-6 text-muted" name="DIR_EST_L"></label>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-6">Telefono 1:</label>
-                            <label class="control-label col-md-1 text-muted" name="TEL1_ACU_L"></label>
+                            <label class="control-label col-md-1 text-muted" name="TEL1_EST_L"></label>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-6">Telefono 2:</label>
-                            <label class="control-label col-md-1 text-muted" name="TEL2_ACU_L"></label>
+                            <label class="control-label col-md-1 text-muted" name="TEL2_EST_L"></label>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-6">Correo:</label>
+                            <label class="control-label col-md-1 text-muted" name="EMAIL_EST_L"></label>
                         </div>
                     </div>
                 </form>
@@ -519,16 +576,6 @@ function delete_person(id)
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
-
-                </div>
-            <!--body wrapper start-->
-            </div>
-             <!--body wrapper end-->
-        </div>
-        <!--footer section start-->
-
-      <!-- main content end-->
 </section>
   
 <script src="<?php echo base_url('assets/js/jquery.nicescroll.js')?>"></script>
