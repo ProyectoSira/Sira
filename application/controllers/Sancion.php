@@ -40,7 +40,11 @@ class Sancion extends CI_Controller {
 			$row[] = $sancion->NOM1_EMP." ".$sancion->NOM2_EMP." ". $sancion->APE1_EMP." ". $sancion->APE2_EMP;
 			$row[] = $sancion->RAZON_SANC;
 			$row[] = $sancion->FECH_SANC;
-			$row[] = $sancion->ESTADO;
+			if ($sancion->ESTADO == '0') {
+				$row[] = 'ACTIVA';
+			}else{
+				$row[] = 'INACTIVA';
+			}
 
 
 			//add html for action

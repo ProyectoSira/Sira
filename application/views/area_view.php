@@ -300,13 +300,7 @@ function delete_person(id)
             <div class="modal-body form">
                 <form action="#" id="form" class="form-horizontal">
                     <div class="form-body">
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Id Area <span style="color: red;">*</span></label>
-                            <div class="col-md-9">
-                                <input name="COD_AREA" placeholder="Id Area" class="form-control" type="text" id="COD_AREA" onkeypress="return justNumbers(event);">
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
+                        <input type="hidden" value="" name="COD_AREA"/>
                         <div class="form-group">
                             <label class="control-label col-md-3">Nombre Area <span style="color: red;">*</span></label>
                             <div class="col-md-9">

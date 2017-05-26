@@ -34,7 +34,6 @@ public function ajax_list()
 		foreach ($list as $grupo) {
 			$no++;
 			$row = array();
-			$row[] = $grupo->COD_GRUPO;
 			$row[] = $grupo->NUM_GRUPO;
 			$row[] = $grupo->NOM_GRADO;
 			$row[] = $grupo->NOM1_EMP." ". $grupo->NOM2_EMP." ". $grupo->APE1_EMP ." ". $grupo->APE2_EMP;
@@ -67,7 +66,6 @@ public function ajax_list()
 	{
 		$this->_validate();
 		$data = array(
-				'COD_GRUPO' => $this->input->post('COD_GRUPO'),
 				'NUM_GRUPO' => $this->input->post('NUM_GRUPO'),
 				'COD_GRADO' => $this->input->post('COD_GRADO'),
 				'DOC_EMP' => $this->input->post('DOC_EMP'),
@@ -102,12 +100,6 @@ public function ajax_list()
 		$data = array();
 		$data['inputerror'] = array();
 		$data['status'] = TRUE;
-
-		if($this->input->post('COD_GRUPO') == '')
-		{
-			$data['inputerror'][] = 'COD_GRUPO';
-			$data['status'] = FALSE;
-		}
 
 		if($this->input->post('NUM_GRUPO') == '')
 		{

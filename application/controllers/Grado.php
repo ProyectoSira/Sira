@@ -31,7 +31,7 @@ public function ajax_list()
 		foreach ($list as $grado) {
 			$no++;
 			$row = array();
-			$row[] = $grado->COD_GRADO;
+			$row[] = $no;
 			$row[] = $grado->NOM_GRADO;
 
 
@@ -62,7 +62,6 @@ public function ajax_list()
 	{
 		$this->_validate();
 		$data = array(
-				'COD_GRADO' => $this->input->post('COD_GRADO'),
 				'NOM_GRADO' => $this->input->post('NOM_GRADO'),
 			);
 		$insert = $this->grado->save($data);
@@ -91,12 +90,6 @@ public function ajax_list()
 		$data = array();
 		$data['inputerror'] = array();
 		$data['status'] = TRUE;
-
-		if($this->input->post('COD_GRADO') == '')
-		{
-			$data['inputerror'][] = 'COD_GRADO';
-			$data['status'] = FALSE;
-		}
 
 		if($this->input->post('NOM_GRADO') == '')
 		{

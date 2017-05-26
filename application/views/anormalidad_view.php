@@ -3,23 +3,24 @@
 
 <div class="container-fluid">
  
-        <h1 style="font-size:20pt">Registro de Grupo</h1>
+        <h1 style="font-size:20pt">Registro de Anormalidadess</h1>
 
-        <h3>Datos de Grupo</h3>
+        <h3>Datos de la Anormalidad</h3>
         <div id="result"></div>
         <br />
         <button class="btn btn-success" onclick="add_person()"><i class="glyphicon glyphicon-plus"></i> Nuevo</button>
-        <a href="<?php echo base_url('index.php/grado');?>" class="btn btn-default"><i class="glyphicon glyphicon-search"></i> Grados</a>
         <br />
         <br />
         <div class="table-responsive">
         <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
                 <tr>
-                    <th style="width:120px;">Numero Grupo</th>
-                    <th>Grado</th>
-                    <th>Empleado</th>
-                    <th style="width:120px;">Jornada</th>
+                    <th>Tipo Anormalidad</th>
+                    <th>Hora Inicio</th>
+                    <th>Hora Fin</th>
+                    <th>Descripcion</th>
+                    <th>Estado</th>
+                    <th>Dia</th>
                     <th style="width:55px;">Accion</th>
                 </tr>
             </thead>
@@ -27,13 +28,15 @@
             </tbody>
 
             <tfoot>
-            <tr>
-                    <th>Numero Grupo</th>
-                    <th>Grado</th>
-                    <th>Empleado</th>
-                    <th>Jornada</th>
-                <th>Accion</th>
-            </tr>
+                <tr>
+                    <th>Tipo Anormalidad</th>
+                    <th>Hora Inicio</th>
+                    <th>Hora Fin</th>
+                    <th>Descripcion</th>
+                    <th>Estado</th>
+                    <th>Dia</th>
+                    <th>Accion</th>
+                </tr>
             </tfoot>
         </table>
         </div>
@@ -55,6 +58,7 @@
 <script src="<?php echo base_url('assets/bootstrap-datepicker/js/bootstrap-datepicker.min.js')?>"></script>
 <script src="<?php echo base_url('assets/select/js/bootstrap-select.min.js')?>"></script>
 
+
 <script type="text/javascript">
 
 var save_method; //for save method string
@@ -71,7 +75,7 @@ $(document).ready(function() {
 
         // Load data for the table's content from an Ajax source
         "ajax": {
-            "url": "<?php echo site_url('grupo/ajax_list')?>",
+            "url": "<?php echo site_url('anormalidad/ajax_list')?>",
             "type": "POST"
         },
 
@@ -111,7 +115,7 @@ $(document).ready(function() {
     });
 
     //datepicker
-    $('.datepicker').datepicker({
+    $('#datepicker').datepicker({
         autoclose: true,
         format: "yyyy-mm-dd",
         todayHighlight: true,
@@ -136,7 +140,6 @@ $(document).ready(function() {
 
 });
 
-
 function cerrarAlerta(){
     $("#result").removeClass("alert alert-success");
     $("#result").removeClass("alert alert-info");
@@ -151,14 +154,11 @@ function add_person()
     $('.form-group').removeClass('has-error'); // clear error class
     $('.help-block').empty(); // clear error string
     $('#modal_form').modal('show'); // show bootstrap modal
-    $('.modal-title').text('Nuevo Grupo'); // Set Title to Bootstrap modal title
-    document.getElementById('COD_GRUPO').readOnly = false;
-    $('select[name="COD_GRADO"]').val();
-    $('select[name="COD_GRADO"]').change();
-    $('select[name="DOC_EMP"]').val();
-    $('select[name="DOC_EMP"]').change();
-    $('select[name="TBL_JORNADA_COD_JOR"]').val();
-    $('select[name="TBL_JORNADA_COD_JOR"]').change();
+    $('.modal-title').text('Nueva Anormalidad'); // Set Title to Bootstrap modal title
+    $('select[name="COD_TIP_ANORM"]').val();
+    $('select[name="COD_TIP_ANORM"]').change();
+    $('select[name="COD_PROGRA"]').val();
+    $('select[name="COD_PROGRA"]').change();
 }
 
 function edit_person(id)
@@ -167,24 +167,24 @@ function edit_person(id)
     $('#form')[0].reset(); // reset form on modals
     $('.form-group').removeClass('has-error'); // clear error class
     $('.help-block').empty(); // clear error string
-    document.getElementById('COD_GRUPO').readOnly = true;
     //Ajax Load data from ajax
     $.ajax({
-        url : "<?php echo site_url('grupo/ajax_edit/')?>/" + id,
+        url : "<?php echo site_url('anormalidad/ajax_edit/')?>/" + id,
         type: "GET",
         dataType: "JSON",
         success: function(data)
         {
-            $('[name="COD_GRUPO"]').val(data.COD_GRUPO);
-            $('[name="NUM_GRUPO"]').val(data.NUM_GRUPO);
-            $('select[name="COD_GRADO"]').val(data.COD_GRADO);
-            $('select[name="COD_GRADO"]').change();
-            $('select[name="DOC_EMP"]').val(data.DOC_EMP);
-            $('select[name="DOC_EMP"]').change();
-            $('select[name="TBL_JORNADA_COD_JOR"]').val(data.TBL_JORNADA_COD_JOR);
-            $('select[name="TBL_JORNADA_COD_JOR"]').change();
+            $('[name="COD_ANORM"]').val(data.COD_ANORM);
+            $('select[name="COD_TIP_ANORM"]').val(data.COD_TIP_ANORM);
+            $('select[name="COD_TIP_ANORM"]').change();
+            $('[name="HORA_INICIO"]').val(data.HORA_INICIO);
+            $('[name="HORA_FIN"]').val(data.HORA_FIN);
+            $('[name="DESCRIPCION"]').val(data.DESCRIPCION);
+            $('[name="ESTADO"]').val(data.ESTADO);
+            $('select[name="COD_PROGRA"]').val(data.COD_PROGRA);
+            $('select[name="COD_PROGRA"]').change();
             $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
-            $('.modal-title').text('Editar Grupo'); // Set title to Bootstrap modal title
+            $('.modal-title').text('Editar Anormalidad');
 
         },
         error: function (jqXHR, textStatus, errorThrown)
@@ -193,20 +193,9 @@ function edit_person(id)
         }
     });
 }
-function justNumbers(e){
-    var keynum = window.event ? window.event.keyCode : e.which;
-    if ((keynum == 8) || (keynum == 46))
-    return true;
-    return /\d/.test(String.fromCharCode(keynum));
-}
-function validar(e) { 
-    tecla = (document.all) ? e.keyCode : e.which; 
-    if (tecla==8) return true; 
-        patron =/[A-Za-z\s]/; 
-        te = String.fromCharCode(tecla); 
-        return patron.test(te); 
 
-}  
+
+
 function reload_table()
 {
     table.ajax.reload(null,false); //reload datatable ajax 
@@ -219,9 +208,9 @@ function save()
     var url;
  
     if(save_method == 'add') {
-        url = "<?php echo site_url('grupo/ajax_add')?>";
+        url = "<?php echo site_url('anormalidad/ajax_add')?>";
     } else {
-        url = "<?php echo site_url('grupo/ajax_update')?>";
+        url = "<?php echo site_url('anormalidad/ajax_update')?>";
     }
  
     // ajax adding data to database
@@ -237,6 +226,7 @@ function save()
             {
                 $('#modal_form').modal('hide');
                 reload_table();
+                i = 0;
                 if (save_method == 'add') {
                     $("#result").addClass("alert alert-success");
                     $('#result').text('Registro Exitoso'); 
@@ -244,7 +234,7 @@ function save()
                     $("#result").addClass("alert alert-info");
                     $('#result').text('Registro Modificado Exitosamente'); 
                 }
-                setTimeout("cerrarAlerta()",2000);
+                setTimeout("cerrarAlerta()",2000);       
             }
             else
             {
@@ -274,7 +264,7 @@ function delete_person(id)
     {
         // ajax delete data to database
         $.ajax({
-            url : "<?php echo site_url('grupo/ajax_delete')?>/"+id,
+            url : "<?php echo site_url('anormalidad/ajax_delete')?>/"+id,
             type: "POST",
             dataType: "JSON",
             success: function(data)
@@ -295,6 +285,21 @@ function delete_person(id)
     }
 }
 
+function justNumbers(e){
+    var keynum = window.event ? window.event.keyCode : e.which;
+    if ((keynum == 8) || (keynum == 46))
+    return true;
+    return /\d/.test(String.fromCharCode(keynum));
+}
+function validar(e) { 
+    tecla = (document.all) ? e.keyCode : e.which; 
+    if (tecla==8) return true; 
+        patron =/[A-Za-z\s]/; 
+        te = String.fromCharCode(tecla); 
+        return patron.test(te); 
+
+} 
+
 </script>
 
 <!-- Bootstrap modal -->
@@ -308,68 +313,74 @@ function delete_person(id)
             <div class="modal-body form">
                 <form action="#" id="form" class="form-horizontal">
                     <div class="form-body">
-                        <input type="hidden" value="" name="COD_GRUPO"/>
+                        <input type="hidden" value="" name="COD_ANORM"/>
                         <div class="form-group">
-                            <label class="control-label col-md-3">Numero Grupo <span style="color: red;">*</span></label>
+                            <label class="control-label col-md-3">Anormalidad <span style="color: red;">*</span></label>
                             <div class="col-md-9">
-                                <input name="NUM_GRUPO" placeholder="grupo" class="form-control" type="text" onkeypress="return justNumbers(event);">
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                         <div class="form-group">
-                            <label class="control-label col-md-3">Codigo Grado <span style="color: red;">*</span></label>
-                            <div class="col-md-9">
-
-                                 <select name="COD_GRADO" class="selectpicker form-control" data-live-search = "true">
-                                 <option value="">--Seleccione</option>
-                                 <?php 
-                                  foreach ($grado as $fila) 
-                                    {
-                                 ?>
-                                <option value="<?= $fila->COD_GRADO ?>" data-subtext="<?= $fila->NOM_GRADO ?>"><?= $fila->COD_GRADO ?></option> 
-                                <?php  
-                                    }
-                                ?>
-                            </select> 
-                              <span class="help-block"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Documento empleado <span style="color: red;">*</span></label>
-                            <div class="col-md-9">
-                            <select name="DOC_EMP" class="selectpicker form-control" data-live-search = "true">
-                            <option value="">--Seleccione</option>
-                                   <?php 
-                                      foreach ($empleado as $fila) 
+                                <select name="COD_TIP_ANORM" class="selectpicker form-control" data-live-search="true">
+                                    <option value="">--SELECCIONAR--</option>
+                                    <?php 
+                                      foreach ($tipoAnorm as $fila) 
                                       {
                                    ?>
-                                   <option value="<?= $fila->DOC_EMP ?>" data-subtext="<?= $fila->NOM1_EMP," ",$fila->NOM2_EMP ," ",$fila->APE1_EMP," ", $fila->APE2_EMP ?>"><?=$fila->DOC_EMP?></option>
-
+                                   <option value="<?= $fila->COD_TIP_ANORM ?>"><?= $fila->NOM_ANORM ?></option>
                                    <?php 
                                         }
                                     ?>
                                 </select>
                                 <span class="help-block"></span>
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Hora Inicio <span style="color: red;">*</span></label>
+                            <div class="col-md-9">
+                                <input name="HORA_INICIO" placeholder="HORA INICIO" class="form-control" type="text" id="HORA_INI">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Hora Fin <span style="color: red;">*</span></label>
+                            <div class="col-md-9">
+                                <input name="HORA_FIN" placeholder="HORA FIN" class="form-control" type="text" id="HORA_FIN">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Descripcion <span style="color: red;">*</span></label>
+                            <div class="col-md-9">
+                                <textarea name="DESCRIPCION" placeholder="DESCRIPCION" class="form-control"  style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" onkeypress="return validar(event)"></textarea>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Estado <span style="color: red;">*</span></label>
+                            <div class="col-md-9">
+                                <select name="ESTADO" class="selectpicker form-control">
+                                    <option value="">--SELECCIONAR--</option>
+                                    <option value="0">ACTIVA</option>
+                                    <option value="1">INACTIVA</option>
+                                </select>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Dia <span style="color: red;">*</span></label>
+                            <div class="col-md-9">
+                                <select name="COD_PROGRA" class="selectpicker form-control">
+                                    <option value="">--SELECCIONAR--</option>
+                                    <?php 
+                                      foreach ($programacion as $fila) 
+                                      {
+                                   ?>
+                                   <option value="<?= $fila->COD_PROGRA ?>"><?= $fila->DIA_SEM ?></option>
+                                   <?php 
+                                        }
+                                    ?>
+                                </select>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
                     </div>
-                      <div class="form-group">
-                            <label class="control-label col-md-3">Jornada <span style="color: red;">*</span></label>
-                            <div class="col-md-9">
-                                 <select name="TBL_JORNADA_COD_JOR" class="selectpicker form-control">
-                                 <option value="">--Seleccione</option>  
-                                <?php 
-                                      foreach ($jornada as $fila) 
-                                      {
-                                   ?>
-                                   <option value="<?= $fila->COD_JOR ?>" data-subtext="<?= $fila->HOR_INI_JOR, " ", $fila->HOR_FIN_JOR?>" ><?=$fila->NOM_JORNADA ?></option>
-
-                                   <?php 
-                                        }
-                                    ?>
-                                </select>
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -379,7 +390,6 @@ function delete_person(id)
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-<!-- End Bootstrap modal -->
 </section>
   
 <script src="<?php echo base_url('assets/js/jquery.nicescroll.js')?>"></script>

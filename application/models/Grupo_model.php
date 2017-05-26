@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Grupo_model extends CI_Model {
     var $table = 'tbl_grupo';
 	var $column_order = array('COD_GRUPO','NUM_GRUPO','COD_GRADO','DOC_EMP','TBL_JORNADA_COD_JOR',null); //set column field database for datatable orderable
-	var $column_search = array('COD_GRUPO','NUM_GRUPO'); //set column field database for datatable searchable just firstname , lastname , address are searchable
+	var $column_search = array('NOM_GRADO','NUM_GRUPO'); //set column field database for datatable searchable just firstname , lastname , address are searchable
 	var $order = array('COD_GRUPO' => 'desc'); // default order 
 
 	public function __construct()

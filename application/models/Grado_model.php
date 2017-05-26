@@ -4,9 +4,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Grado_model extends CI_Model {
 
 	var $table = 'tbl_grado';
-	var $column_order = array('COD_GRADO','NOM_GRADO',null); //set column field database for datatable orderable
-	var $column_search = array('COD_GRADO','NOM_GRADO'); //set column field database for datatable searchable just firstname , lastname , address are searchable
-	var $order = array('COD_GRADO' => 'desc'); // default order 
+	var $column_order = array('NOM_GRADO',null); //set column field database for datatable orderable
+	var $column_search = array('NOM_GRADO'); //set column field database for datatable searchable just firstname , lastname , address are searchable
+	var $order = array('COD_GRADO' => 'asc'); // default order 
 
 	public function __construct()
 	{

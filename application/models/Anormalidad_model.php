@@ -1,12 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Area_model extends CI_Model {
+class Anormalidad_model extends CI_Model {
 
-	var $table = 'tbl_area';
-	var $column_order = array('NOM_AREA','DOC_EMP',null); //set column field database for datatable orderable
-	var $column_search = array('NOM_AREA'); //set column field database for datatable searchable just firstname , lastname , address are searchable
-	var $order = array('COD_AREA' => 'desc'); // default order 
+	var $table = 'tbl_anorm';
+	var $column_order = array('COD_TIP_ANORM','HORA_INICIO','HORA_FIN','DESCRIPCION','ESTADO', 'COD_PROGRA',null); //set column field database for datatable orderable
+	var $column_search = array('ESTADO','DIA_SEM'); //set column field database for datatable searchable just firstname , lastname , address are searchable
+	var $order = array('COD_ANORM' => 'desc'); // default order 
 
 	public function __construct()
 	{
@@ -14,27 +14,31 @@ class Area_model extends CI_Model {
 		$this->load->database();
 	}
 
-	function get_empleado(){
-		$this->db->select('*');
-		$this->db->from('tbl_tipo_empleado');
-	
-		$this->db->join('tbl_empleado', 'tbl_empleado.ID_TIP_EMP = tbl_tipo_empleado.ID_TIP_EMP');
-		$this->db->Where('tbl_empleado.ID_TIP_EMP', 3);
-      $empleado = $this->db->get();
-       if ($empleado -> num_rows()>0)
-       {
-       	return $empleado->result();
-       }
+	function get_tipoAnorm(){
+       $grado = $this->db->get('tbl_tipo_anormalidad');
+      if ($grado ->num_rows()>0) 
+      {
+      	return $grado->result();
+      }
+	}
 
+	function get_programacion(){
+       $grado = $this->db->get('tbl_programacion');
+      if ($grado ->num_rows()>0) 
+      {
+      	return $grado->result();
+      }
 
 	}
 
+
 	private function _get_datatables_query()
 	{
-		
 		$this->db->select('*');
-		$this->db->from('tbl_area');
-        $this->db->join('tbl_empleado','tbl_empleado.DOC_EMP = tbl_area.DOC_EMP');
+		$this->db->from('tbl_anorm');
+        $this->db->join('tbl_tipo_anormalidad','tbl_tipo_anormalidad.COD_TIP_ANORM = tbl_anorm.COD_TIP_ANORM');
+        $this->db->join('tbl_programacion','tbl_programacion.COD_PROGRA = tbl_anorm.COD_PROGRA');
+
 
 		$i = 0;
 	
@@ -95,7 +99,7 @@ class Area_model extends CI_Model {
 	public function get_by_id($id)
 	{
 		$this->db->from($this->table);
-		$this->db->where('COD_AREA',$id);
+		$this->db->where('COD_ANORM',$id);
 		$query = $this->db->get();
 
 		return $query->row();
@@ -115,7 +119,7 @@ class Area_model extends CI_Model {
 
 	public function delete_by_id($id)
 	{
-		$this->db->where('COD_AREA', $id);
+		$this->db->where('COD_ANORM', $id);
 		$this->db->delete($this->table);
 	}
 

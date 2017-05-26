@@ -16,7 +16,7 @@
         <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
                 <tr>
-                    <th style="width:100px;">id Grados</th>
+                    <th style="width:100px;">N°</th>
                     <th style="width:100px;">Nombre Grado</th>
                     <th style="width:55px;">Accion</th>
                 </tr>
@@ -26,7 +26,7 @@
 
             <tfoot>
             <tr>
-                <th>id Grados</th>
+                <th>N°</th>
                     <th>Nombre Grado</th>
                 <th>Accion</th>
             </tr>
@@ -291,13 +291,7 @@ function delete_person(id)
             <div class="modal-body form">
                 <form action="#" id="form" class="form-horizontal">
                     <div class="form-body">
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Codigo Grados <span style="color: red;">*</span></label>
-                            <div class="col-md-9">
-                                <input name="COD_GRADO" placeholder="id_Grados" class="form-control" type="text" id="COD_GRADO" onkeypress="return justNumbers(event);">
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
+                        <input type="hidden" value="" name="COD_GRADO"/>
                         <div class="form-group">
                             <label class="control-label col-md-3">Nombre del grado <span style="color: red;">*</span></label>
                             <div class="col-md-9">
