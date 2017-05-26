@@ -5,8 +5,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Asignatura_model extends CI_Model {
 
 	var $table = 'tbl_asignatura';
-	var $column_order = array('COD_ASIG','NOM_ASIG','COD_AREA',null); //set column field database for datatable orderable
-	var $column_search = array('COD_ASIG','NOM_ASIG'); //set column field database for datatable searchable just firstname , lastname , address are searchable
+	var $column_order = array('NOM_ASIG','COD_AREA',null); //set column field database for datatable orderable
+	var $column_search = array('NOM_ASIG'); //set column field database for datatable searchable just firstname , lastname , address are searchable
 	var $order = array('COD_ASIG' => 'desc'); // default order 
 
 	public function __construct()

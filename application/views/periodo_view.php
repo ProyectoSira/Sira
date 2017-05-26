@@ -16,7 +16,7 @@
         <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
                 <tr>
-                    <th>Id Periodo</th>
+                    <th>N°</th>
                     <th>Numero</th>
                     <th>Nombre</th>
                     <th>Fecha Inicio</th>
@@ -29,7 +29,7 @@
 
             <tfoot>
                 <tr>
-                    <th>Id Periodo</th>
+                    <th>N°</th>
                     <th>Numero</th>
                     <th>Nombre</th>
                     <th>Fecha Inicio</th>
@@ -317,13 +317,7 @@ function validar(e) {
             <div class="modal-body form">
                 <form action="#" id="form" class="form-horizontal">
                     <div class="form-body">
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Id Periodo <span style="color: red;">*</span></label>
-                            <div class="col-md-9">
-                                <input name="COD_PER" placeholder="ID PERIODO" class="form-control" type="text" id="COD_PER" onkeypress="return justNumbers(event);">
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
+                        <input type="hidden" value="" name="COD_PER"/>
                        <div class="form-group">
                             <label class="control-label col-md-3">Numero Periodo <span style="color: red;">*</span></label>
                             <div class="col-md-9">

@@ -34,7 +34,7 @@ class Sancion extends CI_Controller {
 		foreach ($list as $sancion) {
 			$no++;
 			$row = array();
-			$row[] = $sancion->COD_SANC;
+			$row[] = $no;
 			$row[] = $sancion->NOM_SANC;
 			$row[] = $sancion->NOM1_EST." ".$sancion->NOM2_EST." ". $sancion->APE1_EST." ". $sancion->APE2_EST;
 			$row[] = $sancion->NOM1_EMP." ".$sancion->NOM2_EMP." ". $sancion->APE1_EMP." ". $sancion->APE2_EMP;
@@ -81,7 +81,6 @@ class Sancion extends CI_Controller {
 	{
 		$this->_validate();
 		$data = array(
-				'COD_SANC' => $this->input->post('COD_SANC'),
 				'COD_TIP_SANC' => $this->input->post('COD_TIP_SANC'),
                 'DOC_EST' => $this->input->post('DOC_EST'),
                 'DOC_EMP' => $this->input->post('DOC_EMP'),
@@ -122,12 +121,6 @@ class Sancion extends CI_Controller {
 		$data = array();
 		$data['inputerror'] = array();
 		$data['status'] = TRUE;
-
-		if($this->input->post('COD_SANC') == '')
-		{
-			$data['inputerror'][] = 'COD_SANC';
-			$data['status'] = FALSE;
-		}
 
 		if($this->input->post('COD_TIP_SANC') == '')
 		{

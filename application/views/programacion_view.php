@@ -335,13 +335,7 @@ function validar(e) {
             <div class="modal-body form">
                 <form action="#" id="form" class="form-horizontal">
                     <div class="form-body">
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Id Programacion <span style="color: red;">*</span></label>
-                            <div class="col-md-9">
-                                <input name="COD_PROGRA" placeholder="ID PROGRAMACION" class="form-control" type="text" id="COD_PROGRA" onkeypress="return justNumbers(event);">
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
+                        <input type="hidden" value="" name="COD_PROGRA"/>
                         <div class="form-group">
                             <label class="control-label col-md-3">Empleado <span style="color: red;">*</span></label>
                             <div class="col-md-9">

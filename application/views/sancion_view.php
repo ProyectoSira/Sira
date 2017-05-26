@@ -15,7 +15,7 @@
         <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
                 <tr>
-                    <th>Id Sancion</th>
+                    <th>N°</th>
                     <th>Tipo Sancion</th>
                     <th>Estudiante</th>
                     <th>Profesor</th>
@@ -30,7 +30,7 @@
 
             <tfoot>
                 <tr>
-                    <th>Id Sancion</th>
+                    <th>N°</th>
                     <th>Tipo Sancion</th>
                     <th>Estudiante</th>
                     <th>Profesor</th>
@@ -323,13 +323,7 @@ function validar(e) {
             <div class="modal-body form">
                 <form action="#" id="form" class="form-horizontal">
                     <div class="form-body">
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Id Sancion <span style="color: red;">*</span></label>
-                            <div class="col-md-9">
-                                <input name="COD_SANC" placeholder="ID SANCION" class="form-control" type="text" id="COD_SANC" onkeypress="return justNumbers(event);">
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
+                        <input type="hidden" value="" name="COD_SANC"/>
                         <div class="form-group">
                             <label class="control-label col-md-3">Tipo Sancion <span style="color: red;">*</span></label>
                             <div class="col-md-9">

@@ -36,7 +36,7 @@ class Programacion extends CI_Controller {
 		foreach ($list as $programacion) {
 			$no++;
 			$row = array();
-			$row[] = $programacion->COD_PROGRA;
+			$row[] = $no;
 			$row[] = $programacion->DOC_EMP;
 			$row[] = $programacion->COD_ASIG;
 			$row[] = $programacion->COD_AULA;
@@ -80,7 +80,6 @@ class Programacion extends CI_Controller {
 	{
 		$this->_validate();
 		$data = array(
-				'COD_PROGRA' => $this->input->post('COD_PROGRA'),
 				'DOC_EMP' => $this->input->post('DOC_EMP'),
                 'COD_ASIG' => $this->input->post('COD_ASIG'),
                 'COD_AULA' => $this->input->post('COD_AULA'),
@@ -126,11 +125,6 @@ class Programacion extends CI_Controller {
 		$data['inputerror'] = array();
 		$data['status'] = TRUE;
 
-		if($this->input->post('COD_PROGRA') == '')
-		{
-			$data['inputerror'][] = 'COD_PROGRA';
-			$data['status'] = FALSE;
-		}
 
 		if($this->input->post('DOC_EMP') == '')
 		{

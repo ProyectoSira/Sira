@@ -299,13 +299,7 @@ function delete_person(id)
             <div class="modal-body form">
                 <form action="#" id="form" class="form-horizontal">
                     <div class="form-body">
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Id Calendario <span style="color: red;">*</span></label>
-                            <div class="col-md-9">
-                                <input name="COD_CAL" placeholder="ID CALENDARIO" class="form-control" type="text" id="COD_CAL" onkeypress="return justNumbers(event);">
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
+                        <input type="hidden" value="" name="COD_CAL"/>
                         <div class="form-group">
                             <label class="control-label col-md-3">Año <span style="color: red;">*</span></label>
                             <div class="col-md-9">

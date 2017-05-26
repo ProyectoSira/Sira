@@ -16,7 +16,7 @@
         <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
                 <tr>
-                    <th style="width:100px;">Id Area</th>
+                    <th style="width:100px;">N°</th>
                     <th style="width:100px;">Nombre Area</th>
                     <th style="width:100px;">Profesor</th>
                     <th style="width:55px;">Accion</th>
@@ -27,7 +27,7 @@
 
             <tfoot>
             <tr>
-                <th>Id Area</th>
+                <th>N°</th>
                     <th>Nombre Area</th>
                     <th>Profesor</th>
                 <th>Accion</th>

@@ -32,7 +32,7 @@ public function ajax_list()
 		foreach ($list as $calendario) {
 			$no++;
 			$row = array();
-			$row[] = $calendario->COD_CAL;
+			$row[] = $no;
 			$row[] = $calendario->AÑO_CAL;
 			$row[] = $calendario->NOM_PER;
 
@@ -64,7 +64,6 @@ public function ajax_list()
 	{
 		$this->_validate();
 		$data = array(
-				'COD_CAL' => $this->input->post('COD_CAL'),
 				'AÑO_CAL' => $this->input->post('AÑO_CAL'),
                 'COD_PER' => $this->input->post('COD_PER'),
 			);
@@ -95,12 +94,6 @@ public function ajax_list()
 		$data = array();
 		$data['inputerror'] = array();
 		$data['status'] = TRUE;
-
-		if($this->input->post('COD_CAL') == '')
-		{
-			$data['inputerror'][] = 'COD_CAL';
-			$data['status'] = FALSE;
-		}
 
 		if($this->input->post('AÑO_CAL') == '')
 		{

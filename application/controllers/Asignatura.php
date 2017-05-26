@@ -33,7 +33,7 @@ public function ajax_list()
 		foreach ($list as $asignatura) {
 			$no++;
 			$row = array();
-			$row[] = $asignatura->COD_ASIG;
+			$row[] = $no;
 			$row[] = $asignatura->NOM_ASIG;
 			$row[] = $asignatura->NOM_AREA;
 
@@ -65,7 +65,6 @@ public function ajax_list()
 	{
 		$this->_validate();
 		$data = array(
-				'COD_ASIG' => $this->input->post('COD_ASIG'),
 				'NOM_ASIG' => $this->input->post('NOM_ASIG'),
                 'COD_AREA' => $this->input->post('COD_AREA'),
 			);
@@ -97,11 +96,6 @@ public function ajax_list()
 		$data['inputerror'] = array();
 		$data['status'] = TRUE;
 
-		if($this->input->post('COD_ASIG') == '')
-		{
-			$data['inputerror'][] = 'COD_ASIG';
-			$data['status'] = FALSE;
-		}
 
 		if($this->input->post('NOM_ASIG') == '')
 		{

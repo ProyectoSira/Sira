@@ -31,7 +31,7 @@ class Periodo extends CI_Controller {
 		foreach ($list as $periodo) {
 			$no++;
 			$row = array();
-			$row[] = $periodo->COD_PER;
+			$row[] = $no;
 			$row[] = $periodo->NUM_PER;
 			$row[] = $periodo->NOM_PER;
 			$row[] = $periodo->FECH_INI_PER;
@@ -73,7 +73,6 @@ class Periodo extends CI_Controller {
 	{
 		$this->_validate();
 		$data = array(
-				'COD_PER' => $this->input->post('COD_PER'),
 				'NUM_PER' => $this->input->post('NUM_PER'),
                 'NOM_PER' => $this->input->post('NOM_PER'),
                 'FECH_INI_PER' => $this->input->post('FECH_INI_PER'),
@@ -110,12 +109,6 @@ class Periodo extends CI_Controller {
 		$data = array();
 		$data['inputerror'] = array();
 		$data['status'] = TRUE;
-
-		if($this->input->post('COD_PER') == '')
-		{
-			$data['inputerror'][] = 'COD_PER';
-			$data['status'] = FALSE;
-		}
 
 		if($this->input->post('NUM_PER') == '')
 		{
