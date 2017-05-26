@@ -13,8 +13,15 @@ class Llegadatarde extends CI_Controller {
 	{
 		$this->load->helper('url');
 		$this->load->helper('form');
-		$this->load->view('llegadatarde_view');
-
+		if(isset($this->session->userdata['logged_in'])){
+			if (($this->session->userdata['logged_in']['rol']) == 'Coordinador') {
+        		$this->load->view('llegadatarde_view');
+        	}else{
+        		redirect('error');
+        	}
+		}else{
+			redirect('login');
+		} 
 	}
 
 	public function ajax_view($id)

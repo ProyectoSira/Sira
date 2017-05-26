@@ -15,9 +15,15 @@ class Grupo extends CI_Controller {
 		$data['empleado'] = $this->grupo->get_empleado();
 		$data['grado'] = $this->grupo->get_grado();
 		$data['jornada'] = $this->grupo->get_jornada();
-		$this->load->view('grupo_view',$data);
-        
-
+        if(isset($this->session->userdata['logged_in'])){
+        	if (($this->session->userdata['logged_in']['rol']) != 'Profesor') {
+        		$this->load->view('grupo_view',$data);
+        	}else{
+        		redirect('error');
+        	}
+		}else{
+			redirect('login');
+		} 
 	}
 
 public function ajax_list()

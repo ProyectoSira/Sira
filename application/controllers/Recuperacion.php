@@ -6,13 +6,17 @@ class Recuperacion extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('Recuperacion_model','recuperacion');
+		$this->load->model('Login_model','login');
 	}
  
 	public function index()
 	{
 		$this->load->helper('url');
-		$this->load->view('recuperacion_view');
+		if(isset($this->session->userdata['logged_in'])){
+			redirect('home');
+        }else{
+        	$this->load->view('recuperacion_view');
+        }
 	}
 
 	public function enviarMail()
@@ -20,7 +24,7 @@ class Recuperacion extends CI_Controller
 		$this->_validate();
 		$usu = $this->input->post('nomUsu');
 		$email = $this->input->post('email');
-		$verificar = $this->recuperacion->get_validarMail($usu);
+		$verificar = $this->login->get_validarMail($usu);
 		$emm = "";
 		foreach ($verificar as $fila) {
 				$emm = $fila->EMAIL_EMP;
@@ -55,14 +59,13 @@ class Recuperacion extends CI_Controller
 	                           <p>Si hiciste esta petición, haz clic en el siguiente enlace, si no hiciste esta petición puedes ignorar este correo.</p>
 	                           <p>
 	                             <strong>Enlace para restablecer tu contraseña</strong><br>
-	                             <a href="http://localhost:8888/Sira"> Restablecer contraseña </a>
+	                             <a href="http://localhost:8888/Sira/index.php/NuevaClave"> Restablecer contraseña </a>
 	                           </p>
 	                         </body>
 	                        </html>';
 			$this->email->message($mensaje);
 			$this->email->set_newline("\r\n");
 			$this->email->send();
-			$this->email->print_debugger();
 			echo json_encode(array("status" => TRUE));
 		}
 	}

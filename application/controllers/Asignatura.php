@@ -13,8 +13,15 @@ class Asignatura extends CI_Controller {
 	{
 		$this->load->helper('url');
 		$data['area'] = $this->asignatura->get_area();
-		$this->load->view('asignatura_view',$data);
-        
+		if(isset($this->session->userdata['logged_in'])){
+			if (($this->session->userdata['logged_in']['rol']) != 'Profesor') {
+        		$this->load->view('asignatura_view',$data);
+        	}else{
+        		redirect('error');
+        	}
+		}else{
+			redirect('login');
+		}       
 
 	}
 

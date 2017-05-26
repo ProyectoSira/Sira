@@ -12,7 +12,15 @@ class Periodo extends CI_Controller {
 	public function index()
 	{
 		$this->load->helper('url');
-		$this->load->view('periodo_view');       
+		if(isset($this->session->userdata['logged_in'])){
+			if (($this->session->userdata['logged_in']['rol']) != 'Profesor') {
+        		$this->load->view('periodo_view');
+        	}else{
+        		redirect('error');
+        	}
+        }else{
+            redirect('login');
+        }        
 	}
 
 	public function ajax_list()

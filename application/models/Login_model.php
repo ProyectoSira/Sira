@@ -29,4 +29,20 @@ class Login_model extends CI_Model {
 		return $query->result();
 	}
 
+	function get_validarMail($usu)
+	{
+		$this->db->select('EMAIL_EMP');
+		$this->db->from('tbl_empleado');
+		$this->db->join('tbl_usuario', 'tbl_usuario.DOC_EMP = tbl_empleado.DOC_EMP');
+		$this->db->Where('NOM_USU',$usu);
+      	$query = $this->db->get();
+		return $query->result();
+	}
+
+	public function update($where, $data)
+	{
+		$this->db->update('tbl_usuario', $data, $where);
+		return $this->db->affected_rows();
+	}
+
 }

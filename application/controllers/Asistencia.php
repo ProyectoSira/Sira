@@ -14,8 +14,15 @@ class Asistencia extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->helper('form');
 		$data['grupo'] = $this->asistencia->get_grupo();
-		$this->load->view('asistencia_view', $data );
-
+		if(isset($this->session->userdata['logged_in'])){
+			if (($this->session->userdata['logged_in']['rol']) != 'Secretaria') {
+        		$this->load->view('asistencia_view', $data );
+        	}else{
+        		redirect('error');
+        	}
+		}else{
+			redirect('login');
+		} 
 	}
 
 

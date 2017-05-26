@@ -15,9 +15,15 @@ class Empleado extends CI_Controller {
 		$data['tipoDocumento'] = $this->empleado->get_tipodocumento();
 		$data['tipoEmpleado'] = $this->empleado->get_tipoEmpleado();
 		$data['ciudad'] = $this->empleado->get_ciudad();
-		$this->load->view('empleado_view', $data);
-        
-
+		if(isset($this->session->userdata['logged_in'])){
+			if (($this->session->userdata['logged_in']['rol']) != 'Profesor') {
+        		$this->load->view('empleado_view', $data);
+        	}else{
+        		redirect('error');
+        	}
+		}else{
+			redirect('login');
+		}      
 	}
 
 public function ajax_list()

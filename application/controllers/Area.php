@@ -13,8 +13,15 @@ class Area extends CI_Controller {
 	{
 		$this->load->helper('url');
 		$data['empleado'] = $this->area->get_empleado();
-		$this->load->view('area_view', $data);
-        
+		if(isset($this->session->userdata['logged_in'])){
+			if (($this->session->userdata['logged_in']['rol']) != 'Profesor') {
+        		$this->load->view('area_view', $data);
+        	}else{
+        		redirect('error');
+        	}
+		}else{
+			redirect('login');
+		}        
 
 	}
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Sira Recuperacion de contraseña</title>
+	<title>Sira nueva contraseña</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -73,7 +73,7 @@
 	<div class="container">
     <div class="row">
         <div class="col-sm-6 col-md-4 col-md-offset-4">
-            <h1 class="text-center login-title">Recuperacion de Contraseña</h1>
+            <h1 class="text-center login-title">Cambio de Contraseña</h1>
             <div id="result"></div>
             <div class="account-wall">
                 <img class="profile-img" src="<?php echo base_url('assets/img/profile-pictures.png')?>"
@@ -82,11 +82,14 @@
                 <input type="text" class="form-control" placeholder="USUARIO" name="nomUsu" id="nomUsu" autofocus>
                 <span class="help-block"></span>
                 <br>
-                <input type="text" class="form-control" placeholder="CORREO ELECTRONICO" id="email" name="email" >
+                <input type="password" class="form-control" placeholder="NUEVA CONTRASEÑA" id="pass1" name="pass1" >
+                <span class="help-block"></span>
+                <br>
+                <input type="password" class="form-control" placeholder="CONFIRMAR CONTRASEÑA" id="pass2" name="pass2" >
                 <span class="help-block"></span>
                 <br>
                 <button class="btn btn-lg btn-primary btn-block" id="btnLogin">
-                    Enviar Correo</button>
+                    Cambiar Contraseña</button>
                 </div>
             </div>
             <a href="<?php echo base_url()?>" class="text-center new-account">Volver </a>
@@ -109,22 +112,27 @@
 
     $('#btnLogin').click(function () {
     	var nom = $('#nomUsu').val();
-		var email = $('#email').val();
+		var pass = $('#pass1').val();
+		var pass2 = $('#pass2').val();
 		$.ajax({
-	        url : "<?php echo site_url('recuperacion/enviarMail')?>",
+	        url : "<?php echo site_url('NuevaClave/cambiarPass')?>",
 	        type: "POST",
-	        data: {nomUsu:nom, email:email},
+	        data: {nomUsu:nom, pass1:pass, pass2:pass2},
 	        dataType: "JSON",
 	        success: function(data)
 	        {
 	            if(data.status) 
 	            {
 	                $("#result").addClass("alert alert-success");
-		            $('#result').text('Se ha enviado un correo electronico con el link para crear tu nueva contraseña. En instantes esta pagina se redireccionara al Login'); 
-		            setTimeout("cerrarAlerta2()",8000);
+		            $('#result').text('La contraseña se ha cambiado exitosamente. En instantes esta pagina se redireccionara al Login'); 
+		            setTimeout("cerrarAlerta2()",6000);
 
 	            }
-	            else
+	            else if(data.error){
+	            	$("#result").addClass("alert alert-danger");
+		            $('#result').text('Error al cambiar la contraseña'); 
+		            setTimeout("cerrarAlerta()",3000);
+	            }else
 	            {
 	                for (var i = 0; i < data.inputerror.length; i++) 
 	                {
@@ -136,7 +144,7 @@
 	        error: function (jqXHR, textStatus, errorThrown)
 	        {
 	            $("#result").addClass("alert alert-danger");
-	            $('#result').text('El correo electronico no coincide con el usuario ingresado'); 
+	            $('#result').text('El usuario no es correcto o las contrseñas no coinciden'); 
 	            setTimeout("cerrarAlerta()",3000);
 	 
 	        }

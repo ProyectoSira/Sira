@@ -14,8 +14,15 @@ class Acudiente extends CI_Controller {
 		$this->load->helper('url');
 		$data['tipoDocumento'] = $this->acudiente->get_tipodocumento();
 		$data['ciudad'] = $this->acudiente->get_ciudad();
-		$this->load->view('acudiente_view', $data);
-        
+		if(isset($this->session->userdata['logged_in'])){
+			if (($this->session->userdata['logged_in']['rol']) != 'Profesor') {
+        		$this->load->view('acudiente_view', $data);
+        	}else{
+        		redirect('error');
+        	}
+		}else{
+			redirect('login');
+		}     
 
 	}
 

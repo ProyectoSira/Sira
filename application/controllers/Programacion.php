@@ -17,9 +17,15 @@ class Programacion extends CI_Controller {
 		$data['aula'] = $this->programacion->get_aula();
 		$data['calendario'] = $this->programacion->get_calendario();
 		$data['grupo'] = $this->programacion->get_grupo();
-		$this->load->view('programacion_view', $data);
-        
-
+        if(isset($this->session->userdata['logged_in'])){
+        	if (($this->session->userdata['logged_in']['rol']) != 'Secretaria') {
+        		$this->load->view('programacion_view', $data);
+        	}else{
+        		redirect('error');
+        	}
+        }else{
+            redirect('login');
+        }
 	}
 
 	public function ajax_list()

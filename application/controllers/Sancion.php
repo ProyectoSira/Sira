@@ -15,9 +15,15 @@ class Sancion extends CI_Controller {
 		$data['tipoSancion'] = $this->sancion->get_tipoSancion();
 		$data['empleado'] = $this->sancion->get_empleado();
 		$data['estudiante'] = $this->sancion->get_estudiante();
-		$this->load->view('sancion_view', $data);
-        
-
+        if(isset($this->session->userdata['logged_in'])){
+        	if (($this->session->userdata['logged_in']['rol']) != 'Secretaria') {
+        		$this->load->view('sancion_view', $data);
+        	}else{
+        		redirect('error');
+        	}
+        }else{
+            redirect('login');
+        }
 	}
 
 	public function ajax_list()

@@ -13,7 +13,11 @@ class Login extends CI_Controller {
 	{
 		$this->load->helper('url');
 		$this->load->library('session');
-		$this->load->view('login_view');
+		if(isset($this->session->userdata['logged_in'])){
+		redirect('home');
+		}else{
+			$this->load->view('login_view');
+		} 
 	}
 
 	public function iniciar_sesion()

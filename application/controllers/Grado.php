@@ -12,9 +12,15 @@ class Grado extends CI_Controller {
 	public function index()
 	{
 		$this->load->helper('url');
-		$this->load->view('grado_view');
-        
-
+        if(isset($this->session->userdata['logged_in'])){
+        	if (($this->session->userdata['logged_in']['rol']) != 'Profesor') {
+        		$this->load->view('grado_view');
+        	}else{
+        		redirect('error');
+        	}
+		}else{
+			redirect('login');
+		} 
 	}
 
 public function ajax_list()
