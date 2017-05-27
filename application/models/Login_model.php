@@ -45,4 +45,15 @@ class Login_model extends CI_Model {
 		return $this->db->affected_rows();
 	}
 
+	public function validarUsuario()
+	{
+		$this->db->select('NOM_USU');
+        $this->db->from('tbl_usuario'); 
+        $result = $this->db->get();
+        if ($result -> num_rows()>0)
+        {
+            return $result->result();
+        }
+	}
+
 }

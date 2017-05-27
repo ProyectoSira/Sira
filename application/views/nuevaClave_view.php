@@ -92,7 +92,6 @@
                     Cambiar Contraseña</button>
                 </div>
             </div>
-            <a href="<?php echo base_url()?>" class="text-center new-account">Volver </a>
         </div>
     </div>
 </div>
@@ -123,14 +122,17 @@
 	        {
 	            if(data.status) 
 	            {
+	            	document.getElementById('nomUsu').readOnly = true;
+	            	document.getElementById('pass1').readOnly = true;
+	            	document.getElementById('pass2').readOnly = true;
 	                $("#result").addClass("alert alert-success");
 		            $('#result').text('La contraseña se ha cambiado exitosamente. En instantes esta pagina se redireccionara al Login'); 
 		            setTimeout("cerrarAlerta2()",6000);
 
 	            }
-	            else if(data.error){
+	            else if(data.clave){
 	            	$("#result").addClass("alert alert-danger");
-		            $('#result').text('Error al cambiar la contraseña'); 
+		            $('#result').text('Las contraseñas no coinciden'); 
 		            setTimeout("cerrarAlerta()",3000);
 	            }else
 	            {
@@ -144,7 +146,7 @@
 	        error: function (jqXHR, textStatus, errorThrown)
 	        {
 	            $("#result").addClass("alert alert-danger");
-	            $('#result').text('El usuario no es correcto o las contrseñas no coinciden'); 
+	            $('#result').text('El nombre de usuario no existe'); 
 	            setTimeout("cerrarAlerta()",3000);
 	 
 	        }

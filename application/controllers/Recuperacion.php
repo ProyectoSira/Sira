@@ -45,9 +45,10 @@ class Recuperacion extends CI_Controller
 	 
 			//cargamos la configuración para enviar con gmail
 			$this->load->library("email", $configGmail);
-	 
+	 		$this->email->set_newline("\r\n");
 			$this->email->from('incsira@gmail.com');
-			$this->email->to($email);
+			$this->email->to($email
+				);
 			$this->email->subject('Recuperacion de contraseña SIRA');
 			$mensaje = '<html>
 	                         <head>
@@ -64,9 +65,9 @@ class Recuperacion extends CI_Controller
 	                         </body>
 	                        </html>';
 			$this->email->message($mensaje);
-			$this->email->set_newline("\r\n");
-			$this->email->send();
-			echo json_encode(array("status" => TRUE));
+			if ($this->email->send()) {
+				echo json_encode(array("status" => TRUE));
+			}
 		}
 	}
  

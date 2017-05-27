@@ -122,6 +122,7 @@
 	                $("#result").addClass("alert alert-success");
 		            $('#result').text('Se ha enviado un correo electronico con el link para crear tu nueva contraseña. En instantes esta pagina se redireccionara al Login'); 
 		            setTimeout("cerrarAlerta2()",8000);
+		            
 
 	            }
 	            else

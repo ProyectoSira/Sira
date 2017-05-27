@@ -25,13 +25,24 @@ class NuevaClave extends CI_Controller
 		$usu = $this->input->post('nomUsu');
 		$pass = $this->input->post('pass1');
 		$pass2 = $this->input->post('pass2');
-		if ($pass == $pass2) {
-			$data = array(
-				'PASS_USU' => $pass,
-			);
-			$this->login->update(array('NOM_USU' => $usu), $data);
-			echo json_encode(array("status" => TRUE));
-		}
+        $val = false;
+        $result = $this->login->validarUsuario();
+        foreach ($result as $value) {
+                if ($value->NOM_USU == $usu) {
+                    $val = true;
+                }
+            }
+            if ($val) {
+                if ($pass == $pass2) {
+                    $data = array(
+                        'PASS_USU' => $pass,
+                    );
+                    $this->login->update(array('NOM_USU' => $usu), $data);
+                    echo json_encode(array("status" => TRUE));
+                }else{
+                    echo json_encode(array("clave" => TRUE));
+                }
+            }
 	}
  
 	private function _validate()
