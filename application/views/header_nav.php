@@ -9,6 +9,7 @@ $menu = ($this->session->userdata['logged_in']['menu']);
 ?>
 <head>
 <title>Sira</title>
+<link rel="shortcut icon" type="image/x-icon" href="<?php echo base_url('assets/img/poa.png')?>">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -126,7 +127,7 @@ header("location: login");
                             <div class="clearfix"></div>    
                         </ul>
                     </div>
-                    <div class="profile_details">       
+                    <div class="profile_details" style="position: relative;">       
                         <ul>
                             <li class="dropdown profile_details_drop">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -137,11 +138,10 @@ header("location: login");
                                          <i class="lnr lnr-chevron-down"></i>
                                          <i class="lnr lnr-chevron-up"></i>
                                         <div class="clearfix"></div>    
-                                    </div>  
+                                    </div>   
                                 </a>
                                 <ul class="dropdown-menu drp-mnu">
-                                    <li> <a href="#"><i class="fa fa-cog"></i> Configuracion</a> </li> 
-                                    <li> <a href="#"><i class="fa fa-user"></i>Perfil</a> </li> 
+                                    <li> <a href="<?php echo base_url('index.php/Configuracion'); ?>"><i class="fa fa-cog"></i> Configuracion</a> </li> 
                                     <li> <a href="<?php echo base_url('index.php/login/logout'); ?>"><i class="fa fa-sign-out"></i> Cerrar Sesion</a> </li>
                                 </ul>
                             </li>

@@ -8,7 +8,7 @@
         <h3>Datos del Calendario</h3>
         <div id="result"></div>
         <br />
-        <button class="btn btn-success" onclick="add_person()"><i class="glyphicon glyphicon-plus"></i> Nuevo</button>
+        <button class="btn btn-success" id="btnNuevo" onclick="add_person()"><i class="glyphicon glyphicon-plus"></i> Nuevo</button>
         <a href="<?php echo base_url('index.php/periodo');?>" class="btn btn-default"><i class="glyphicon glyphicon-search"></i> Periodos</a>
         <br />
         <br />
@@ -59,8 +59,12 @@
 
 var save_method; //for save method string
 var table;
+var rol = "<?php echo ($this->session->userdata['logged_in']['rol'])?>"
 
 $(document).ready(function() {
+    if (rol == 'Coordinador') {
+        $('#btnNuevo').attr('disabled',true);
+    }
 
     //datatables
     table = $('#table').DataTable({ 
@@ -151,7 +155,6 @@ function add_person()
     $('.help-block').empty(); // clear error string
     $('#modal_form').modal('show'); // show bootstrap modal
     $('.modal-title').text('Nuevo Calendario'); // Set Title to Bootstrap modal title
-    document.getElementById('COD_CAL').readOnly = false;
     $('select[name="COD_PER"]').val();
     $('select[name="COD_PER"]').change();
 }
@@ -162,7 +165,6 @@ function edit_person(id)
     $('#form')[0].reset(); // reset form on modals
     $('.form-group').removeClass('has-error'); // clear error class
     $('.help-block').empty(); // clear error string
-    document.getElementById('COD_CAL').readOnly = true;
     //Ajax Load data from ajax
     $.ajax({
         url : "<?php echo site_url('calendario/ajax_edit/')?>/" + id,

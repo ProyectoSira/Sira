@@ -29,12 +29,14 @@ class Login extends CI_Controller {
 		$passw = "";
 		$nomRol = "";
 		$idRol = "";
+		$doc = "";
 		if ($entrar != false) {
 			foreach ($entrar as $fila) {
 				$passw = $fila->PASS_USU;
 				$nomRol = $fila->NOM_ROL_USU;
 				$idRol = $fila->ROL_USU;
 				$usu = $fila->NOM_USU;
+				$doc = $fila->DOC_EMP;
 			}
 			if ($pass == $passw) {
 				$pintar = $this->login->get_menu($idRol);
@@ -49,6 +51,7 @@ class Login extends CI_Controller {
 				    'username' => $usu,
 				    'rol' => $nomRol,
 				    'menu' => $menu,
+				    'documento' => $doc,
 				);
 				$this->session->set_userdata('logged_in', $sess_array);
 				echo json_encode(array("status" => TRUE));

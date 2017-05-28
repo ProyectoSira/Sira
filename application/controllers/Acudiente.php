@@ -42,21 +42,39 @@ class Acudiente extends CI_Controller {
 		$data = array();
 		$no = $_POST['start'];
 		foreach ($list as $acudiente) {
-			$no++;
-			$row = array();
-			$row[] = '<a class="btn btn-sm btn-default" href="javascript:void(0)" title="Hapus" onclick="view_person('."'".$acudiente->DOC_ACU."'".')"><i class="glyphicon glyphicon-eye-open"></i></a>'." ".$acudiente->DOC_ACU;
-			$row[] = $acudiente->SIGLA_DOC;
-			$row[] = $acudiente->NOM1_ACU." ".$acudiente->NOM2_ACU;
-			$row[] = $acudiente->APE1_ACU." ".$acudiente->APE2_ACU;
-			$row[] = $acudiente->TEL1_ACU;
-			$row[] = $acudiente->TEL2_ACU;
-			$row[] = $acudiente->EMAIL_ACU;
+			if (($this->session->userdata['logged_in']['rol']) == 'Coordinador') {
+				$no++;
+				$row = array();
+				$row[] = '<a class="btn btn-sm btn-default" href="javascript:void(0)" title="Hapus" onclick="view_person('."'".$acudiente->DOC_ACU."'".')"><i class="glyphicon glyphicon-eye-open"></i></a>'." ".$acudiente->DOC_ACU;
+				$row[] = $acudiente->SIGLA_DOC;
+				$row[] = $acudiente->NOM1_ACU." ".$acudiente->NOM2_ACU;
+				$row[] = $acudiente->APE1_ACU." ".$acudiente->APE2_ACU;
+				$row[] = $acudiente->TEL1_ACU;
+				$row[] = $acudiente->TEL2_ACU;
+				$row[] = $acudiente->EMAIL_ACU;
 
-			//add html for action
-			$row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_person('."'".$acudiente->DOC_ACU."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
-				  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_person('."'".$acudiente->DOC_ACU."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
-		
-			$data[] = $row;
+				//add html for action
+				$row[] = '<a class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
+					  <a class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-trash"></i></a>';
+			
+				$data[] = $row;
+			}else{
+				$no++;
+				$row = array();
+				$row[] = '<a class="btn btn-sm btn-default" href="javascript:void(0)" title="Hapus" onclick="view_person('."'".$acudiente->DOC_ACU."'".')"><i class="glyphicon glyphicon-eye-open"></i></a>'." ".$acudiente->DOC_ACU;
+				$row[] = $acudiente->SIGLA_DOC;
+				$row[] = $acudiente->NOM1_ACU." ".$acudiente->NOM2_ACU;
+				$row[] = $acudiente->APE1_ACU." ".$acudiente->APE2_ACU;
+				$row[] = $acudiente->TEL1_ACU;
+				$row[] = $acudiente->TEL2_ACU;
+				$row[] = $acudiente->EMAIL_ACU;
+
+				//add html for action
+				$row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_person('."'".$acudiente->DOC_ACU."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
+					  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_person('."'".$acudiente->DOC_ACU."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
+			
+				$data[] = $row;
+			}
 		}
 
 		$output = array(

@@ -31,18 +31,33 @@ public function ajax_list()
 		$data = array();
 		$no = $_POST['start'];
 		foreach ($list as $area) {
-			$no++;
-			$row = array();
-			$row[] = $no;
-			$row[] = $area->NOM_AREA;
-			$row[] = $area->NOM1_EMP." ".$area->NOM2_EMP." ". $area->APE1_EMP." ". $area->APE2_EMP;
+			if (($this->session->userdata['logged_in']['rol']) == 'Coordinador') {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $area->NOM_AREA;
+				$row[] = $area->NOM1_EMP." ".$area->NOM2_EMP." ". $area->APE1_EMP." ". $area->APE2_EMP;
 
 
-			//add html for action
-			$row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_person('."'".$area->COD_AREA."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
-				  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_person('."'".$area->COD_AREA."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
-		
-			$data[] = $row;
+				//add html for action
+				$row[] = '<a class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
+					  <a class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-trash"></i></a>';
+			
+				$data[] = $row;
+			}else{
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $area->NOM_AREA;
+				$row[] = $area->NOM1_EMP." ".$area->NOM2_EMP." ". $area->APE1_EMP." ". $area->APE2_EMP;
+
+
+				//add html for action
+				$row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_person('."'".$area->COD_AREA."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
+					  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_person('."'".$area->COD_AREA."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
+			
+				$data[] = $row;
+			}
 		}
 
 		$output = array(

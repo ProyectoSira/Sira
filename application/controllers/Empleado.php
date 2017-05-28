@@ -32,24 +32,45 @@ public function ajax_list()
 		$data = array();
 		$no = $_POST['start'];
 		foreach ($list as $empleado) {
-			$no++;
-			$row = array();
-			$row[] = '<a class="btn btn-sm btn-default" href="javascript:void(0)" title="Hapus" onclick="view_person('."'".$empleado->DOC_EMP."'".')"><i class="glyphicon glyphicon-eye-open"></i></a>'." ".$empleado->DOC_EMP;
-			$row[] = $empleado->SIGLA_DOC;
-			$row[] = $empleado->NOM_CARGO_EMP;
-			$row[] = $empleado->NOM1_EMP." ".$empleado->NOM2_EMP;
-			$row[] = $empleado->APE1_EMP." ".$empleado->APE2_EMP;
-			$row[] = $empleado->EMAIL_EMP;
-			$row[] = $empleado->TEL1_EMP;
-			$row[] = $empleado->TEL2_EMP;
+			if (($this->session->userdata['logged_in']['rol']) == 'Coordinador') {
+				$no++;
+				$row = array();
+				$row[] = '<a class="btn btn-sm btn-default" href="javascript:void(0)" title="Hapus" onclick="view_person('."'".$empleado->DOC_EMP."'".')"><i class="glyphicon glyphicon-eye-open"></i></a>'." ".$empleado->DOC_EMP;
+				$row[] = $empleado->SIGLA_DOC;
+				$row[] = $empleado->NOM_CARGO_EMP;
+				$row[] = $empleado->NOM1_EMP." ".$empleado->NOM2_EMP;
+				$row[] = $empleado->APE1_EMP." ".$empleado->APE2_EMP;
+				$row[] = $empleado->EMAIL_EMP;
+				$row[] = $empleado->TEL1_EMP;
+				$row[] = $empleado->TEL2_EMP;
 
 
 
-			//add html for action
-			$row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_person('."'".$empleado->DOC_EMP."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
-				  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_person('."'".$empleado->DOC_EMP."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
-		
-			$data[] = $row;
+				//add html for action
+				$row[] = '<a class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
+					  <a class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-trash"></i></a>';
+			
+				$data[] = $row;
+			}else{
+				$no++;
+				$row = array();
+				$row[] = '<a class="btn btn-sm btn-default" href="javascript:void(0)" title="Hapus" onclick="view_person('."'".$empleado->DOC_EMP."'".')"><i class="glyphicon glyphicon-eye-open"></i></a>'." ".$empleado->DOC_EMP;
+				$row[] = $empleado->SIGLA_DOC;
+				$row[] = $empleado->NOM_CARGO_EMP;
+				$row[] = $empleado->NOM1_EMP." ".$empleado->NOM2_EMP;
+				$row[] = $empleado->APE1_EMP." ".$empleado->APE2_EMP;
+				$row[] = $empleado->EMAIL_EMP;
+				$row[] = $empleado->TEL1_EMP;
+				$row[] = $empleado->TEL2_EMP;
+
+
+
+				//add html for action
+				$row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_person('."'".$empleado->DOC_EMP."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
+					  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_person('."'".$empleado->DOC_EMP."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
+			
+				$data[] = $row;
+			}
 		}
 
 		$output = array(

@@ -157,7 +157,6 @@ function add_person()
     $('.help-block').empty(); // clear error string
     $('#modal_form').modal('show'); // show bootstrap modal
     $('.modal-title').text('Nueva Sancion'); // Set Title to Bootstrap modal title
-    document.getElementById('COD_SANC').readOnly = false;
     $('select[name="COD_TIP_SANC"]').val();
     $('select[name="COD_TIP_SANC"]').change();
     $('select[name="DOC_EST"]').val();
@@ -174,7 +173,6 @@ function edit_person(id)
     $('#form')[0].reset(); // reset form on modals
     $('.form-group').removeClass('has-error'); // clear error class
     $('.help-block').empty(); // clear error string
-    document.getElementById('COD_SANC').readOnly = true;
     //Ajax Load data from ajax
     $.ajax({
         url : "<?php echo site_url('sancion/ajax_edit/')?>/" + id,

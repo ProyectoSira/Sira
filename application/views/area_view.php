@@ -8,7 +8,7 @@
         <h3>Datos de las Areas</h3>
         <div id="result"></div>
         <br />
-        <button class="btn btn-success" onclick="add_person()"><i class="glyphicon glyphicon-plus"></i> Nuevo</button>
+        <button class="btn btn-success" id="btnNuevo" onclick="add_person()"><i class="glyphicon glyphicon-plus"></i> Nuevo</button>
         <a href="<?php echo base_url('index.php/asignatura');?>" class="btn btn-default"><i class="glyphicon glyphicon-search"></i> Asignatura</a>
         <br />
         <br />
@@ -59,8 +59,12 @@
 
 var save_method; //for save method string
 var table;
+var rol = "<?php echo ($this->session->userdata['logged_in']['rol'])?>"
 
 $(document).ready(function() {
+    if (rol == 'Coordinador') {
+        $('#btnNuevo').attr('disabled',true);
+    }
 
     //datatables
     table = $('#table').DataTable({ 
@@ -152,7 +156,6 @@ function add_person()
     $('.help-block').empty(); // clear error string
     $('#modal_form').modal('show'); // show bootstrap modal
     $('.modal-title').text('Nueva Area'); // Set Title to Bootstrap modal title
-    document.getElementById('COD_AREA').readOnly = false;
     $('select[name="DOC_EMP"]').val();
     $('select[name="DOC_EMP"]').change();
 }
@@ -163,7 +166,6 @@ function edit_person(id)
     $('#form')[0].reset(); // reset form on modals
     $('.form-group').removeClass('has-error'); // clear error class
     $('.help-block').empty(); // clear error string
-    document.getElementById('COD_AREA').readOnly = true;
     //Ajax Load data from ajax
     $.ajax({
         url : "<?php echo site_url('area/ajax_edit/')?>/" + id,
@@ -234,7 +236,7 @@ function save()
                     $('#result').text('Registro Exitoso'); 
                 }else{
                     $("#result").addClass("alert alert-info");
-                    $('#result').text('Registro Modificado Exitosamente'); 
+                    $('#result').text('Registro Modificado Exitosamente');
                 }
                 setTimeout("cerrarAlerta()",2000);
             }

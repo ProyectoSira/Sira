@@ -161,7 +161,6 @@ function add_person()
     $('.help-block').empty(); // clear error string
     $('#modal_form').modal('show'); // show bootstrap modal
     $('.modal-title').text('Nueva Programacion'); // Set Title to Bootstrap modal title
-    document.getElementById('COD_PROGRA').readOnly = false;
     $('select[name="DIA_SEM"]').val();
     $('select[name="DIA_SEM"]').change();
     $('select[name="COD_CAL"]').val();
@@ -182,7 +181,6 @@ function edit_person(id)
     $('#form')[0].reset(); // reset form on modals
     $('.form-group').removeClass('has-error'); // clear error class
     $('.help-block').empty(); // clear error string
-    document.getElementById('COD_PROGRA').readOnly = true;
     //Ajax Load data from ajax
     $.ajax({
         url : "<?php echo site_url('programacion/ajax_edit/')?>/" + id,

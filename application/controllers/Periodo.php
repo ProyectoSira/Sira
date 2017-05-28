@@ -29,20 +29,37 @@ class Periodo extends CI_Controller {
 		$data = array();
 		$no = $_POST['start'];
 		foreach ($list as $periodo) {
-			$no++;
-			$row = array();
-			$row[] = $no;
-			$row[] = $periodo->NUM_PER;
-			$row[] = $periodo->NOM_PER;
-			$row[] = $periodo->FECH_INI_PER;
-			$row[] = $periodo->FECH_FIN_PER;
+			if (($this->session->userdata['logged_in']['rol']) == 'Coordinador') {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $periodo->NUM_PER;
+				$row[] = $periodo->NOM_PER;
+				$row[] = $periodo->FECH_INI_PER;
+				$row[] = $periodo->FECH_FIN_PER;
 
 
-			//add html for action
-			$row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_person('."'".$periodo->COD_PER."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
-				  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_person('."'".$periodo->COD_PER."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
-		
-			$data[] = $row;
+				//add html for action
+				$row[] = '<a class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
+					  <a class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-trash"></i></a>';
+			
+				$data[] = $row;
+			}else{
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $periodo->NUM_PER;
+				$row[] = $periodo->NOM_PER;
+				$row[] = $periodo->FECH_INI_PER;
+				$row[] = $periodo->FECH_FIN_PER;
+
+
+				//add html for action
+				$row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_person('."'".$periodo->COD_PER."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
+					  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_person('."'".$periodo->COD_PER."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
+			
+				$data[] = $row;
+			}
 		}
 
 		$output = array(

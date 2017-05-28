@@ -12,7 +12,7 @@ class Login_model extends CI_Model {
 
 	function get_login($usu)
 	{
-		$this->db->select('ID_USU,NOM_USU, PASS_USU, ROL_USU, NOM_ROL_USU');
+		$this->db->select('ID_USU,NOM_USU, PASS_USU, ROL_USU, NOM_ROL_USU, DOC_EMP');
 		$this->db->from('tbl_usuario');
 		$this->db->join('tbl_rol_usuario', 'tbl_rol_usuario.COD_ROL_USU = tbl_usuario.ROL_USU');
 		$this->db->Where('NOM_USU',$usu);

@@ -8,7 +8,7 @@
         <h3>Datos de Grados</h3>
         <div id="result"></div>
         <br />
-        <button class="btn btn-success" onclick="add_person()"><i class="glyphicon glyphicon-plus"></i> Nuevo</button>
+        <button class="btn btn-success" id="btnNuevo" onclick="add_person()"><i class="glyphicon glyphicon-plus"></i> Nuevo</button>
         <a href="<?php echo base_url('index.php/grupo');?>" class="btn btn-default"><i class="glyphicon glyphicon-search"></i> Grupos</a>
         <br />
         <br />
@@ -55,8 +55,12 @@
 
 var save_method; //for save method string
 var table;
+var rol = "<?php echo ($this->session->userdata['logged_in']['rol'])?>"
 
 $(document).ready(function() {
+    if (rol == 'Coordinador') {
+        $('#btnNuevo').attr('disabled',true);
+    }
 
     //datatables
     table = $('#table').DataTable({ 
@@ -147,7 +151,6 @@ function add_person()
     $('.help-block').empty(); // clear error string
     $('#modal_form').modal('show'); // show bootstrap modal
     $('.modal-title').text('Nueva Grado'); // Set Title to Bootstrap modal title
-    document.getElementById('COD_GRADO').readOnly = false;
 }
 
 function edit_person(id)
@@ -156,7 +159,6 @@ function edit_person(id)
     $('#form')[0].reset(); // reset form on modals
     $('.form-group').removeClass('has-error'); // clear error class
     $('.help-block').empty(); // clear error string
-    document.getElementById('COD_GRADO').readOnly = true;
     //Ajax Load data from ajax
     $.ajax({
         url : "<?php echo site_url('grado/ajax_edit/')?>/" + id,

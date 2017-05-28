@@ -32,18 +32,33 @@ public function ajax_list()
 		$data = array();
 		$no = $_POST['start'];
 		foreach ($list as $grupo) {
-			$no++;
-			$row = array();
-			$row[] = $grupo->NUM_GRUPO;
-			$row[] = $grupo->NOM_GRADO;
-			$row[] = $grupo->NOM1_EMP." ". $grupo->NOM2_EMP." ". $grupo->APE1_EMP ." ". $grupo->APE2_EMP;
-			$row[] = $grupo->TBL_JORNADA_COD_JOR;
+			if (($this->session->userdata['logged_in']['rol']) == 'Coordinador') {
+				$no++;
+				$row = array();
+				$row[] = $grupo->NUM_GRUPO;
+				$row[] = $grupo->NOM_GRADO;
+				$row[] = $grupo->NOM1_EMP." ". $grupo->NOM2_EMP." ". $grupo->APE1_EMP ." ". $grupo->APE2_EMP;
+				$row[] = $grupo->TBL_JORNADA_COD_JOR;
 
-			//add html for action
-			$row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_person('."'".$grupo->COD_GRUPO."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
-				  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_person('."'".$grupo->COD_GRUPO."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
-		
-			$data[] = $row;
+				//add html for action
+				$row[] = '<a class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
+					  <a class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-trash"></i></a>';
+			
+				$data[] = $row;
+			}else{
+				$no++;
+				$row = array();
+				$row[] = $grupo->NUM_GRUPO;
+				$row[] = $grupo->NOM_GRADO;
+				$row[] = $grupo->NOM1_EMP." ". $grupo->NOM2_EMP." ". $grupo->APE1_EMP ." ". $grupo->APE2_EMP;
+				$row[] = $grupo->TBL_JORNADA_COD_JOR;
+
+				//add html for action
+				$row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_person('."'".$grupo->COD_GRUPO."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
+					  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_person('."'".$grupo->COD_GRUPO."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
+			
+				$data[] = $row;
+			}
 		}
 
 		$output = array(

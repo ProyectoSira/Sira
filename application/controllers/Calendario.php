@@ -30,18 +30,33 @@ public function ajax_list()
 		$data = array();
 		$no = $_POST['start'];
 		foreach ($list as $calendario) {
-			$no++;
-			$row = array();
-			$row[] = $no;
-			$row[] = $calendario->AÑO_CAL;
-			$row[] = $calendario->NOM_PER;
+			if (($this->session->userdata['logged_in']['rol']) == 'Coordinador') {
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $calendario->AÑO_CAL;
+				$row[] = $calendario->NOM_PER;
 
 
-			//add html for action
-			$row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_person('."'".$calendario->COD_CAL."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
-				  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_person('."'".$calendario->COD_CAL."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
-		
-			$data[] = $row;
+				//add html for action
+				$row[] = '<a class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
+					  <a class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-trash"></i></a>';
+			
+				$data[] = $row;
+			}else{
+				$no++;
+				$row = array();
+				$row[] = $no;
+				$row[] = $calendario->AÑO_CAL;
+				$row[] = $calendario->NOM_PER;
+
+
+				//add html for action
+				$row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_person('."'".$calendario->COD_CAL."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
+					  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_person('."'".$calendario->COD_CAL."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
+			
+				$data[] = $row;
+			}
 		}
 
 		$output = array(

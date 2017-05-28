@@ -33,21 +33,39 @@ class Person extends CI_Controller {
 		$data = array();
 		$no = $_POST['start'];
 		foreach ($list as $person) {
-			$no++;
-			$row = array();
-			$row[] = '<a class="btn btn-sm btn-default" href="javascript:void(0)" title="Hapus" onclick="view_person('."'".$person->DOC_EST."'".')"><i class="glyphicon glyphicon-eye-open"></i></a>'." ".$person->DOC_EST;
-			$row[] = $person->SIGLA_DOC;
-			$row[] = $person->NOM1_EST." ".$person->NOM2_EST;
-			$row[] = $person->APE1_EST." ".$person->APE2_EST;
-			$row[] = $person->TEL1_EST;
-			$row[] = $person->GRADO_EST;
-			$row[] = $person->EMAIL_EST;
+			if (($this->session->userdata['logged_in']['rol']) == 'Coordinador') {
+				$no++;
+				$row = array();
+				$row[] = '<a class="btn btn-sm btn-default" href="javascript:void(0)" title="Hapus" onclick="view_person('."'".$person->DOC_EST."'".')"><i class="glyphicon glyphicon-eye-open"></i></a>'." ".$person->DOC_EST;
+				$row[] = $person->SIGLA_DOC;
+				$row[] = $person->NOM1_EST." ".$person->NOM2_EST;
+				$row[] = $person->APE1_EST." ".$person->APE2_EST;
+				$row[] = $person->TEL1_EST;
+				$row[] = $person->GRADO_EST;
+				$row[] = $person->EMAIL_EST;
 
-			//add html for action
-			$row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_person('."'".$person->DOC_EST."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
-				  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_person('."'".$person->DOC_EST."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
-		
-			$data[] = $row;
+				//add html for action
+				$row[] = '<a class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
+					  <a class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-trash"></i></a>';
+			
+				$data[] = $row;
+			}else{
+				$no++;
+				$row = array();
+				$row[] = '<a class="btn btn-sm btn-default" href="javascript:void(0)" title="Hapus" onclick="view_person('."'".$person->DOC_EST."'".')"><i class="glyphicon glyphicon-eye-open"></i></a>'." ".$person->DOC_EST;
+				$row[] = $person->SIGLA_DOC;
+				$row[] = $person->NOM1_EST." ".$person->NOM2_EST;
+				$row[] = $person->APE1_EST." ".$person->APE2_EST;
+				$row[] = $person->TEL1_EST;
+				$row[] = $person->GRADO_EST;
+				$row[] = $person->EMAIL_EST;
+
+				//add html for action
+				$row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_person('."'".$person->DOC_EST."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
+					  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_person('."'".$person->DOC_EST."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
+			
+				$data[] = $row;
+			}
 		}
 
 		$output = array(

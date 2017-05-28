@@ -8,7 +8,7 @@
         <h3>Datos Personales</h3>
         <div id="result"></div>
         <br />
-        <button class="btn btn-success" onclick="add_person()"><i class="glyphicon glyphicon-plus"></i> Nuevo</button>
+        <button class="btn btn-success" id="btnNuevo" onclick="add_person()"><i class="glyphicon glyphicon-plus"></i> Nuevo</button>
         <br />
         <br />
         <div class="table-responsive">
@@ -66,8 +66,12 @@
 
 var save_method; //for save method string
 var table;
+var rol = "<?php echo ($this->session->userdata['logged_in']['rol'])?>"
 
 $(document).ready(function() {
+    if (rol == 'Coordinador') {
+        $('#btnNuevo').attr('disabled',true);
+    }
 
     //datatables
     table = $('#table').DataTable({ 
