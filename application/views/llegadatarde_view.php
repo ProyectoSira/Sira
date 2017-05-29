@@ -12,17 +12,100 @@
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                <input name="Huella" placeholder="HUELLA ESTUDIANTE" class="form-control" type="text" id="Huella">
+                <input name="Huella" placeholder="HUELLA ESTUDIANTE" class="form-control" type="text" id="Huella" autofocus>
                 </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    <button class="btn btn-info form-control" id="btnBuscar"><i class="glyphicon glyphicon-search"></i> Consultar
-                    </button>
-                </div> 
-            </div>               
+            </div>              
         </div>
         <br>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading"><h2>Informacion Del Estudiante <span class="glyphicon glyphicon-th-list"></span></h2></div>
+                    <div class="panel-body">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label style="font-size: 16px;"><strong>Tipo de Documento:</strong></label>
+                                <label name="ID_TIP_DOC_EST_L"></label>
+                            </div>
+                            <div class="form-group">
+                                <label style="font-size: 16px;"><strong>Documento:</strong></label>
+                                <label name="DOC_EST_L"></label>
+                            </div>
+                            <div class="form-group">
+                                <label style="font-size: 16px;"><strong>Nombres:</strong></label>
+                                <label name="NOM1_EST_L"></label>
+                            </div>
+                            <div class="form-group">
+                                <label style="font-size: 16px;"><strong>Apellidos:</strong></label>
+                                <label name="APE1_EST_L"></label>
+                            </div>
+                            <div class="form-group">
+                                <label style="font-size: 16px;"><strong>Grado:</strong></label>
+                                <label name="GRADO_L"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label style="font-size: 16px;"><strong>Documento Acudiente:</strong></label>
+                                <label name="DOC_ACU_L"></label>
+                            </div>
+                            <div class="form-group">
+                                <label style="font-size: 16px;"><strong>Nombre Acudiente:</strong></label>
+                                <label name="NOM1_ACU_L"></label>
+                            </div>
+                            <div class="form-group">
+                                <label style="font-size: 16px;"><strong>Apellido Acudiente:</strong></label>
+                                <label name="APE1_ACU_L"></label>
+                            </div>
+                            <div class="form-group">
+                                <label style="font-size: 16px;"><strong>Contacto:</strong></label>
+                                <label name="TEL_ACU_L"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading"><h2>Datos para el registro de la Llegada Tarde <span class="glyphicon glyphicon-hourglass"></span></h2></div>
+                    <div class="panel-body">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label style="font-size: 16px;"><strong>Grupo:</strong></label>
+                                <label name="GRUPO_L"></label>
+                            </div>
+                            <div class="form-group">
+                                <label style="font-size: 16px;"><strong>Justificacion:</strong></label>
+                                <input id="05" type="checkbox" name="JUST">
+                            </div>
+                            <div class="form-group">
+                                <label style="font-size: 16px;"><strong>Codigo del Grupo:</strong></label>
+                                <label name="COD_GRUPO_L" id="02"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label style="font-size: 16px;"><strong>Fecha Ingreso:</strong></label>
+                                <label name="FECHA_L" id="03"><?php echo date('Y-m-d'); ?></label>
+                            </div>
+                            <div class="form-group">
+                                <label style="font-size: 16px;"><strong>Hora:</strong></label>
+                                <label name="HORA_L" id="04"></label>
+                            </div>
+                            <div class="form-group">
+                                <label style="font-size: 16px;"><strong>Huella:</strong></label>
+                                <label name="HUELLA_L" id="01"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <button type="button" id="btnSave" onclick="registrar()" class="form-control btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Registrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -36,7 +119,21 @@
 
 <script type="text/javascript">
 
-$('#btnBuscar').click(function () {
+    function startTime(){
+        today=new Date();
+        h=today.getHours();
+        m=today.getMinutes();
+        s=today.getSeconds();
+        m=checkTime(m);
+        s=checkTime(s);
+        document.getElementById('04').innerHTML=h+":"+m+":"+s;
+        t=setTimeout('startTime()',500);}
+        function checkTime(i)
+        {if (i<10) {i="0" + i;}return i;}
+        window.onload=function(){startTime();
+    }
+
+$( "#Huella" ).change(function() {
     var touch = $('#Huella').val();
     $("#05").removeAttr("checked");
     $.ajax({
@@ -57,9 +154,7 @@ $('#btnBuscar').click(function () {
             $('[name="GRUPO_L"]').text(data.NUM_GRUPO);
             $('[name="HUELLA_L"]').text(data.HUELLA_EST);
             $('[name="COD_GRUPO_L"]').text(data.COD_GRUPO);
-            $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
-            $('.modal-title').text('Informacion del Estudiante'); // Set title to Bootstrap modal title
-
+            $('#Huella').val('');
         },
         error: function (jqXHR, textStatus, errorThrown)
         {
@@ -72,6 +167,7 @@ function cerrarAlerta(){
     $("#result").removeClass("alert alert-success");
     $("#result").removeClass("alert alert-danger");
     $('#result').text('');
+    location.reload();
 }
 
 
@@ -93,10 +189,9 @@ function registrar() {
                 dataType: "JSON",
                 success: function(data){
                     if (data.status) {
-                        $('#modal_form').modal('hide');
                         $("#result").addClass("alert alert-success");
                         $('#result').text('Registro Exitoso'); 
-                        setTimeout("cerrarAlerta()",2000);
+                        setTimeout("cerrarAlerta()",1000);
                     }else{
                         $("#result").addClass("alert alert-danger");
                         $('#result').text('Error Al registrar'); 
@@ -104,7 +199,7 @@ function registrar() {
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown){
-                    alert('Error al insetar la llegada tarde');
+                    alert('Error al registrar la llegada tarde');
                 }
             });
 }
@@ -112,102 +207,6 @@ function registrar() {
 </script>
 
 <!-- Bootstrap modal -->
-<div class="modal fade" id="modal_form" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h3 class="modal-title"></h3>
-            </div>
-            <div class="modal-body form">
-                <form action="#" id="form" class="form-horizontal">
-                    <div class="form-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label style="text-align: left; font-weight: bold;" class="control-label col-md-4">Documento:</label>
-                                    <label style="text-align: left;" class="control-label col-md-1 text-muted" name="DOC_EST_L"></label>
-                                </div>
-                                <div class="form-group">
-                                    <label style="text-align: left; font-weight: bold;" class="control-label col-md-4">Tipo Documento:</label>
-                                    <label style="text-align: left;" class="control-label col-md-8 text-muted" name="ID_TIP_DOC_EST_L"></label>
-                                </div>
-                                <div class="form-group">
-                                    <label style="text-align: left; font-weight: bold;" class="control-label col-md-4">Nombre:</label>
-                                    <label style="text-align: left;" class="control-label col-md-8 text-muted" name="NOM1_EST_L"></label>
-                                </div>
-
-                                <div class="form-group">
-                                    <label style="text-align: left; font-weight: bold;" class="control-label col-md-4">Apellido:</label>
-                                    <label style="text-align: left;" class="control-label col-md-8 text-muted" name="APE1_EST_L"></label>
-                                </div>
-                                <div class="form-group">
-                                    <label style="text-align: left; font-weight: bold;" class="control-label col-md-4">Grado:</label>
-                                    <label style="text-align: left;" class="control-label col-md-8 text-muted" name="GRADO_L"></label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label style="text-align: left; font-weight: bold;" class="control-label col-md-4">Documento Acudiente:</label>
-                                        <label style="text-align: left;" class="control-label col-md-8 text-muted" name="DOC_ACU_L"></label>
-                                </div>
-                                <div class="form-group">
-                                    <label style="text-align: left; font-weight: bold;" class="control-label col-md-4">Nombre Acudiente:</label>
-                                    <label style="text-align: left;" class="control-label col-md-8 text-muted" name="NOM1_ACU_L"></label>
-                                </div>
-
-                                <div class="form-group">
-                                    <label style="text-align: left; font-weight: bold;" class="control-label col-md-4">Apellido Acudiente:</label>
-                                    <label style="text-align: left;" class="control-label col-md-8 text-muted" name="APE1_ACU_L"></label>
-                                </div>
-                                 <div class="form-group">
-                                    <label style="text-align: left; font-weight: bold;" class="control-label col-md-4">Contacto:</label>
-                                    <label style="text-align: left;" class="control-label col-md-8 text-muted" name="TEL_ACU_L"></label>
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label style="text-align: left; font-weight: bold;" class="control-label col-md-4">Grupo:</label>
-                                    <label style="text-align: left;" class="control-label col-md-1 text-muted" name="GRUPO_L"></label>
-                                </div>
-                                <div class="form-group">
-                                    <label style="text-align: left; font-weight: bold;" class="control-label col-md-4">Fecha Ingreso:</label>
-                                    <label id="03" style="text-align: left;" class="control-label col-md-8 text-muted" name="FECHA_L"><?php echo date('Y/m/d'); ?></label>
-                                </div>
-                                <div class="form-group">
-                                    <label style="text-align: left; font-weight: bold;" class="control-label col-md-4">Huella:</label>
-                                        <label style="text-align: left;" class="control-label col-md-8 text-muted" name="HUELLA_L" id="01"></label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label style="text-align: left; font-weight: bold;" class="control-label col-md-4">Hora:</label>
-                                        <label style="text-align: left;" class="control-label col-md-8 text-muted" name="HORA_L" id="04"><?php echo date('G:i:s'); ?></label>
-                                </div>
-                                <div class="form-group">
-                                    <label style="text-align: left; font-weight: bold;" class="control-label col-md-4">Justificacion:</label>
-                                    <input id="05" type="checkbox" class="col-md-3" name="JUST">
-                                </div>
-                                <div class="form-group">
-                                    <label style="text-align: left; font-weight: bold;" class="control-label col-md-4">Codigo Grupo:</label>
-                                        <label style="text-align: left;" class="control-label col-md-8 text-muted" name="COD_GRUPO_L" id="02"></label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="btnSave" onclick="registrar()" class="btn btn-primary">Guardar</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
 </section>
 
   
