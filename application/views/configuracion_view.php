@@ -145,6 +145,11 @@ $(document).ready(function() {
         $('#result2').text('');
     }
 
+    function cerrarAlerta3(){
+        $("#result3").removeClass("alert alert-danger");
+        $('#result3').text('');
+    }
+
     $('#btnEditNom').click(function () {
         $('#form')[0].reset(); // reset form on modals
         $('.form-group').removeClass('has-error'); // clear error class
@@ -172,7 +177,7 @@ $(document).ready(function() {
                         $('#modal_form').modal('hide');
                         $("#result").addClass("alert alert-success");
                         $('#result').text('Nombre de usuario modificado exitosamente'); 
-                        setTimeout("cerrarAlerta()",2000);
+                        setTimeout("cerrarAlerta()",1000);
                     }else if (data.error) {
                         $("#result2").addClass("alert alert-danger");
                         $('#result2').text('El documento es incorrecto'); 
@@ -202,16 +207,16 @@ $(document).ready(function() {
                     if (data.status) {
                         $('#modal_form2').modal('hide');
                         $("#result").addClass("alert alert-success");
-                        $('#result').text('La contraseña de ha modificado exitosamente'); 
+                        $('#result').text('La contraseña se ha modificado exitosamente'); 
                         setTimeout("cerrarAlerta()",3000);
                     }else if (data.error) {
-                        $("#result2").addClass("alert alert-danger");
-                        $('#result2').text('Las contraseñas no coinciden'); 
-                        setTimeout("cerrarAlerta2()",3000);
+                        $("#result3").addClass("alert alert-danger");
+                        $('#result3').text('Las contraseñas no coinciden'); 
+                        setTimeout("cerrarAlerta3()",3000);
                     }else if (!(data.error)) {
-                        $("#result2").addClass("alert alert-danger");
-                        $('#result2').text('El nombre de usuario es incorrecto'); 
-                        setTimeout("cerrarAlerta2()",3000);
+                        $("#result3").addClass("alert alert-danger");
+                        $('#result3').text('El nombre de usuario es incorrecto'); 
+                        setTimeout("cerrarAlerta3()",3000);
                     }else
                     {
                         for (var i = 0; i < data.inputerror.length; i++) 
@@ -273,7 +278,7 @@ $(document).ready(function() {
             <div class="modal-body form">
                 <form action="#" id="form2" class="form-horizontal">
                     <div class="form-body">
-                    <div id="result2"></div>
+                    <div id="result3"></div>
                         <div class="form-group">
                             <label>Nombre de Usuario <span style="color: red;">*</span></label>
                                 <input name="NOM_USU2" placeholder="NOMBRE DE USUARIO" class="form-control" type="text" id="DOC_EMP" >

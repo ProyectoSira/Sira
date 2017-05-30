@@ -11,7 +11,7 @@ class Usuario extends CI_Controller {
 
 	public function index()
 	{
-		$this->load->helper('url');
+		$this->load->helper('url'); 
 		$data['empleado'] = $this->usuario->get_empleado();
 		if(isset($this->session->userdata['logged_in'])){
 			if (($this->session->userdata['logged_in']['rol']) == 'Coordinador') {
