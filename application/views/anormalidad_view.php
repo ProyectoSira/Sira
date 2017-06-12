@@ -3,7 +3,7 @@
 
 <div class="container-fluid">
  
-        <h1 style="font-size:20pt">Registro de Anormalidadess</h1>
+        <h1 style="font-size:20pt">Registro de Anormalidades</h1>
 
         <h3>Datos de la Anormalidad</h3>
         <div id="result"></div>
@@ -18,10 +18,10 @@
                     <th>Tipo Anormalidad</th>
                     <th>Hora Inicio</th>
                     <th>Hora Fin</th>
-                    <th>Descripcion</th>
+                    <th>Descripción</th>
                     <th>Estado</th>
-                    <th>Dia</th>
-                    <th style="width:55px;">Accion</th>
+                    <th>Día</th>
+                    <th style="width:55px;">Acción</th>
                 </tr>
             </thead>
             <tbody>
@@ -32,10 +32,10 @@
                     <th>Tipo Anormalidad</th>
                     <th>Hora Inicio</th>
                     <th>Hora Fin</th>
-                    <th>Descripcion</th>
+                    <th>Descripción</th>
                     <th>Estado</th>
-                    <th>Dia</th>
-                    <th>Accion</th>
+                    <th>Día</th>
+                    <th>Acción</th>
                 </tr>
             </tfoot>
         </table>
@@ -147,6 +147,11 @@ function cerrarAlerta(){
     $('#result').text('');
 }
 
+function cerrarAlerta2(){
+    $("#alert").removeClass("alert alert-danger");
+    $('#alert').text('');
+}
+
 function add_person()
 {
     save_method = 'add';
@@ -159,6 +164,10 @@ function add_person()
     $('select[name="COD_TIP_ANORM"]').change();
     $('select[name="COD_PROGRA"]').val();
     $('select[name="COD_PROGRA"]').change();
+    $('select[name="HORA_INICIO"]').val();
+    $('select[name="HORA_INICIO"]').change();
+    $('select[name="HORA_FIN"]').val();
+    $('select[name="HORA_FIN"]').change();
 }
 
 function edit_person(id)
@@ -177,8 +186,10 @@ function edit_person(id)
             $('[name="COD_ANORM"]').val(data.COD_ANORM);
             $('select[name="COD_TIP_ANORM"]').val(data.COD_TIP_ANORM);
             $('select[name="COD_TIP_ANORM"]').change();
-            $('[name="HORA_INICIO"]').val(data.HORA_INICIO);
-            $('[name="HORA_FIN"]').val(data.HORA_FIN);
+            $('select[name="HORA_INICIO"]').val(data.HORA_INICIO);
+            $('select[name="HORA_INICIO"]').change();
+            $('select[name="HORA_FIN"]').val(data.HORA_FIN);
+            $('select[name="HORA_FIN"]').change();
             $('[name="DESCRIPCION"]').val(data.DESCRIPCION);
             $('[name="ESTADO"]').val(data.ESTADO);
             $('select[name="COD_PROGRA"]').val(data.COD_PROGRA);
@@ -236,12 +247,16 @@ function save()
                 }
                 setTimeout("cerrarAlerta()",2000);       
             }
+            else if (data.error) {
+                $("#alert").addClass("alert alert-danger");
+                $('#alert').text('La fecha de fin no puede ser menor o igual a la hora de inicio');
+                setTimeout("cerrarAlerta2()",3000);
+            }
             else
             {
-                for (var i = 0; i < data.inputerror.length; i++) 
-                {
-                    $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
-                }
+                $("#alert").addClass("alert alert-danger");
+                $('#alert').text('No dejes campos obligatorios en blanco');
+                setTimeout("cerrarAlerta2()",3000);
             }
             $('#btnSave').text('Guardar'); //change button text
             $('#btnSave').attr('disabled',false); //set button enable 
@@ -313,6 +328,7 @@ function validar(e) {
             <div class="modal-body form">
                 <form action="#" id="form" class="form-horizontal">
                     <div class="form-body">
+                    <div id="alert"></div>
                         <input type="hidden" value="" name="COD_ANORM"/>
                         <div class="form-group">
                             <label class="control-label col-md-3">Anormalidad <span style="color: red;">*</span></label>
@@ -332,52 +348,66 @@ function validar(e) {
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3">Hora Inicio <span style="color: red;">*</span></label>
-                            <div class="col-md-9">
-                                <input name="HORA_INICIO" placeholder="HORA INICIO" class="form-control" type="text" id="HORA_INI">
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
+                                    <label class="control-label col-md-3">Hora Inicio <span style="color: red;">*</span></label>
+                                    <div class="col-md-9">
+                                        <select name="HORA_INICIO" class="selectpicker form-control" data-live-search="true">
+                                            <option value="">--SELECCIONAR--</option>
+                                            <option value="0">6:30 am</option>
+                                            <option value="1">7:25 am</option>
+                                            <option value="2">8:20 am</option>
+                                            <option value="3">9:50 am</option>
+                                            <option value="4">10:45 am</option>
+                                            <option value="5">11:40 am</option>
+                                            <option value="6">12:00 pm</option>
+                                            <option value="7">12:55 pm</option>
+                                            <option value="8">1:50 pm</option>
+                                            <option value="9">3:15 pm</option>
+                                            <option value="10">4:10 pm</option>
+                                            <option value="11">5:05 pm</option>
+                                        </select>
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3">Hora Fin <span style="color: red;">*</span></label>
-                            <div class="col-md-9">
-                                <input name="HORA_FIN" placeholder="HORA FIN" class="form-control" type="text" id="HORA_FIN">
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
+                                    <label class="control-label col-md-3">Hora Fin <span style="color: red;">*</span></label>
+                                    <div class="col-md-9">
+                                        <select name="HORA_FIN" class="selectpicker form-control" data-live-search="true">
+                                            <option value="">--SELECCIONAR--</option>
+                                            <option value="0">6:30 am</option>
+                                            <option value="1">7:25 am</option>
+                                            <option value="2">8:20 am</option>
+                                            <option value="3">9:50 am</option>
+                                            <option value="4">10:45 am</option>
+                                            <option value="5">11:40 am</option>
+                                            <option value="6">12:00 pm</option>
+                                            <option value="7">12:55 pm</option>
+                                            <option value="8">1:50 pm</option>
+                                            <option value="9">3:15 pm</option>
+                                            <option value="10">4:10 pm</option>
+                                            <option value="11">5:05 pm</option>
+                                            <option value="12">6:00 pm</option>
+                                        </select>
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3">Descripcion <span style="color: red;">*</span></label>
+                            <label class="control-label col-md-3">Descripción <span style="color: red;">*</span></label>
                             <div class="col-md-9">
                                 <textarea name="DESCRIPCION" placeholder="DESCRIPCION" class="form-control"  style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" onkeypress="return validar(event)"></textarea>
                                 <span class="help-block"></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3">Estado <span style="color: red;">*</span></label>
-                            <div class="col-md-9">
-                                <select name="ESTADO" class="selectpicker form-control">
-                                    <option value="">--SELECCIONAR--</option>
-                                    <option value="0">ACTIVA</option>
-                                    <option value="1">INACTIVA</option>
-                                </select>
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Dia <span style="color: red;">*</span></label>
+                            <label class="control-label col-md-3">Día <span style="color: red;">*</span></label>
                             <div class="col-md-9">
                                 <select name="COD_PROGRA" class="selectpicker form-control">
                                     <option value="">--SELECCIONAR--</option>
-                                    <?php 
-                                      foreach ($programacion as $fila) 
-                                      {
-                                   ?>
-                                   <option value="<?= $fila->COD_PROGRA ?>"><?= $fila->DIA_SEM ?></option>
-                                   <?php 
-                                        }
-                                    ?>
+                                    <option value="LUNES">LUNES</option>
+                                    <option value="MARTES">MARTES</option>
+                                    <option value="MIERCOLES">MIERCOLES</option>
+                                    <option value="JUEVES">JUEVES</option>
+                                    <option value="VIERNES">VIERNES</option>
                                 </select>
-                                <span class="help-block"></span>
                             </div>
                         </div>
                     </div>

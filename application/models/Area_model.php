@@ -119,5 +119,16 @@ class Area_model extends CI_Model {
 		$this->db->delete($this->table);
 	}
 
+	public function val_area($nomArea){
+		$this->db->select('*');
+		$this->db->from('tbl_area');
+		$this->db->where('NOM_AREA',$nomArea);
+		$query = $this->db->get();
+		if ($query->num_rows()>0) {
+			return true;
+		}else{
+			return false;
+		}
+	}
 
 }

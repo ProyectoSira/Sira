@@ -19,7 +19,7 @@
                     <th style="width:100px;">N°</th>
                     <th style="width:100px;">Asignatura</th>
                     <th style="width:100px;">Area</th>
-                    <th style="width:55px;">Accion</th>
+                    <th style="width:55px;">Acción</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,7 +30,7 @@
                 <th>N°</th>
                 <th>Asignatura</th>
                 <th>Area</th>
-                <th>Accion</th>
+                <th>Acción</th>
             </tr>
             </tfoot>
         </table>
@@ -146,6 +146,11 @@ function cerrarAlerta(){
     $('#result').text('');
 }
 
+function cerrarAlerta2(){
+    $("#alert").removeClass("alert alert-danger");
+    $('#alert').text('');
+}
+
 function add_person()
 {
     save_method = 'add';
@@ -240,12 +245,16 @@ function save()
                 }
                 setTimeout("cerrarAlerta()",2000);
             }
+            else if (data.error) {
+                $("#alert").addClass("alert alert-danger");
+                $('#alert').text('Esta asignatura ya se encuentra registrada');
+                setTimeout("cerrarAlerta2()",4000);
+            }
             else
             {
-                for (var i = 0; i < data.inputerror.length; i++) 
-                {
-                    $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
-                }
+                $("#alert").addClass("alert alert-danger");
+                $('#alert').text('No dejes campos obligatorios en blanco');
+                setTimeout("cerrarAlerta2()",3000);
             }
             $('#btnSave').text('Guardar'); //change button text
             $('#btnSave').attr('disabled',false); //set button enable 
@@ -302,6 +311,7 @@ function delete_person(id)
             <div class="modal-body form">
                 <form action="#" id="form" class="form-horizontal">
                     <div class="form-body">
+                    <div id="alert"></div>
                         <input type="hidden" value="" name="COD_ASIG"/>
                         <div class="form-group">
                             <label class="control-label col-md-3">Asignatura <span style="color: red;">*</span></label>
@@ -319,8 +329,8 @@ function delete_person(id)
                                       foreach ($area as $filas) 
                                       {
                                    ?>
-                                   <option value="<?= $filas->COD_AREA ?>" data-subtext="<?=$filas->NOM_AREA ?>">
-                                   <?= $filas->COD_AREA ?></option>
+                                   <option value="<?= $filas->COD_AREA ?>" data-subtext="<?=$filas->COD_AREA ?>">
+                                   <?= $filas->NOM_AREA ?></option>
                                    <?php 
                                         }
                                     ?>

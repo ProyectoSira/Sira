@@ -103,7 +103,24 @@ public function ajax_list()
 	public function ajax_add()
 	{
 		$this->_validate();
-		$data = array(
+		$mail2 = $this->empleado->val_email($this->input->post('EMAIL_EMP'));
+		$doc = $this->empleado->val_doc($this->input->post('DOC_EMP'));
+		$mail = $this->comprobar_email($this->input->post('EMAIL_EMP'));
+		if (strlen($this->input->post('DOC_EMP')) < 7 or strlen($this->input->post('DOC_EMP')) > 11) {
+			echo json_encode(array("doc" => TRUE));
+		}else if ($doc) {
+			echo json_encode(array("valdoc" => TRUE));
+		}
+		else if ($this->input->post('ID_TIP_DOC') == '1') {
+			echo json_encode(array("doc" => FALSE));
+		}
+		else if ($mail == 0) {
+			echo json_encode(array("mail" => TRUE));
+		}
+		else if ($mail2) {
+			echo json_encode(array("mail" => FALSE));
+		}else{
+			$data = array(
 				'DOC_EMP' => $this->input->post('DOC_EMP'),
 				'ID_TIP_DOC' => $this->input->post('ID_TIP_DOC'),
                 'ID_TIP_EMP' => $this->input->post('ID_TIP_EMP'),
@@ -120,6 +137,7 @@ public function ajax_list()
 			);
 		$insert = $this->empleado->save($data);
 		echo json_encode(array("status" => TRUE));
+		}
 	}
 
 	public function ajax_update()
@@ -146,7 +164,10 @@ public function ajax_list()
 
 	public function ajax_delete($id)
 	{
-		$this->empleado->delete_by_id($id);
+		$data = array(
+				'ESTADO_EMP' => 'Inactivo',
+                );
+		$this->empleado->update(array('DOC_EMP' => $id), $data);
 		echo json_encode(array("status" => TRUE));
 	}
 
@@ -219,6 +240,33 @@ public function ajax_list()
 			echo json_encode($data);
 			exit();
 		}
+	}
+
+	function comprobar_email($email){
+	   $mail_correcto = 0;
+	   //compruebo unas cosas primeras
+	   if ((strlen($email) >= 6) && (substr_count($email,"@") == 1) && (substr($email,0,1) != "@") && (substr($email,strlen($email)-1,1) != "@")){
+	      if ((!strstr($email,"'")) && (!strstr($email,"\"")) && (!strstr($email,"\\")) && (!strstr($email,"\$")) && (!strstr($email," "))) {
+	         //miro si tiene caracter .
+	         if (substr_count($email,".")>= 1){
+	            //obtengo la terminacion del dominio
+	            $term_dom = substr(strrchr ($email, '.'),1);
+	            //compruebo que la terminación del dominio sea correcta
+	            if (strlen($term_dom)>1 && strlen($term_dom)<5 && (!strstr($term_dom,"@")) ){
+	               //compruebo que lo de antes del dominio sea correcto
+	               $antes_dom = substr($email,0,strlen($email) - strlen($term_dom) - 1);
+	               $caracter_ult = substr($antes_dom,strlen($antes_dom)-1,1);
+	               if ($caracter_ult != "@" && $caracter_ult != "."){
+	                  $mail_correcto = 1;
+	               }
+	            }
+	         }
+	      }
+	   }
+	   if ($mail_correcto)
+	      return 1;
+	   else
+	      return 0;
 	}
 
 }

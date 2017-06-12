@@ -3,7 +3,7 @@
 
 <div class="container-fluid">
  
-        <h1 style="font-size:20pt">Registro de Grupo</h1>
+        <h1 style="font-size:20pt">Registro de Grupos</h1>
 
         <h3>Datos de Grupo</h3>
         <div id="result"></div>
@@ -20,7 +20,7 @@
                     <th>Grado</th>
                     <th>Empleado</th>
                     <th style="width:120px;">Jornada</th>
-                    <th style="width:55px;">Accion</th>
+                    <th style="width:55px;">Acción</th>
                 </tr>
             </thead>
             <tbody>
@@ -32,7 +32,7 @@
                     <th>Grado</th>
                     <th>Empleado</th>
                     <th>Jornada</th>
-                <th>Accion</th>
+                <th>Acción</th>
             </tr>
             </tfoot>
         </table>
@@ -148,6 +148,11 @@ function cerrarAlerta(){
     $('#result').text('');
 }
 
+function cerrarAlerta2(){
+    $("#alert").removeClass("alert alert-danger");
+    $('#alert').text('');
+}
+
 function add_person()
 {
     save_method = 'add';
@@ -247,13 +252,21 @@ function save()
                     $('#result').text('Registro Modificado Exitosamente'); 
                 }
                 setTimeout("cerrarAlerta()",2000);
+            }else if (data.error) {
+                $("#alert").addClass("alert alert-danger");
+                $('#alert').text('Este grupo ya se encuentra registrado');
+                setTimeout("cerrarAlerta2()",4000);
+            }
+            else if (data.error == false) {
+                $("#alert").addClass("alert alert-danger");
+                $('#alert').text('Este profesor ya se encuentra asociado a un grupo');
+                setTimeout("cerrarAlerta2()",4000);
             }
             else
             {
-                for (var i = 0; i < data.inputerror.length; i++) 
-                {
-                    $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
-                }
+                $("#alert").addClass("alert alert-danger");
+                $('#alert').text('No dejes campos obligatorios en blanco');
+                setTimeout("cerrarAlerta2()",3000);
             }
             $('#btnSave').text('Guardar'); //change button text
             $('#btnSave').attr('disabled',false); //set button enable 
@@ -310,6 +323,7 @@ function delete_person(id)
             <div class="modal-body form">
                 <form action="#" id="form" class="form-horizontal">
                     <div class="form-body">
+                    <div id="alert"></div>
                         <input type="hidden" value="" name="COD_GRUPO"/>
                         <div class="form-group">
                             <label class="control-label col-md-3">Numero Grupo <span style="color: red;">*</span></label>
@@ -319,7 +333,7 @@ function delete_person(id)
                             </div>
                         </div>
                          <div class="form-group">
-                            <label class="control-label col-md-3">Codigo Grado <span style="color: red;">*</span></label>
+                            <label class="control-label col-md-3">Grado <span style="color: red;">*</span></label>
                             <div class="col-md-9">
 
                                  <select name="COD_GRADO" class="selectpicker form-control" data-live-search = "true">
@@ -328,7 +342,7 @@ function delete_person(id)
                                   foreach ($grado as $fila) 
                                     {
                                  ?>
-                                <option value="<?= $fila->COD_GRADO ?>" data-subtext="<?= $fila->NOM_GRADO ?>"><?= $fila->COD_GRADO ?></option> 
+                                <option value="<?= $fila->COD_GRADO ?>" data-subtext="<?= $fila->COD_GRADO ?>"><?= $fila->NOM_GRADO ?></option> 
                                 <?php  
                                     }
                                 ?>
@@ -337,7 +351,7 @@ function delete_person(id)
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3">Documento empleado <span style="color: red;">*</span></label>
+                            <label class="control-label col-md-3">Empleado <span style="color: red;">*</span></label>
                             <div class="col-md-9">
                             <select name="DOC_EMP" class="selectpicker form-control" data-live-search = "true">
                             <option value="">--Seleccione</option>
@@ -345,7 +359,7 @@ function delete_person(id)
                                       foreach ($empleado as $fila) 
                                       {
                                    ?>
-                                   <option value="<?= $fila->DOC_EMP ?>" data-subtext="<?= $fila->NOM1_EMP," ",$fila->NOM2_EMP ," ",$fila->APE1_EMP," ", $fila->APE2_EMP ?>"><?=$fila->DOC_EMP?></option>
+                                   <option value="<?= $fila->DOC_EMP ?>" data-subtext="<?= $fila->DOC_EMP ?>"><?= $fila->NOM1_EMP," ",$fila->NOM2_EMP ," ",$fila->APE1_EMP," ", $fila->APE2_EMP ?></option>
 
                                    <?php 
                                         }

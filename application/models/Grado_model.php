@@ -102,5 +102,16 @@ class Grado_model extends CI_Model {
 		$this->db->delete($this->table);
 	}
 
+	public function val_grado($nomGrado){
+		$this->db->select('*');
+		$this->db->from('tbl_grado');
+		$this->db->where('NOM_GRADO',$nomGrado);
+		$query = $this->db->get();
+		if ($query->num_rows()>0) {
+			return true;
+		}else{
+			return false;
+		}
+	}
 
 }

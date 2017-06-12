@@ -50,7 +50,7 @@ class Empleado_model extends CI_Model {
 		$this->db->from('tbl_empleado');
         $this->db->join('tbl_tipo_documento','tbl_tipo_documento.ID_TIP_DOC = tbl_empleado.ID_TIP_DOC');
         $this->db->join('tbl_tipo_empleado','tbl_tipo_empleado.ID_TIP_EMP = tbl_empleado.ID_TIP_EMP');
-
+        $this->db->where('ESTADO_EMP','Activo');
 
 		$i = 0;
 	
@@ -133,6 +133,30 @@ class Empleado_model extends CI_Model {
 	{
 		$this->db->where('DOC_EMP', $id);
 		$this->db->delete($this->table);
+	}
+
+	public function val_doc($doc){
+		$this->db->select('*');
+		$this->db->from('tbl_empleado');
+		$this->db->where('DOC_EMP',$doc);
+		$query = $this->db->get();
+		if ($query->num_rows()>0) {
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	public function val_email($mail){
+		$this->db->select('*');
+		$this->db->from('tbl_empleado');
+		$this->db->where('EMAIL_EMP',$mail);
+		$query = $this->db->get();
+		if ($query->num_rows()>0) {
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 

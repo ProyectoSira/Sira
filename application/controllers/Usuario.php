@@ -48,7 +48,7 @@ class Usuario extends CI_Controller {
 	public function ajax_cargar()
 	{
         $doc = $this->input->post('DOC_EMP');
-		$this->db->select('DOC_EMP,NOM_CARGO_EMP,NOM1_EMP,APE1_EMP');
+		$this->db->select('DOC_EMP,NOM_CARGO_EMP,EMAIL_EMP');
 		$this->db->from('tbl_empleado');
 		$this->db->join('tbl_tipo_empleado', 'tbl_tipo_empleado.ID_TIP_EMP = tbl_empleado.ID_TIP_EMP');
 		$this->db->join('tbl_tipo_documento', 'tbl_tipo_documento.ID_TIP_DOC = tbl_empleado.ID_TIP_DOC');

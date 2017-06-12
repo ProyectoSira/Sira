@@ -79,12 +79,17 @@ public function ajax_list()
 	public function ajax_add()
 	{
 		$this->_validate();
-		$data = array(
+		$val = $this->asignatura->val_asig($this->input->post('NOM_ASIG'));
+		if ($val) {
+			echo json_encode(array("error" => TRUE));
+		}else{
+			$data = array(
 				'NOM_ASIG' => $this->input->post('NOM_ASIG'),
                 'COD_AREA' => $this->input->post('COD_AREA'),
 			);
 		$insert = $this->asignatura->save($data);
 		echo json_encode(array("status" => TRUE));
+		}
 	}
 
 	public function ajax_update()

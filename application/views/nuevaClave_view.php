@@ -111,6 +111,8 @@
 	}
 
     $('#btnLogin').click(function () {
+    	$('#btnLogin').text('Cambiando...'); //change button text
+    	$('#btnLogin').attr('disabled',true); //set button disable
     	var nom = $('#nomUsu').val();
 		var pass = $('#pass1').val();
 		var pass2 = $('#pass2').val();
@@ -143,13 +145,16 @@
 	                    $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); //select span help-block class set text error string
 	                }
 	            } 
+	            $('#btnLogin').text('Cambiar Contraseña'); //change button text
+    			$('#btnLogin').attr('disabled',false); //set button disable
 	        },
 	        error: function (jqXHR, textStatus, errorThrown)
 	        {
 	            $("#result").addClass("alert alert-danger");
 	            $('#result').text('El nombre de usuario no existe'); 
 	            setTimeout("cerrarAlerta()",3000);
-	 
+	 			$('#btnLogin').text('Cambiar Contraseña'); //change button text
+    			$('#btnLogin').attr('disabled',false); //set button disable
 	        }
     	});
 

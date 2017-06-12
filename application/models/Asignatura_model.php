@@ -114,5 +114,15 @@ class Asignatura_model extends CI_Model {
 		$this->db->delete($this->table);
 	}
 
-
+	public function val_asig($nomAsig){
+		$this->db->select('*');
+		$this->db->from('tbl_asignatura');
+		$this->db->where('NOM_ASIG',$nomAsig);
+		$query = $this->db->get();
+		if ($query->num_rows()>0) {
+			return true;
+		}else{
+			return false;
+		}
+	}
 }

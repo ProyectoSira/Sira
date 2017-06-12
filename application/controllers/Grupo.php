@@ -80,7 +80,16 @@ public function ajax_list()
 	public function ajax_add()
 	{
 		$this->_validate();
-		$data = array(
+		$val = $this->grupo->val_emp($this->input->post('DOC_EMP'));
+		$val2 = $this->grupo->val_grupo($this->input->post('NUM_GRUPO'), $this->input->post('COD_GRADO'));
+		if ($val2) {
+			echo json_encode(array("error" => TRUE));
+		}else if ($val) {
+			echo json_encode(array("error" => FALSE));
+		}
+		else
+		{
+			$data = array(
 				'NUM_GRUPO' => $this->input->post('NUM_GRUPO'),
 				'COD_GRADO' => $this->input->post('COD_GRADO'),
 				'DOC_EMP' => $this->input->post('DOC_EMP'),
@@ -88,6 +97,7 @@ public function ajax_list()
 			);
 		$insert = $this->grupo->save($data);
 		echo json_encode(array("status" => TRUE));
+		}
 	}
 
 	public function ajax_update()

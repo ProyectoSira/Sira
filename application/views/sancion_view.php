@@ -5,7 +5,7 @@
  
         <h1 style="font-size:20pt">Registro de Sanciones</h1>
 
-        <h3>Datos de la Sancion</h3>
+        <h3>Datos de la Sanción</h3>
         <div id="result"></div>
         <br />
         <button class="btn btn-success" onclick="add_person()"><i class="glyphicon glyphicon-plus"></i> Nuevo</button>
@@ -16,13 +16,11 @@
             <thead>
                 <tr>
                     <th>N°</th>
-                    <th>Tipo Sancion</th>
+                    <th>Tipo Sanción</th>
                     <th>Estudiante</th>
-                    <th>Profesor</th>
-                    <th>Descripcion</th>
+                    <th>Descripción</th>
                     <th>Fecha</th>
-                    <th>Estado</th>
-                    <th style="width:55px;">Accion</th>
+                    <th style="width:55px;">Acción</th>
                 </tr>
             </thead>
             <tbody>
@@ -31,13 +29,11 @@
             <tfoot>
                 <tr>
                     <th>N°</th>
-                    <th>Tipo Sancion</th>
+                    <th>Tipo Sanción</th>
                     <th>Estudiante</th>
-                    <th>Profesor</th>
-                    <th>Descripcion</th>
+                    <th>Descripción</th>
                     <th>Fecha</th>
-                    <th>Estado</th>
-                    <th>Accion</th>
+                    <th>Acción</th>
                 </tr>
             </tfoot>
         </table>
@@ -149,6 +145,11 @@ function cerrarAlerta(){
     $('#result').text('');
 }
 
+function cerrarAlerta2(){
+    $("#alert").removeClass("alert alert-danger");
+    $('#alert').text('');
+}
+
 function add_person()
 {
     save_method = 'add';
@@ -161,10 +162,6 @@ function add_person()
     $('select[name="COD_TIP_SANC"]').change();
     $('select[name="DOC_EST"]').val();
     $('select[name="DOC_EST"]').change();
-    $('select[name="DOC_EMP"]').val();
-    $('select[name="DOC_EMP"]').change();
-    $('select[name="ESTADO"]').val();
-    $('select[name="ESTADO"]').change();
 }
 
 function edit_person(id)
@@ -185,12 +182,8 @@ function edit_person(id)
             $('select[name="COD_TIP_SANC"]').change();
             $('select[name="DOC_EST"]').val(data.DOC_EST);
             $('select[name="DOC_EST"]').change();
-            $('select[name="DOC_EMP"]').val(data.DOC_EMP);
-            $('select[name="DOC_EMP"]').change();
             $('[name="RAZON_SANC"]').val(data.RAZON_SANC);
             $('[name="FECH_SANC"]').datepicker('update',data.FECH_SANC);
-            $('select[name="ESTADO"]').val(data.ESTADO);
-            $('select[name="ESTADO"]').change();
             $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
             $('.modal-title').text('Editar Sancion');
 
@@ -246,10 +239,9 @@ function save()
             }
             else
             {
-                for (var i = 0; i < data.inputerror.length; i++) 
-                {
-                    $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
-                }
+                $("#alert").addClass("alert alert-danger");
+                $('#alert').text('No dejes campos obligatorios en blanco');
+                setTimeout("cerrarAlerta2()",3000);
             }
             $('#btnSave').text('Guardar'); //change button text
             $('#btnSave').attr('disabled',false); //set button enable 
@@ -321,9 +313,10 @@ function validar(e) {
             <div class="modal-body form">
                 <form action="#" id="form" class="form-horizontal">
                     <div class="form-body">
+                    <div id="alert"></div>
                         <input type="hidden" value="" name="COD_SANC"/>
                         <div class="form-group">
-                            <label class="control-label col-md-3">Tipo Sancion <span style="color: red;">*</span></label>
+                            <label class="control-label col-md-3">Tipo Sanción <span style="color: red;">*</span></label>
                             <div class="col-md-9">
                                 <select name="COD_TIP_SANC" class="selectpicker form-control">
                                     <option value="">--SELECCIONAR--</option>
@@ -341,7 +334,7 @@ function validar(e) {
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3">Documento Estudiante <span style="color: red;">*</span></label>
+                            <label class="control-label col-md-3">Estudiante <span style="color: red;">*</span></label>
                             <div class="col-md-9">
                                 <select name="DOC_EST" class="selectpicker form-control" data-live-search="true">
                                     <option value="">--SELECCIONAR--</option>
@@ -349,8 +342,8 @@ function validar(e) {
                                       foreach ($estudiante as $filas) 
                                       {
                                    ?>
-                                   <option value="<?= $filas->DOC_EST ?>" data-subtext="<?=$filas->NOM1_EST," ",$filas->NOM2_EST," ",$filas->APE1_EST ?>">
-                                   <?= $filas->DOC_EST ?></option>
+                                   <option value="<?= $filas->DOC_EST ?>" data-subtext="<?= $filas->DOC_EST ?>">
+                                   <?=$filas->NOM1_EST," ",$filas->NOM2_EST," ",$filas->APE1_EST ?></option>
                                    <?php 
                                         }
                                     ?>
@@ -359,45 +352,16 @@ function validar(e) {
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3">documento Profesor <span style="color: red;">*</span></label>
-                            <div class="col-md-9">
-                                <select name="DOC_EMP" class="selectpicker form-control">
-                                    <option value="">--SELECCIONAR--</option>
-                                    <?php 
-                                      foreach ($empleado as $filas) 
-                                      {
-                                   ?>
-                                   <option value="<?= $filas->DOC_EMP ?>" data-subtext="<?=$filas->NOM1_EMP," ",$filas->NOM2_EMP," ",$filas->APE1_EMP ?>">
-                                   <?= $filas->DOC_EMP ?></option>
-                                   <?php 
-                                        }
-                                    ?>
-                                </select>
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Descripcion <span style="color: red;">*</span></label>
+                            <label class="control-label col-md-3">Descripción <span style="color: red;">*</span></label>
                             <div class="col-md-9">
                                 <textarea name="RAZON_SANC" placeholder="DESCRIPCION" class="form-control"  style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" onkeypress="return validar(event)"></textarea>
                                 <span class="help-block"></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3">Fecha Sancion <span style="color: red;">*</span></label>
+                            <label class="control-label col-md-3">Fecha Sanción <span style="color: red;">*</span></label>
                             <div class="col-md-9">
                                 <input name="FECH_SANC" placeholder="YYYY-MM-DD" class="form-control" id="datepicker" type="text" data-date-end-date="0d" readonly="false">
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Estado <span style="color: red;">*</span></label>
-                            <div class="col-md-9">
-                                <select name="ESTADO" class="selectpicker form-control">
-                                    <option value="">--SELECCIONAR--</option>
-                                    <option value="0">ACTIVA</option>
-                                    <option value="1">INACTIVA</option>
-                                </select>
                                 <span class="help-block"></span>
                             </div>
                         </div>

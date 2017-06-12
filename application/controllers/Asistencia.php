@@ -36,13 +36,9 @@ class Asistencia extends CI_Controller {
 			$no++;
 			$row = array();
 			$row[] = $no;
+			$row[] = $asistencia->DOC_EST;
 			$row[] = $asistencia->APE1_EST." ".$asistencia->APE2_EST." ".$asistencia->NOM1_EST." ".$asistencia->NOM2_EST;
-			$row[] = '<input type="checkbox" class="data-check">';
-			$row[] = '<input type="checkbox" class="data-check2">';
-			$row[] = '<input type="text" class="form-control" id="text-hora">';
-			$row[] = '<input type="text" class="form-control" id="text-obser">';
-			$row[] = '<input type="checkbox" class="data-check3">';
-			$row[] = '<input type="checkbox" class="data-check3">';
+			$row[] = '<input type="checkbox" class="data-check" value="'.$asistencia->DOC_EST.'">';
 		
 			$data[] = $row;
 		}
@@ -60,10 +56,17 @@ class Asistencia extends CI_Controller {
 
 	public function ajax_registrar()
 	{
-		$list_id = $this->input->post('id');
-		$grupo = $this->input->post('grupo');
-		foreach ($list_id as $id) {
-			$this->asistencia->save($id, $grupo);
+		$documento = $this->input->post('doc');
+		$estado = array($this->input->post('estado'));
+		$justificacion = $this->input->post('just');
+		$fecha = date('Y-m-d');
+		$id = '';
+		foreach ($documento as $value) {
+			$grupo = $this->asistencia->get_grupoEst($value);
+			foreach ($grupo as $value2) {
+				$id = $value2->ID_EST_GRUP;
+			}
+			$this->asistencia->save($id, $fecha);
 		}
 		echo json_encode(array("status" => TRUE));
 	}

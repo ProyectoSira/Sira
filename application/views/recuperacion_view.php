@@ -109,6 +109,8 @@
 	}
 
     $('#btnLogin').click(function () {
+    	$('#btnLogin').text('Enviando...'); //change button text
+    	$('#btnLogin').attr('disabled',true); //set button disable
     	var nom = $('#nomUsu').val();
 		var email = $('#email').val();
 		$.ajax({
@@ -122,9 +124,13 @@
 	            {
 	                $("#result").addClass("alert alert-success");
 		            $('#result').text('Se ha enviado un correo electronico con el link para crear tu nueva contraseña. En instantes esta pagina se redireccionara al Login'); 
-		            setTimeout("cerrarAlerta2()",8000);
+		            setTimeout("cerrarAlerta2()",5000);
 		            
 
+	            }else if (data.usu) {
+	            	$("#result").addClass("alert alert-danger");
+		            $('#result').text('El nombre de usuario no existe'); 
+		            setTimeout("cerrarAlerta()",3000);
 	            }
 	            else
 	            {
@@ -134,13 +140,16 @@
 	                    $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); //select span help-block class set text error string
 	                }
 	            } 
+	            $('#btnLogin').text('Enviar Correo'); //change button text
+    			$('#btnLogin').attr('disabled',false); //set button disable
 	        },
 	        error: function (jqXHR, textStatus, errorThrown)
 	        {
 	            $("#result").addClass("alert alert-danger");
 	            $('#result').text('El correo electronico no coincide con el usuario ingresado'); 
 	            setTimeout("cerrarAlerta()",3000);
-	 
+	 			$('#btnLogin').text('Enviar Correo'); //change button text
+    			$('#btnLogin').attr('disabled',false); //set button disable
 	        }
     	});
 

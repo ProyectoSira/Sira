@@ -30,7 +30,17 @@ class Recuperacion extends CI_Controller
 				$emm = $fila->EMAIL_EMP;
 			}
 		$convert = strtolower($emm);
-		if ($email == $convert) {
+		$val = false;
+        $result = $this->login->validarUsuario();
+        foreach ($result as $value) {
+                if ($value->NOM_USU == $usu) {
+                    $val = true;
+                }
+            }
+        if ($val == false) {
+        	echo json_encode(array("usu" => TRUE));
+        }
+		else if ($email == $convert) {
 			//configuracion para gmail
 			$configGmail = array(
 				'protocol' => 'smtp',

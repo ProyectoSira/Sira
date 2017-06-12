@@ -89,14 +89,24 @@ class Periodo extends CI_Controller {
 	public function ajax_add()
 	{
 		$this->_validate();
-		$data = array(
+		$val = $this->periodo->val_periodo($this->input->post('NOM_PER'));
+		if ($this->input->post('FECH_INI_PER') >= $this->input->post('FECH_FIN_PER')) {
+			echo json_encode(array("error" => TRUE));
+		}
+		else if ($val) {
+			echo json_encode(array("error" => FALSE));
+		}
+		else
+		{
+			$data = array(
 				'NUM_PER' => $this->input->post('NUM_PER'),
                 'NOM_PER' => $this->input->post('NOM_PER'),
                 'FECH_INI_PER' => $this->input->post('FECH_INI_PER'),
                 'FECH_FIN_PER' => $this->input->post('FECH_FIN_PER'),
 			);
-		$insert = $this->periodo->save($data);
-		echo json_encode(array("status" => TRUE));
+			$insert = $this->periodo->save($data);
+			echo json_encode(array("status" => TRUE));
+		}
 	}
 
 

@@ -37,6 +37,7 @@ class Acudiente_model extends CI_Model {
 		$this->db->select('*');
 		$this->db->from('tbl_acudiente');
         $this->db->join('tbl_tipo_documento','tbl_tipo_documento.ID_TIP_DOC = tbl_acudiente.ID_TIP_DOC');
+        $this->db->where('ESTDO_ACU','Activo');
 
 		$i = 0;
 	
@@ -121,5 +122,27 @@ class Acudiente_model extends CI_Model {
 		$this->db->delete($this->table);
 	}
 
+	public function val_doc($doc){
+		$this->db->select('*');
+		$this->db->from('tbl_acudiente');
+		$this->db->where('DOC_ACU',$doc);
+		$query = $this->db->get();
+		if ($query->num_rows()>0) {
+			return true;
+		}else{
+			return false;
+		}
+	}
 
+	public function val_email($mail){
+		$this->db->select('*');
+		$this->db->from('tbl_acudiente');
+		$this->db->where('EMAIL_ACU',$mail);
+		$query = $this->db->get();
+		if ($query->num_rows()>0) {
+			return true;
+		}else{
+			return false;
+		}
+	}
 }

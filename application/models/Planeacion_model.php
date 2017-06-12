@@ -1,12 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Programacion_model extends CI_Model {
+class Planeacion_model extends CI_Model {
 
-	var $table = 'tbl_programacion';
-	var $column_order = array('COD_PROGRA','DOC_EMP','COD_ASIG','COD_AULA','HORA_INI', 'HORA_FIN','DIA_SEM','COD_CAL','COD_GRUPO',null); //set column field database for datatable orderable
-	var $column_search = array('COD_PROGRA','DOC_EMP','DIA_SEM'); //set column field database for datatable searchable just firstname , lastname , address are searchable
-	var $order = array('COD_PROGRA' => 'desc'); // default order 
+	var $table = 'tbl_planeacion';
+	var $column_order = array('COD_PLANEACION','URL_ARCHIVO','COD_PROGRA',null); //set column field database for datatable orderable
+	var $column_search = array('COD_PROGRA'); //set column field database for datatable searchable just firstname , lastname , address are searchable
+	var $order = array('COD_PLANEACION' => 'desc'); // default order 
 
 	public function __construct()
 	{
@@ -14,67 +14,18 @@ class Programacion_model extends CI_Model {
 		$this->load->database();
 	}
 
-	function get_asignatura(){
-      $asignatura = $this->db->get('tbl_asignatura');
-       if ($asignatura -> num_rows()>0)
+	function get_programacion(){
+      $programacion = $this->db->get('tbl_programacion');
+       if ($programacion -> num_rows()>0)
        {
-       	return $asignatura->result();
+       	return $programacion->result();
        }
 
-	}
-
-
-	function get_empleado(){
-		$this->db->select('*');
-		$this->db->from('tbl_empleado');
-		$this->db->join('tbl_tipo_empleado','tbl_tipo_empleado.ID_TIP_EMP = tbl_empleado.ID_TIP_EMP');
-		$this->db->where('tbl_empleado.ID_TIP_EMP',3);
-        $empleado = $this->db->get();
-        if ($empleado -> num_rows()>0)
-        {
-       	return $empleado->result();
-        }
-
-	}
-
-	function get_aula(){
-      $aula = $this->db->get('tbl_aula');
-       if ($aula -> num_rows()>0)
-       {
-       	return $aula->result();
-       }
-
-	}
-
-	function get_calendario(){
-      $calendario = $this->db->get('tbl_calendario');
-       if ($calendario -> num_rows()>0)
-       {
-       	return $calendario->result();
-       }
-
-	}
-
-	public function get_grupo(){
-       
-	    $this->db->select('*');
-	    $this->db->from('tbl_grupo');
-	    $this->db->join('tbl_grado', 'tbl_grado.COD_GRADO = tbl_grupo.COD_GRADO');
-	    $this->db->order_by('NOM_GRADO', 'asc' and 'NUM_GRUPO','asc');
-	    $grupo =  $this->db->get();
-	    if($grupo -> num_rows()>0)
-	    {
-	    	return $grupo->result();
-	    }
 	}
 
 	private function _get_datatables_query()
 	{
-		$this->db->select('*');
-		$this->db->from('tbl_programacion');
-        $this->db->join('tbl_empleado','tbl_empleado.DOC_EMP = tbl_programacion.DOC_EMP');
-
-
+		$this->db->from($this->table);
 		$i = 0;
 	
 		foreach ($this->column_search as $item) // loop column 
@@ -134,7 +85,7 @@ class Programacion_model extends CI_Model {
 	public function get_by_id($id)
 	{
 		$this->db->from($this->table);
-		$this->db->where('COD_PROGRA',$id);
+		$this->db->where('COD_PLANEACION',$id);
 		$query = $this->db->get();
 
 		return $query->row();
@@ -154,7 +105,7 @@ class Programacion_model extends CI_Model {
 
 	public function delete_by_id($id)
 	{
-		$this->db->where('COD_PROGRA', $id);
+		$this->db->where('COD_PLANEACION', $id);
 		$this->db->delete($this->table);
 	}
 

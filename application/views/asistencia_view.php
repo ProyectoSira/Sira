@@ -41,14 +41,10 @@
                     <table id="table" class="table table-striped" cellspacing="0" width="100%">
                         <thead>
                             <tr>
-                                <th style="width:20px;">N°</th>
-                                <th>Estudiantes</th>
-                                <th style="width:20px;">Asistió</th>
-                                <th style="width:20px;">Tarde</th>
-                                <th style="width:50px;">Hora</th>
-                                <th style="width:50px;">Observacion</th>
-                                <th style="width:20px;">Justificado</th>
-                                <th style="width:20px;">Excusa</th>
+                                <th>N°</th>
+                                <th style="width: 20%;">Documento</th>
+                                <th style="width: 60%;">Estudiante</th>
+                                <th>Asistió</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -170,39 +166,39 @@ function reload_table()
 }
 
 
-function registrar() {
-    var grup = $('#COD_GRUPO').val();
-    var list_id = [];
+$('#btnRegistrar').click(function () {
+    var textGrupo = $('#COD_GRUPO').val();
+    var documento = [];
+
     $(".data-check:checked").each(function() { 
-            list_id.push(this.value);
+        documento.push(this.value);
     });
-    if (list_id.length > 0) {
-        if (confirm('Desea registrar '+list_id.length+' alumnos a este grupo?')) {
-            $.ajax({
-                url: "<?php echo site_url('asignacion/ajax_registrar')?>",
-                type: "POST",
-                data: {id:list_id, grupo:grup}, 
-                dataType: "JSON",
-                success: function(data){
-                    if (data.status) {
-                        reload_table();
-                        $("#result").addClass("alert alert-success");
-                        $('#result').text('Registro Exitoso'); 
-                        setTimeout("cerrarAlerta()",2000);
-                    }else{
-                        alert('Error');
-                    }
-                },
-                error: function(jqXHR, textStatus, errorThrown){
-                    alert('Error al insetar los alumnos');
+
+    if (confirm('Ha dicho que del grupo '+textGrupo+' solo han asistido '+documento.length+' estudiantes.\n Desea continuar?')) {
+        $.ajax({
+            url: "<?php echo site_url('asistencia/ajax_registrar')?>",
+            type: "POST",
+            data: {doc:documento}, 
+            dataType: "JSON",
+            success: function(data){
+                if (data.status) {
+                    reload_table();
+                    $("#result").addClass("alert alert-success");
+                    $('#result').text('Registro Exitoso'); 
+                    setTimeout("cerrarAlerta()",2000);
+                    $('#COD_GRUPO').find('[value='+textGrupo+']').remove();
+                    $('#COD_GRUPO').selectpicker('refresh');
+                    table.ajax.reload(null,false);
+                }else{
+                    alert('Error');
                 }
-            });
-        }
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                alert('Error al registrar la asistencia');
+            }
+        });
     }
-    else{
-        alert('No ha seleccionado ningun alumno');
-    }
-}
+});
 
 </script>
 

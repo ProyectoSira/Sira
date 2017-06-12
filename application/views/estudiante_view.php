@@ -8,7 +8,7 @@
         <h3>Datos Personales</h3>
         <div id="result"></div>
         <br />
-        <button class="btn btn-success" onclick="add_person()"><i class="glyphicon glyphicon-plus"></i> Nuevo</button>
+        <button class="btn btn-success" id="btnNuevo" onclick="add_person()"><i class="glyphicon glyphicon-plus"></i> Nuevo</button>
         <a href="<?php echo base_url('index.php/acudiente');?>" class="btn btn-default"><i class="glyphicon glyphicon-search"></i> Acudientes</a>
         <br />
         <br />
@@ -20,10 +20,10 @@
                     <th>Tipo Doc.</th>
                     <th>Nombres</th>
                     <th>Apellidos</th>
-                    <th>Telefono 1</th>
+                    <th>Teléfono 1</th>
                     <th>Grado</th>
                     <th>Correo</th>
-                    <th style="width:55px;">Accion</th>
+                    <th style="width:55px;">Acción</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,10 +35,10 @@
                 <th>Tipo Doc.</th>
                 <th>Nombres</th>
                 <th>Apellidos</th>
-                <th>Telefono 1</th>
+                <th>Teléfono 1</th>
                 <th>Grado</th>
                 <th>Correo</th>
-                <th>Accion</th>
+                <th>Acción</th>
             </tr>
             </tfoot>
         </table>
@@ -68,8 +68,12 @@
 
 var save_method; //for save method string
 var table;
+var rol = "<?php echo ($this->session->userdata['logged_in']['rol'])?>"
 
 $(document).ready(function() {
+    if (rol == 'Coordinador') {
+        $('#btnNuevo').attr('disabled',true);
+    }
 
     //datatables
     table = $('#table').DataTable({ 
@@ -80,7 +84,7 @@ $(document).ready(function() {
 
         // Load data for the table's content from an Ajax source
         "ajax": {
-            "url": "<?php echo site_url('person/ajax_list')?>",
+            "url": "<?php echo site_url('estudiante/ajax_list')?>",
             "type": "POST"
         },
 
@@ -157,6 +161,11 @@ function cerrarAlerta(){
     $('#result').text('');
 }
 
+function cerrarAlerta2(){
+    $("#alert").removeClass("alert alert-danger");
+    $('#alert').text('');
+}
+
 function add_person()
 {
     save_method = 'add';
@@ -186,7 +195,7 @@ function edit_person(id)
     document.getElementById('DOC_EST').readOnly = true;
     //Ajax Load data from ajax
     $.ajax({
-        url : "<?php echo site_url('person/ajax_edit/')?>/" + id,
+        url : "<?php echo site_url('estudiante/ajax_edit/')?>/" + id,
         type: "GET",
         dataType: "JSON",
         success: function(data)
@@ -224,7 +233,7 @@ function view_person(id)
 {
     //Ajax Load data from ajax
     $.ajax({
-        url : "<?php echo site_url('person/ajax_view/')?>/" + id,
+        url : "<?php echo site_url('estudiante/ajax_view/')?>/" + id,
         type: "GET",
         dataType: "JSON",
         success: function(data)
@@ -277,9 +286,9 @@ function save()
     var url;
  
     if(save_method == 'add') {
-        url = "<?php echo site_url('person/ajax_add')?>";
+        url = "<?php echo site_url('estudiante/ajax_add')?>";
     } else {
-        url = "<?php echo site_url('person/ajax_update')?>";
+        url = "<?php echo site_url('estudiante/ajax_update')?>";
     }
  
     // ajax adding data to database
@@ -305,12 +314,36 @@ function save()
                 }
                 setTimeout("cerrarAlerta()",2000);
             }
+            else if (data.doc) {
+                $("#alert").addClass("alert alert-danger");
+                $('#alert').text('El documento no es válido'); 
+                setTimeout("cerrarAlerta2()",4000);
+            }
+            else if (data.valdoc) {
+                $("#alert").addClass("alert alert-danger");
+                $('#alert').text('El documento ya se encuentra registrado'); 
+                setTimeout("cerrarAlerta2()",4000);
+            }
+            else if (data.doc == false) {
+                $("#alert").addClass("alert alert-danger");
+                $('#alert').text('El tipo de documento no corresponde a la fecha de nacimiento'); 
+                setTimeout("cerrarAlerta2()",4000);
+            }
+            else if (data.mail) {
+                $("#alert").addClass("alert alert-danger");
+                $('#alert').text('El correo electrónico no es válido'); 
+                setTimeout("cerrarAlerta2()",4000);
+            }
+            else if (data.mail == false) {
+                $("#alert").addClass("alert alert-danger");
+                $('#alert').text('El correo electrónico ya se encuentra registrado'); 
+                setTimeout("cerrarAlerta2()",4000);
+            }
             else
             {
-                for (var i = 0; i < data.inputerror.length; i++) 
-                {
-                    $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
-                }
+                $("#alert").addClass("alert alert-danger");
+                $('#alert').text('No dejes campos obligatorios en blanco'); 
+                setTimeout("cerrarAlerta2()",4000);
             }
             $('#btnSave').text('Guardar'); //change button text
             $('#btnSave').attr('disabled',false); //set button enable 
@@ -335,7 +368,7 @@ function delete_person(id)
     {
         // ajax delete data to database
         $.ajax({
-            url : "<?php echo site_url('person/ajax_delete')?>/"+id,
+            url : "<?php echo site_url('estudiante/ajax_delete')?>/"+id,
             type: "POST",
             dataType: "JSON",
             success: function(data)
@@ -371,6 +404,7 @@ function delete_person(id)
                 <div class="row">
                 <form action="#" id="form">
                 <div class="form-body">
+                <div id="alert"></div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Documento <span style="color: red;">*</span></label>
@@ -468,17 +502,17 @@ function delete_person(id)
                                 <span class="help-block"></span>
                         </div>
                         <div class="form-group">
-                            <label>Direccion <span style="color: red;">*</span></label>
+                            <label>Dirección <span style="color: red;">*</span></label>
                                 <input name="DIR_EST" placeholder="DIRECCION" class="form-control" type="text" onkeyup="javascript:this.value=this.value.toUpperCase();">
                                 <span class="help-block"></span>
                         </div>
                         <div class="form-group">
-                            <label>Telefono 1 <span style="color: red;">*</span></label>
+                            <label>Teléfono 1 <span style="color: red;">*</span></label>
                                 <input name="TEL1_EST" placeholder="TELEFONO 1" class="form-control" type="text" onkeypress="return justNumbers(event);">
                                 <span class="help-block"></span>
                         </div>
                         <div class="form-group">
-                            <label>Telefono 2</label>
+                            <label>Teléfono 2</label>
                                 <input name="TEL2_EST" placeholder="TELEFONO 2" class="form-control" type="text" onkeypress="return justNumbers(event);">
                                 <span class="help-block"></span>
                         </div>

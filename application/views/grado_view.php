@@ -18,7 +18,7 @@
                 <tr>
                     <th style="width:100px;">N°</th>
                     <th style="width:100px;">Nombre Grado</th>
-                    <th style="width:55px;">Accion</th>
+                    <th style="width:55px;">Acción</th>
                 </tr>
             </thead>
             <tbody>
@@ -28,7 +28,7 @@
             <tr>
                 <th>N°</th>
                     <th>Nombre Grado</th>
-                <th>Accion</th>
+                <th>Acción</th>
             </tr>
             </tfoot>
         </table>
@@ -143,6 +143,11 @@ function cerrarAlerta(){
     $('#result').text('');
 }
 
+function cerrarAlerta2(){
+    $("#alert").removeClass("alert alert-danger");
+    $('#alert').text('');
+}
+
 function add_person()
 {
     save_method = 'add';
@@ -225,18 +230,23 @@ function save()
                 if (save_method == 'add') {
                     $("#result").addClass("alert alert-success");
                     $('#result').text('Registro Exitoso'); 
-                }else{
+                }
+                else{
                     $("#result").addClass("alert alert-info");
                     $('#result').text('Registro Modificado Exitosamente'); 
                 }
                 setTimeout("cerrarAlerta()",2000);
             }
+            else if (data.error) {
+                $("#alert").addClass("alert alert-danger");
+                $('#alert').text('Este grado ya se encuentra registrado');
+                setTimeout("cerrarAlerta2()",4000);
+            }
             else
             {
-                for (var i = 0; i < data.inputerror.length; i++) 
-                {
-                    $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
-                }
+                $("#alert").addClass("alert alert-danger");
+                $('#alert').text('No dejes campos obligatorios en blanco');
+                setTimeout("cerrarAlerta2()",3000);
             }
             $('#btnSave').text('Guardar'); //change button text
             $('#btnSave').attr('disabled',false); //set button enable 
@@ -293,6 +303,7 @@ function delete_person(id)
             <div class="modal-body form">
                 <form action="#" id="form" class="form-horizontal">
                     <div class="form-body">
+                    <div id="alert"></div>
                         <input type="hidden" value="" name="COD_GRADO"/>
                         <div class="form-group">
                             <label class="control-label col-md-3">Nombre del grado <span style="color: red;">*</span></label>

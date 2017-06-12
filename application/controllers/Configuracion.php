@@ -40,7 +40,6 @@ class Configuracion extends CI_Controller {
 				'NOM_USU' => $this->input->post('NOM_USU'),
                 );
 			$this->configuracion->updateNOM(array('DOC_EMP' => $this->input->post('DOC_EMP')), $data);
-			$this->session->userdata['logged_in']['username'] = $this->input->post('NOM_USU');
 			echo json_encode(array("status" => TRUE));
 		}else{
 			echo json_encode(array("error" => TRUE));
@@ -52,7 +51,7 @@ class Configuracion extends CI_Controller {
 		$this->_validate2();
 		$pass1 = $this->input->post('PASS_USU');
 		$pass2 = $this->input->post('PASS_USU2');
-		if ($this->input->post('NOM_USU2') == ($this->session->userdata['logged_in']['username'])) {
+		if ($this->input->post('NOM_USU2') == ($this->session->userdata['logged_in']['nombre'])) {
 			if ($pass1 == $pass2) {
 			$data = array(
 				'PASS_USU' => $pass1,

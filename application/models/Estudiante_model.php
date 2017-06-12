@@ -34,7 +34,10 @@ class Estudiante_model extends CI_Model {
 	}	
 
 	function get_acudiente(){
-      $acudiente = $this->db->get('tbl_acudiente');
+      	$this->db->select('*');
+		$this->db->from('tbl_acudiente');
+        $this->db->where('ESTDO_ACU','Activo');
+      	$acudiente = $this->db->get();
        if ($acudiente -> num_rows()>0)
        {
        	return $acudiente->result();
@@ -145,5 +148,28 @@ class Estudiante_model extends CI_Model {
 		$this->db->delete($this->table);
 	}
 
+	public function val_doc($doc){
+		$this->db->select('*');
+		$this->db->from('tbl_estudiante');
+		$this->db->where('DOC_EST',$doc);
+		$query = $this->db->get();
+		if ($query->num_rows()>0) {
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	public function val_email($mail){
+		$this->db->select('*');
+		$this->db->from('tbl_estudiante');
+		$this->db->where('EMAIL_EST',$mail);
+		$query = $this->db->get();
+		if ($query->num_rows()>0) {
+			return true;
+		}else{
+			return false;
+		}
+	}
 
 }

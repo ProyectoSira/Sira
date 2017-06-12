@@ -35,8 +35,58 @@ class Anormalidad extends CI_Controller {
 			$no++;
 			$row = array();
 			$row[] = $anormalidad->NOM_ANORM;
-			$row[] = $anormalidad->HORA_INICIO;
-			$row[] = $anormalidad->HORA_FIN;
+			if ($anormalidad->HORA_INICIO == '0') {
+				$row[] = '6:30 am';
+			}else if ($anormalidad->HORA_INICIO == '1') {
+				$row[] = '7:25 am';
+			}else if ($anormalidad->HORA_INICIO == '2') {
+				$row[] = '8:20 am';
+			}else if ($anormalidad->HORA_INICIO == '3') {
+				$row[] = '9:50 am';
+			}else if ($anormalidad->HORA_INICIO == '4') {
+				$row[] = '10:45 am';
+			}else if ($anormalidad->HORA_INICIO == '5') {
+				$row[] = '11:40 am';
+			}else if ($anormalidad->HORA_INICIO == '6') {
+				$row[] = '12:00 pm';
+			}else if ($anormalidad->HORA_INICIO == '7') {
+				$row[] = '12:55 pm';
+			}else if ($anormalidad->HORA_INICIO == '8') {
+				$row[] = '1:50 pm';
+			}else if ($anormalidad->HORA_INICIO == '9') {
+				$row[] = '3:15 pm';
+			}else if ($anormalidad->HORA_INICIO == '10') {
+				$row[] = '4:10 pm';
+			}else if ($anormalidad->HORA_INICIO == '11') {
+				$row[] = '5:05 pm';
+			}
+			if ($anormalidad->HORA_FIN == '0') {
+				$row[] = '6:30 am';
+			}else if ($anormalidad->HORA_FIN == '1') {
+				$row[] = '7:25 am';
+			}else if ($anormalidad->HORA_FIN == '2') {
+				$row[] = '8:20 am';
+			}else if ($anormalidad->HORA_FIN == '3') {
+				$row[] = '9:50 am';
+			}else if ($anormalidad->HORA_FIN == '4') {
+				$row[] = '10:45 am';
+			}else if ($anormalidad->HORA_FIN == '5') {
+				$row[] = '11:40 am';
+			}else if ($anormalidad->HORA_FIN == '6') {
+				$row[] = '12:00 pm';
+			}else if ($anormalidad->HORA_FIN == '7') {
+				$row[] = '12:55 pm';
+			}else if ($anormalidad->HORA_FIN == '8') {
+				$row[] = '1:50 pm';
+			}else if ($anormalidad->HORA_FIN == '9') {
+				$row[] = '3:15 pm';
+			}else if ($anormalidad->HORA_FIN == '10') {
+				$row[] = '4:10 pm';
+			}else if ($anormalidad->HORA_FIN == '11') {
+				$row[] = '5:05 pm';
+			}else if ($anormalidad->HORA_FIN == '12') {
+				$row[] = '6:00 pm';
+			}
 			$row[] = $anormalidad->DESCRIPCION;
 			if ($anormalidad->ESTADO == '0') {
 				$row[] = 'ACTIVA';
@@ -74,16 +124,19 @@ class Anormalidad extends CI_Controller {
 	public function ajax_add()
 	{
 		$this->_validate();
-		$data = array(
+		if ($this->input->post('HORA_INICIO') >= $this->input->post('HORA_FIN')) {
+        	echo json_encode(array("error" => TRUE));        	
+        }else{
+        	$data = array(
 				'COD_TIP_ANORM' => $this->input->post('COD_TIP_ANORM'),
                 'HORA_INICIO' => $this->input->post('HORA_INICIO'),
                 'HORA_FIN' => $this->input->post('HORA_FIN'),
                 'DESCRIPCION' => $this->input->post('DESCRIPCION'),
-                'ESTADO' => $this->input->post('ESTADO'),
                 'COD_PROGRA' => $this->input->post('COD_PROGRA'),
 			);
 		$insert = $this->anormalidad->save($data);
 		echo json_encode(array("status" => TRUE));
+        }
 	}
 
 
@@ -138,12 +191,6 @@ class Anormalidad extends CI_Controller {
 		if($this->input->post('DESCRIPCION') == '')
 		{
 			$data['inputerror'][] = 'DESCRIPCION';
-			$data['status'] = FALSE;
-		}
-
-		if($this->input->post('ESTADO') == '')
-		{
-			$data['inputerror'][] = 'ESTADO';
 			$data['status'] = FALSE;
 		}
 

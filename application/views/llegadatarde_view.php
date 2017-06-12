@@ -127,10 +127,17 @@
         m=checkTime(m);
         s=checkTime(s);
         document.getElementById('04').innerHTML=h+":"+m+":"+s;
-        t=setTimeout('startTime()',500);}
-        function checkTime(i)
-        {if (i<10) {i="0" + i;}return i;}
-        window.onload=function(){startTime();
+        t=setTimeout('startTime()',500);
+    }
+    
+    function checkTime(i){
+        if (i<10) {i="0" + i;}return i;
+    }
+    
+    window.onload=function(){
+        startTime();
+        cargarNum(); 
+        cargarMsg();
     }
 
 $( "#Huella" ).change(function() {
@@ -152,7 +159,7 @@ $( "#Huella" ).change(function() {
             $('[name="APE1_ACU_L"]').text(data.APE1_ACU+" "+data.APE2_ACU);
             $('[name="TEL_ACU_L"]').text(data.TEL1_ACU);
             $('[name="GRUPO_L"]').text(data.NUM_GRUPO);
-            $('[name="HUELLA_L"]').text(data.HUELLA_EST);
+            $('[name="HUELLA_L"]').text(data.DOC_EST);
             $('[name="COD_GRUPO_L"]').text(data.COD_GRUPO);
             $('#Huella').val('');
         },
@@ -199,7 +206,7 @@ function registrar() {
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown){
-                    alert('Error al registrar la llegada tarde');
+                    alert('Error al Registrar');
                 }
             });
 }

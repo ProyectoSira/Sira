@@ -5,6 +5,8 @@ if (isset($this->session->userdata['logged_in'])) {
 $username = ($this->session->userdata['logged_in']['username']);
 $rol = ($this->session->userdata['logged_in']['rol']);
 $menu = ($this->session->userdata['logged_in']['menu']);
+$msg = ($this->session->userdata['logged_in']['msgNoty']);
+$num = ($this->session->userdata['logged_in']['numNoty']);
 }
 ?>
 <head>
@@ -32,13 +34,60 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 <script src="<?php echo base_url('assets/js/wow.min.js')?>"></script>
     <script>
-         new WOW().init();
+        new WOW().init();
+        function cargarNum(){
+            $.ajax({
+                url : "<?php echo site_url('notificaciones/numNotificaciones')?>",
+                type: "POST",
+                dataType: "JSON",
+                success: function(data)
+                {
+                    if(data != false){
+                        $('#notf').addClass("badge");
+                        $('#notf').text(data);
+                        $('#newN').text('Tienes '+data+' notificaciones nuevas');
+                    }else{
+                        $('#notf').removeClass("badge");
+                        $('#notf').text('');
+                        $('#newN').text('No tienes notificaciones nuevas');
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error');
+                }
+            });
+        }
+
+        function cargarMsg(){
+            var msg;
+            var mesg;
+            $.ajax({
+                url : "<?php echo site_url('notificaciones/msgNotificaciones')?>",
+                type: "POST",
+                dataType: "JSON",
+                success: function(data)
+                {
+                    if (data != false) {
+                        mesg = "El estudiante "+data.NOM1_EST+" "+data.NOM2_EST+" "+data.APE1_EST+" "+data.APE2_EST;
+                        mesg2 = "presenta 3 o mas sanciones";
+                        $('#notify').text(mesg);
+                        $('#notify2').text(mesg2);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error...');
+                }
+            });
+        }
     </script>
+
 <script src="<?php echo base_url('assets/js/jquery-1.10.2.min.js')?>"></script>
 
 </head> 
    
- <body class="sticky-header left-side-collapsed"  onload="initMap()">
+ <body class="sticky-header left-side-collapsed"  onload="cargarNum(); cargarMsg();">
 
 <?php
 if (isset($this->session->userdata['logged_in'])) {
@@ -89,34 +138,20 @@ header("location: login");
                     <div class="profile_details_left">
                         <ul class="nofitications-dropdown">
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-bell"></i><span class="badge">3</span></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-bell"></i><span class="" id="notf"></span></a>
                                     <ul class="dropdown-menu">
                                         <li>
                                             <div class="notification_header">
-                                                <h3>Tienes 3 notificacines nuevas</h3>
+                                                <h3 id="newN"></h3>
                                             </div>
                                         </li>
                                         <li><a href="#">
-                                           <div class="notification_desc">
-                                            <p>Lorem ipsum dolor sit amet</p>
-                                            <p><span>1 hour ago</span></p>
+                                            <div class="notification_desc">
+                                                <p id="notify"></p>
+                                                <p id="notify2"></p>
                                             </div>
-                                          <div class="clearfix"></div>  
-                                         </a></li>
-                                         <li class="odd"><a href="#">
-                                           <div class="notification_desc">
-                                            <p>Lorem ipsum dolor sit amet </p>
-                                            <p><span>1 hour ago</span></p>
-                                            </div>
-                                           <div class="clearfix"></div> 
-                                         </a></li>
-                                         <li><a href="#">
-                                           <div class="notification_desc">
-                                            <p>Lorem ipsum dolor sit amet </p>
-                                            <p><span>1 hour ago</span></p>
-                                            </div>
-                                           <div class="clearfix"></div> 
-                                         </a></li>
+                                            <div class="clearfix"></div>  
+                                        </a></li>
                                          <li>
                                             <div class="notification_bottom">
                                                 <a href="#">Ver todas las notificaciones</a>

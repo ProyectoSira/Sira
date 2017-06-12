@@ -75,11 +75,16 @@ public function ajax_list()
 	public function ajax_add()
 	{
 		$this->_validate();
-		$data = array(
+		$val = $this->grado->val_grado($this->input->post('NOM_GRADO'));
+		if ($val) {
+			echo json_encode(array("error" => TRUE));
+		}else{
+			$data = array(
 				'NOM_GRADO' => $this->input->post('NOM_GRADO'),
 			);
 		$insert = $this->grado->save($data);
 		echo json_encode(array("status" => TRUE));
+		}
 	}
 
 	public function ajax_update()

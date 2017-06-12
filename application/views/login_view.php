@@ -104,6 +104,8 @@
 	}
 
     $('#btnLogin').click(function () {
+    	$('#btnLogin').text('Entrando...'); //change button text
+    	$('#btnLogin').attr('disabled',true); //set button disable
     	var nom = $('#nomUsu').val();
 		var pass = $('#pasWord').val();
 		$.ajax({
@@ -125,13 +127,16 @@
 	                    $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); //select span help-block class set text error string
 	                }
 	            } 
+	            $('#btnLogin').text('Iniciar Sesion'); //change button text
+    			$('#btnLogin').attr('disabled',false); //set button disable
 	        },
 	        error: function (jqXHR, textStatus, errorThrown)
 	        {
 	            $("#result").addClass("alert alert-danger");
 	            $('#result').text('Nombre de usuario y/o contraseña incorrectos'); 
 	            setTimeout("cerrarAlerta()",3000);
-	 
+	 			$('#btnLogin').text('Iniciar Sesion'); //change button text
+    			$('#btnLogin').attr('disabled',false); //set button disable
 	        }
     	});
 

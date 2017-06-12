@@ -20,10 +20,10 @@
                     <th>Tipo Emp.</th>
                     <th>Nombres</th>
                     <th>Apellidos</th>
-                    <th>Email</th>
-                    <th>Telefono 1</th>
-                    <th>Telefono 2</th>
-                    <th style="width:55px;">Accion</th>
+                    <th>Correo</th>
+                    <th>Teléfono 1</th>
+                    <th>Teléfono 2</th>
+                    <th style="width:55px;">Acción</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,10 +36,10 @@
                     <th>Tipo Emp.</th>
                     <th>Nombres</th>
                     <th>Apellidos</th>
-                    <th>Email</th>
-                    <th>Telefono 1</th>
-                    <th>Telefono 2</th>
-                    <th>Accion</th>
+                    <th>Correo</th>
+                    <th>Teléfono 1</th>
+                    <th>Teléfono 2</th>
+                    <th>Acción</th>
             </tr>
             </tfoot>
         </table>
@@ -153,6 +153,11 @@ function cerrarAlerta(){
     $("#result").removeClass("alert alert-info");
     $("#result").removeClass("alert alert-warning");
     $('#result').text('');
+}
+
+function cerrarAlerta2(){
+    $("#alert").removeClass("alert alert-danger");
+    $('#alert').text('');
 }
 
 function add_person()
@@ -300,12 +305,36 @@ function save()
                 }
                 setTimeout("cerrarAlerta()",2000);
             }
+            else if (data.doc) {
+                $("#alert").addClass("alert alert-danger");
+                $('#alert').text('El documento no es válido'); 
+                setTimeout("cerrarAlerta2()",4000);
+            }
+            else if (data.valdoc) {
+                $("#alert").addClass("alert alert-danger");
+                $('#alert').text('El documento ya se encuentra registrado'); 
+                setTimeout("cerrarAlerta2()",4000);
+            }
+            else if (data.doc == false) {
+                $("#alert").addClass("alert alert-danger");
+                $('#alert').text('El tipo de documento no corresponde a la fecha de nacimiento'); 
+                setTimeout("cerrarAlerta2()",4000);
+            }
+            else if (data.mail) {
+                $("#alert").addClass("alert alert-danger");
+                $('#alert').text('El correo electrónico no es válido'); 
+                setTimeout("cerrarAlerta2()",4000);
+            }
+            else if (data.mail == false) {
+                $("#alert").addClass("alert alert-danger");
+                $('#alert').text('El correo electrónico ya se encuentra registrado'); 
+                setTimeout("cerrarAlerta2()",4000);
+            }
             else
             {
-                for (var i = 0; i < data.inputerror.length; i++) 
-                {
-                    $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
-                }
+                $("#alert").addClass("alert alert-danger");
+                $('#alert').text('No dejes campos obligatorios en blanco'); 
+                setTimeout("cerrarAlerta2()",4000);
             }
             $('#btnSave').text('Guardar'); //change button text
             $('#btnSave').attr('disabled',false); //set button enable 
@@ -328,7 +357,7 @@ function delete_person(id)
     {
         // ajax delete data to database
         $.ajax({
-            url : "<?php echo site_url('person/ajax_delete')?>/"+id,
+            url : "<?php echo site_url('empleado/ajax_delete')?>/"+id,
             type: "POST",
             dataType: "JSON",
             success: function(data)
@@ -362,6 +391,7 @@ function delete_person(id)
             <div class="modal-body form">
                 <form action="#" id="form">
                     <div class="form-body">
+                    <div id="alert"></div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -445,7 +475,7 @@ function delete_person(id)
                                 <span class="help-block"></span>
                         </div>
                         <div class="form-group">
-                            <label>Direccion <span style="color: red;">*</span></label>
+                            <label>Dirección <span style="color: red;">*</span></label>
                                 <input name="DIR_EMP" placeholder="DIRECCION" class="form-control" type="text" onkeyup="javascript:this.value=this.value.toUpperCase();">
                                 <span class="help-block"></span>
                         </div>
@@ -455,12 +485,12 @@ function delete_person(id)
                                 <span class="help-block"></span>
                         </div>
                         <div class="form-group">
-                            <label>TELEFONO 1 <span style="color: red;">*</span></label>
+                            <label>Teléfono 1 <span style="color: red;">*</span></label>
                                 <input name="TEL1_EMP" placeholder="Telefono 1" class="form-control" type="text" onkeypress="return justNumbers(event);">
                                 <span class="help-block"></span>
                         </div>
                         <div class="form-group">
-                            <label>Telefono 2</label>
+                            <label>Teléfono 2</label>
                                 <input name="TEL2_EMP" placeholder="TELEFONO 2" class="form-control" type="text" onkeypress="return justNumbers(event);">
                                 <span class="help-block"></span>
                         </div>

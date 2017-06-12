@@ -13,7 +13,6 @@ class Sancion extends CI_Controller {
 	{
 		$this->load->helper('url');
 		$data['tipoSancion'] = $this->sancion->get_tipoSancion();
-		$data['empleado'] = $this->sancion->get_empleado();
 		$data['estudiante'] = $this->sancion->get_estudiante();
         if(isset($this->session->userdata['logged_in'])){
         	if (($this->session->userdata['logged_in']['rol']) != 'Secretaria') {
@@ -37,15 +36,8 @@ class Sancion extends CI_Controller {
 			$row[] = $no;
 			$row[] = $sancion->NOM_SANC;
 			$row[] = $sancion->NOM1_EST." ".$sancion->NOM2_EST." ". $sancion->APE1_EST." ". $sancion->APE2_EST;
-			$row[] = $sancion->NOM1_EMP." ".$sancion->NOM2_EMP." ". $sancion->APE1_EMP." ". $sancion->APE2_EMP;
 			$row[] = $sancion->RAZON_SANC;
 			$row[] = $sancion->FECH_SANC;
-			if ($sancion->ESTADO == '0') {
-				$row[] = 'ACTIVA';
-			}else{
-				$row[] = 'INACTIVA';
-			}
-
 
 			//add html for action
 			$row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_person('."'".$sancion->COD_SANC."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
@@ -83,10 +75,9 @@ class Sancion extends CI_Controller {
 		$data = array(
 				'COD_TIP_SANC' => $this->input->post('COD_TIP_SANC'),
                 'DOC_EST' => $this->input->post('DOC_EST'),
-                'DOC_EMP' => $this->input->post('DOC_EMP'),
+                'DOC_EMP' => ($this->session->userdata['logged_in']['documento']),
                 'RAZON_SANC' => $this->input->post('RAZON_SANC'),
                 'FECH_SANC' => $this->input->post('FECH_SANC'),
-                'ESTADO' => $this->input->post('ESTADO'),
 			);
 		$insert = $this->sancion->save($data);
 		echo json_encode(array("status" => TRUE));
@@ -100,10 +91,8 @@ class Sancion extends CI_Controller {
 		$data = array(
 				'COD_TIP_SANC' => $this->input->post('COD_TIP_SANC'),
                 'DOC_EST' => $this->input->post('DOC_EST'),
-                'DOC_EMP' => $this->input->post('DOC_EMP'),
                 'RAZON_SANC' => $this->input->post('RAZON_SANC'),
                 'FECH_SANC' => $this->input->post('FECH_SANC'),
-                'ESTADO' => $this->input->post('ESTADO'),
 			);
 		$this->sancion->update(array('COD_SANC' => $this->input->post('COD_SANC')), $data);
 		echo json_encode(array("status" => TRUE));
@@ -134,12 +123,6 @@ class Sancion extends CI_Controller {
             $data['status'] = FALSE;
         }
 
-        if($this->input->post('DOC_EMP') == '')
-        {
-            $data['inputerror'][] = 'DOC_EMP';
-            $data['status'] = FALSE;
-        }
-
         if($this->input->post('RAZON_SANC') == '')
         {
             $data['inputerror'][] = 'RAZON_SANC';
@@ -152,13 +135,6 @@ class Sancion extends CI_Controller {
             $data['status'] = FALSE;
         }
 
-		if($this->input->post('ESTADO') == '')
-		{
-			$data['inputerror'][] = 'ESTADO';
-			$data['status'] = FALSE;
-		}
-
-		
 		if($data['status'] === FALSE)
 		{
 			echo json_encode($data);

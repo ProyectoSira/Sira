@@ -10,6 +10,7 @@ class Usuario_model extends CI_Model
     function get_empleado(){
 		$this->db->select('*');
 		$this->db->from('tbl_empleado');
+        $this->db->where('ESTADO_EMP','Activo');
         $empleado = $this->db->get();
         if ($empleado->num_rows()>0)
         {

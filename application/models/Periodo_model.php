@@ -101,5 +101,16 @@ class Periodo_model extends CI_Model {
 		$this->db->delete($this->table);
 	}
 
+	public function val_periodo($nomPer){
+		$this->db->select('*');
+		$this->db->from('tbl_periodo');
+		$this->db->where('NOM_PER',$nomPer);
+		$query = $this->db->get();
+		if ($query->num_rows()>0) {
+			return true;
+		}else{
+			return false;
+		}
+	}
 
 }

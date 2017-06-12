@@ -20,10 +20,10 @@
                     <th>Tipo Doc.</th>
                     <th>Nombres</th>
                     <th>Apellidos</th>
-                    <th>Telefono 1</th>
-                    <th>Telefono 2</th>
+                    <th>Teléfono 1</th>
+                    <th>Teléfono 2</th>
                     <th>Correo</th>
-                    <th id="hola" style="width:55px;">Accion</th>
+                    <th id="hola" style="width:55px;">Acción</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,10 +35,10 @@
                     <th>Tipo Doc.</th>
                     <th>Nombres</th>
                     <th>Apellidos</th>
-                    <th>Telefono 1</th>
-                    <th>Telefono 2</th>
+                    <th>Teléfono 1</th>
+                    <th>Teléfono 2</th>
                     <th>Correo</th>
-                    <th>Accion</th>
+                    <th>Acción</th>
             </tr>
             </tfoot>
         </table>
@@ -153,6 +153,11 @@ function cerrarAlerta(){
     $("#result").removeClass("alert alert-info");
     $("#result").removeClass("alert alert-warning");
     $('#result').text('');
+}
+
+function cerrarAlerta2(){
+    $("#alert").removeClass("alert alert-danger");
+    $('#alert').text('');
 }
 
 function add_estudiante()
@@ -296,15 +301,36 @@ function save()
                 }
                 setTimeout("cerrarAlerta()",2000);
             }
+            else if (data.doc) {
+                $("#alert").addClass("alert alert-danger");
+                $('#alert').text('El documento no es válido'); 
+                setTimeout("cerrarAlerta2()",4000);
+            }
+            else if (data.valdoc) {
+                $("#alert").addClass("alert alert-danger");
+                $('#alert').text('El documento ya se encuentra registrado'); 
+                setTimeout("cerrarAlerta2()",4000);
+            }
+            else if (data.doc == false) {
+                $("#alert").addClass("alert alert-danger");
+                $('#alert').text('El tipo de documento no corresponde a la fecha de nacimiento'); 
+                setTimeout("cerrarAlerta2()",4000);
+            }
+            else if (data.mail) {
+                $("#alert").addClass("alert alert-danger");
+                $('#alert').text('El correo electrónico no es válido'); 
+                setTimeout("cerrarAlerta2()",4000);
+            }
+            else if (data.mail == false) {
+                $("#alert").addClass("alert alert-danger");
+                $('#alert').text('El correo electrónico ya se encuentra registrado'); 
+                setTimeout("cerrarAlerta2()",4000);
+            }
             else
             {
-                for (var i = 0; i < data.inputerror.length; i++) 
-                {
-                   
-                    $('[name="'+data.inputerror[i]+'"]').next().
-                    html("<div style='color: red;'>"+data.error_string[i]+"</div>"); //select span help-block class set text error string
-                    
-                }
+                $("#alert").addClass("alert alert-danger");
+                $('#alert').text('No dejes campos obligatorios en blanco'); 
+                setTimeout("cerrarAlerta2()",4000);
             }
             $('#btnSave').text('Guardar'); //change button text
             $('#btnSave').attr('disabled',false); //set button enable 
@@ -361,6 +387,7 @@ function delete_person(id)
             <div class="modal-body form">
                 <form action="#" id="form" >
                     <div class="form-body">
+                    <div id="alert"></div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">

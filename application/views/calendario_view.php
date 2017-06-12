@@ -18,8 +18,8 @@
                 <tr>
                     <th style="width:100px;">Id Calendario</th>
                     <th style="width:100px;">Año</th>
-                    <th style="width:100px;">Periodo</th>
-                    <th style="width:55px;">Accion</th>
+                    <th style="width:100px;">Período</th>
+                    <th style="width:55px;">Acción</th>
                 </tr>
             </thead>
             <tbody>
@@ -29,8 +29,8 @@
             <tr>
                 <th>Id Calendario</th>
                 <th>Año</th>
-                <th>Periodo</th>
-                <th>Accion</th>
+                <th>Período</th>
+                <th>Acción</th>
             </tr>
             </tfoot>
         </table>
@@ -147,6 +147,11 @@ function cerrarAlerta(){
     $('#result').text('');
 }
 
+function cerrarAlerta2(){
+    $("#alert").removeClass("alert alert-danger");
+    $('#alert').text('');
+}
+
 function add_person()
 {
     save_method = 'add';
@@ -241,10 +246,9 @@ function save()
             }
             else
             {
-                for (var i = 0; i < data.inputerror.length; i++) 
-                {
-                    $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
-                }
+                $("#alert").addClass("alert alert-danger");
+                $('#alert').text('No dejes campos obligatorios en blanco');
+                setTimeout("cerrarAlerta2()",3000);
             }
             $('#btnSave').text('Guardar'); //change button text
             $('#btnSave').attr('disabled',false); //set button enable 
@@ -301,16 +305,17 @@ function delete_person(id)
             <div class="modal-body form">
                 <form action="#" id="form" class="form-horizontal">
                     <div class="form-body">
+                    <div id="alert"></div>
                         <input type="hidden" value="" name="COD_CAL"/>
                         <div class="form-group">
                             <label class="control-label col-md-3">Año <span style="color: red;">*</span></label>
                             <div class="col-md-9">
-                                <input name="AÑO_CAL" placeholder="AÑO" class="form-control" type="text" onkeypress="return justNumbers(event);">
+                                <input disabled="true" value="2017" name="AÑO_CAL" placeholder="AÑO" class="form-control" type="text" onkeypress="return justNumbers(event);">
                                 <span class="help-block"></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3">Periodo <span style="color: red;">*</span></label>
+                            <label class="control-label col-md-3">Período <span style="color: red;">*</span></label>
                             <div class="col-md-9">
                                 <select name="COD_PER" class="selectpicker form-control">
                                     <option value="">--SELECCIONE--</option>

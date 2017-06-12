@@ -97,7 +97,25 @@ class Acudiente extends CI_Controller {
 	public function ajax_add()
 	{
 		$this->_validate();
-		$data = array(
+		$mail2 = $this->acudiente->val_email($this->input->post('EMAIL_ACU'));
+		$doc = $this->acudiente->val_doc($this->input->post('DOC_ACU'));
+		$mail = $this->comprobar_email($this->input->post('EMAIL_ACU'));
+		if (strlen($this->input->post('DOC_ACU')) < 7 or strlen($this->input->post('DOC_ACU')) > 11) {
+			echo json_encode(array("doc" => TRUE));
+		}else if ($doc) {
+			echo json_encode(array("valdoc" => TRUE));
+		}
+		else if ($this->input->post('ID_TIP_DOC') == '1') {
+			echo json_encode(array("doc" => FALSE));
+		}
+		else if ($mail == 0) {
+			echo json_encode(array("mail" => TRUE));
+		}
+		else if ($mail2) {
+			echo json_encode(array("mail" => FALSE));
+		}
+		else{
+			$data = array(
 				'DOC_ACU' => $this->input->post('DOC_ACU'),
 				'ID_TIP_DOC' => $this->input->post('ID_TIP_DOC'),
                 'NOM1_ACU' => $this->input->post('NOM1_ACU'),
@@ -113,6 +131,7 @@ class Acudiente extends CI_Controller {
 			);
 		$insert = $this->acudiente->save($data);
 		echo json_encode(array("status" => TRUE));
+		}
 	}
 
 	public function ajax_update()
@@ -137,7 +156,10 @@ class Acudiente extends CI_Controller {
 
 	public function ajax_delete($id)
 	{
-		$this->acudiente->delete_by_id($id);
+		$data = array(
+				'ESTDO_ACU' => 'Inactivo',
+			);
+		$this->acudiente->update(array('DOC_ACU' => $id), $data);
 		echo json_encode(array("status" => TRUE));
 	}
 
@@ -145,60 +167,50 @@ class Acudiente extends CI_Controller {
 	private function _validate()
 	{
 		$data = array();
-		$data['inputerror'] = array();
 		$data['status'] = TRUE;
 
 		if($this->input->post('DOC_ACU') == '')
 		{
-			$data['inputerror'][] = 'DOC_ACU';
 			$data['status'] = FALSE;
 		}
 
 		if($this->input->post('ID_TIP_DOC') == '')
 		{
-			$data['inputerror'][] = 'ID_TIP_DOC';
 			$data['status'] = FALSE;
 		}
 
         if($this->input->post('NOM1_ACU') == '')
         {
-            $data['inputerror'][] = 'NOM1_ACU';
             $data['status'] = FALSE;
         }
 
         if($this->input->post('APE1_ACU') == '')
         {
-            $data['inputerror'][] = 'APE1_ACU';
             $data['status'] = FALSE;
         }
 
 		if($this->input->post('FECH_NAC_ACU') == '')
 		{
-			$data['inputerror'][] = 'FECH_NAC_ACU';
 			$data['status'] = FALSE;
 		}
 
 		if($this->input->post('EMAIL_ACU') == '')
 		{
-			$data['inputerror'][] = 'EMAIL_ACU';
 			$data['status'] = FALSE;
 		}
 
 		if($this->input->post('CIU_ACU') == '')
 		{
-			$data['inputerror'][] = 'CIU_ACU';
 			$data['status'] = FALSE;
 		}
 
 		if($this->input->post('DIR_ACU') == '')
 		{
-			$data['inputerror'][] = 'DIR_ACU';
 			$data['status'] = FALSE;
 		}
 
         if($this->input->post('TEL1_ACU') == '')
         {
-            $data['inputerror'][] = 'TEL1_ACU';
             $data['status'] = FALSE;
         }
 
@@ -208,6 +220,33 @@ class Acudiente extends CI_Controller {
 			echo json_encode($data);
 			exit();
 		}
+	}
+
+	function comprobar_email($email){
+	   $mail_correcto = 0;
+	   //compruebo unas cosas primeras
+	   if ((strlen($email) >= 6) && (substr_count($email,"@") == 1) && (substr($email,0,1) != "@") && (substr($email,strlen($email)-1,1) != "@")){
+	      if ((!strstr($email,"'")) && (!strstr($email,"\"")) && (!strstr($email,"\\")) && (!strstr($email,"\$")) && (!strstr($email," "))) {
+	         //miro si tiene caracter .
+	         if (substr_count($email,".")>= 1){
+	            //obtengo la terminacion del dominio
+	            $term_dom = substr(strrchr ($email, '.'),1);
+	            //compruebo que la terminación del dominio sea correcta
+	            if (strlen($term_dom)>1 && strlen($term_dom)<5 && (!strstr($term_dom,"@")) ){
+	               //compruebo que lo de antes del dominio sea correcto
+	               $antes_dom = substr($email,0,strlen($email) - strlen($term_dom) - 1);
+	               $caracter_ult = substr($antes_dom,strlen($antes_dom)-1,1);
+	               if ($caracter_ult != "@" && $caracter_ult != "."){
+	                  $mail_correcto = 1;
+	               }
+	            }
+	         }
+	      }
+	   }
+	   if ($mail_correcto)
+	      return 1;
+	   else
+	      return 0;
 	}
 
 }

@@ -3,9 +3,8 @@
 
 <div class="container-fluid">
  
-        <h1 style="font-size:20pt">Registro de Programacion</h1>
+        <h1 style="font-size:20pt">Registro de Planeación</h1>
 
-        <h3>Datos de la Programacion</h3>
         <div id="result"></div>
         <br />
         <button class="btn btn-success" onclick="add_person()"><i class="glyphicon glyphicon-plus"></i> Nuevo</button>
@@ -15,16 +14,10 @@
         <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
                 <tr>
-                    <th>Id Programacion</th>
-                    <th>Empleado</th>
-                    <th>Asignatura</th>
-                    <th>Aula</th>
-                    <th>Hora Inicio</th>
-                    <th>Hora Fin</th>
-                    <th>Dia</th>
-                    <th>Calendario</th>
-                    <th>Grupo</th>
-                    <th style="width:55px;">Accion</th>
+                    <th>N°</th>
+                    <th>URL Archivo</th>
+                    <th>Programación</th>
+                    <th style="width:55px;">Acción</th>
                 </tr>
             </thead>
             <tbody>
@@ -32,16 +25,10 @@
 
             <tfoot>
                 <tr>
-                    <th>Id Programacion</th>
-                    <th>Empleado</th>
-                    <th>Asignatura</th>
-                    <th>Aula</th>
-                    <th>Hora Inicio</th>
-                    <th>Hora Fin</th>
-                    <th>Dia</th>
-                    <th>Calendario</th>
-                    <th>Grupo</th>
-                    <th>Accion</th>
+                    <th>N°</th>
+                    <th>URL Archivo</th>
+                    <th>Programación</th>
+                    <th>Acción</th>
                 </tr>
             </tfoot>
         </table>
@@ -81,7 +68,7 @@ $(document).ready(function() {
 
         // Load data for the table's content from an Ajax source
         "ajax": {
-            "url": "<?php echo site_url('programacion/ajax_list')?>",
+            "url": "<?php echo site_url('planeacion/ajax_list')?>",
             "type": "POST"
         },
 
@@ -160,19 +147,9 @@ function add_person()
     $('.form-group').removeClass('has-error'); // clear error class
     $('.help-block').empty(); // clear error string
     $('#modal_form').modal('show'); // show bootstrap modal
-    $('.modal-title').text('Nueva Programacion'); // Set Title to Bootstrap modal title
-    $('select[name="DIA_SEM"]').val();
-    $('select[name="DIA_SEM"]').change();
-    $('select[name="COD_CAL"]').val();
-    $('select[name="COD_CAL"]').change();
-    $('select[name="DOC_EMP"]').val();
-    $('select[name="DOC_EMP"]').change();
-    $('select[name="COD_GRUPO"]').val();
-    $('select[name="COD_GRUPO"]').change();
-    $('select[name="COD_ASIG"]').val();
-    $('select[name="COD_ASIG"]').change();
-    $('select[name="COD_AULA"]').val();
-    $('select[name="COD_AULA"]').change();
+    $('.modal-title').text('Nueva Planeación'); // Set Title to Bootstrap modal title
+    $('select[name="COD_PROGRA"]').val();
+    $('select[name="COD_PROGRA"]').change();
 }
 
 function edit_person(id)
@@ -183,28 +160,17 @@ function edit_person(id)
     $('.help-block').empty(); // clear error string
     //Ajax Load data from ajax
     $.ajax({
-        url : "<?php echo site_url('programacion/ajax_edit/')?>/" + id,
+        url : "<?php echo site_url('planeacion/ajax_edit/')?>/" + id,
         type: "GET",
         dataType: "JSON",
         success: function(data)
         {
-            $('[name="COD_PROGRA"]').val(data.COD_PROGRA);
-            $('select[name="DOC_EMP"]').val(data.DOC_EMP);
-            $('select[name="DOC_EMP"]').change();
-            $('select[name="COD_ASIG"]').val(data.COD_ASIG);
-            $('select[name="COD_ASIG"]').change();
-            $('select[name="COD_AULA"]').val(data.COD_AULA);
-            $('select[name="COD_AULA"]').change();
-            $('[name="HORA_INI"]').val(data.HORA_INI);
-            $('[name="HORA_FIN"]').val(data.HORA_FIN);
-            $('select[name="DIA_SEM"]').val(data.DIA_SEM);
-            $('select[name="DIA_SEM"]').change();
-            $('select[name="COD_CAL"]').val(data.COD_CAL);
-            $('select[name="COD_CAL"]').change();
-            $('select[name="COD_GRUPO"]').val(data.COD_GRUPO);
-            $('select[name="COD_GRUPO"]').change();
+            $('[name="COD_PLANEACION"]').val(data.COD_PLANEACION);
+            $('[name="URL_ARCHIVO"]').val(data.URL_ARCHIVO);
+            $('select[name="COD_PROGRA"]').val(data.COD_PROGRA);
+            $('select[name="COD_PROGRA"]').change();
             $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
-            $('.modal-title').text('Editar Programacion');
+            $('.modal-title').text('Editar Planeación');
 
         },
         error: function (jqXHR, textStatus, errorThrown)
@@ -228,9 +194,9 @@ function save()
     var url;
  
     if(save_method == 'add') {
-        url = "<?php echo site_url('programacion/ajax_add')?>";
+        url = "<?php echo site_url('planeacion/ajax_add')?>";
     } else {
-        url = "<?php echo site_url('programacion/ajax_update')?>";
+        url = "<?php echo site_url('planeacion/ajax_update')?>";
     }
  
     // ajax adding data to database
@@ -284,7 +250,7 @@ function delete_person(id)
     {
         // ajax delete data to database
         $.ajax({
-            url : "<?php echo site_url('programacion/ajax_delete')?>/"+id,
+            url : "<?php echo site_url('planeacion/ajax_delete')?>/"+id,
             type: "POST",
             dataType: "JSON",
             success: function(data)
@@ -333,18 +299,25 @@ function validar(e) {
             <div class="modal-body form">
                 <form action="#" id="form" class="form-horizontal">
                     <div class="form-body">
-                        <input type="hidden" value="" name="COD_PROGRA"/>
+                        <input type="hidden" value="" name="COD_PLANEACION"/>
                         <div class="form-group">
-                            <label class="control-label col-md-3">Empleado <span style="color: red;">*</span></label>
+                            <label class="control-label col-md-3">URL Del Archivo <span style="color: red;">*</span></label>
                             <div class="col-md-9">
-                                <select name="DOC_EMP" class="selectpicker form-control" data-live-search="true">
+                                <input name="URL_ARCHIVO" placeholder="URL DEL ARCHIVO" class="form-control" type="text">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Programación <span style="color: red;">*</span></label>
+                            <div class="col-md-9">
+                                <select name="COD_PROGRA" class="selectpicker form-control" data-live-search="true">
                                     <option value="">--SELECCIONAR--</option>
                                     <?php 
-                                      foreach ($empleado as $filas) 
+                                      foreach ($programacion as $filas) 
                                       {
                                    ?>
-                                   <option value="<?= $filas->DOC_EMP ?>" data-subtext="<?=$filas->NOM1_EMP," ",$filas->NOM2_EMP," ",$filas->APE1_EMP ?>">
-                                   <?= $filas->DOC_EMP ?></option>
+                                   <option value="<?= $filas->COD_PROGRA ?>">
+                                   <?=$filas->COD_PROGRA ?></option>
                                    <?php 
                                         }
                                     ?>
@@ -352,104 +325,6 @@ function validar(e) {
                                 <span class="help-block"></span>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Asignatura <span style="color: red;">*</span></label>
-                            <div class="col-md-9">
-                                <select name="COD_ASIG" class="selectpicker form-control" data-live-search="true">
-                                    <option value="">--SELECCIONAR--</option>
-                                    <?php 
-                                      foreach ($asignatura as $filas) 
-                                      {
-                                   ?>
-                                   <option value="<?= $filas->COD_ASIG ?>">
-                                   <?= $filas->NOM_ASIG ?></option>
-                                   <?php 
-                                        }
-                                    ?>
-                                </select>
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Aula <span style="color: red;">*</span></label>
-                            <div class="col-md-9">
-                                <select name="COD_AULA" class="selectpicker form-control">
-                                    <option value="">--SELECCIONAR--</option>
-                                    <?php 
-                                      foreach ($aula as $filas) 
-                                      {
-                                   ?>
-                                   <option value="<?= $filas->COD_AULA ?>" >
-                                   <?= $filas->NUM_AULA ?></option>
-                                   <?php 
-                                        }
-                                    ?>
-                                </select>
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Hora Inicio <span style="color: red;">*</span></label>
-                            <div class="col-md-9">
-                                <input name="HORA_INI" placeholder="HORA INICIO" class="form-control" type="text" id="HORA_INI">
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Hora Fin <span style="color: red;">*</span></label>
-                            <div class="col-md-9">
-                                <input name="HORA_FIN" placeholder="HORA FIN" class="form-control" type="text" id="HORA_FIN">
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Dia <span style="color: red;">*</span></label>
-                            <div class="col-md-9">
-                                <select name="DIA_SEM" class="selectpicker form-control">
-                                    <option value="">--SELECCIONE--</option>
-                                    <option value="LUNES">LUNES</option>
-                                    <option value="MARTES">MARTES</option>
-                                    <option value="MIERCOLES">MIERCOLES</option>
-                                    <option value="JUEVES">JUEVES</option>
-                                    <option value="VIERNES">VIERNES</option>
-                                </select>
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Calendario <span style="color: red;">*</span></label>
-                            <div class="col-md-9">
-                                <select name="COD_CAL" class="selectpicker form-control">
-                                    <option value="">--SELECCIONAR--</option>
-                                    <?php 
-                                      foreach ($calendario as $filas) 
-                                      {
-                                   ?>
-                                   <option value="<?= $filas->COD_CAL ?>" data-subtext="<?=$filas->AÑO_CAL ?>">
-                                   <?= $filas->COD_CAL ?></option>
-                                   <?php 
-                                        }
-                                    ?>
-                                </select>
-                                <span class="help-block"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Grupo <span style="color: red;">*</span></label>
-                            <div class="col-md-9">
-                                <select name="COD_GRUPO" class="selectpicker form-control">
-                                    <option value="">--SELECCIONAR--</option>
-                                    <?php 
-                                foreach ($grupo as $fila) {
-                                ?>
-                                <option value="<?= $fila->COD_GRUPO ?>"><?= $fila->NOM_GRADO, " ",$fila->NUM_GRUPO?></option>
-                                <?php 
-                                 }
-                                ?>
-                                </select>
-                                <span class="help-block"></span>
-                            </div>
-                        </div>  
                     </div>
                 </form>
             </div>

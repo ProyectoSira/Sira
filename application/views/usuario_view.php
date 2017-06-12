@@ -2,7 +2,7 @@
 <div id="page-wrapper">
     <div class="container-fluid">
     <div class="page-header">
-    <h1>Asignacion de Usuarios</h1>
+    <h1>Asignación de Usuarios</h1>
     </div>
     <h3>Registrar nuevo usuario</h3>
     <br>
@@ -56,7 +56,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <button class="btn btn-danger form-control"><span class="glyphicon glyphicon-remove"></span> Guardar</button>
+                        <button class="btn btn-danger form-control" id="btnCancelar"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
                     </div>
                 </div>
             </div>
@@ -91,7 +91,7 @@
                 dataType: "JSON",
                 success: function(data){
                     $('#ROL_USU').val(data.NOM_CARGO_EMP.toLowerCase());
-                    $('#NOM_USU').val(data.NOM1_EMP.toLowerCase()+""+data.APE1_EMP.toLowerCase());
+                    $('#NOM_USU').val(data.EMAIL_EMP.toLowerCase());
                     $('#PASS_USU').val(data.DOC_EMP);
                 },
                 error: function(jqXHR, textStatus, errorThrown){
@@ -143,6 +143,16 @@
                     alert('Error al registrar el usuario');
                 }
         });
+    });
+
+    $('#btnCancelar').click(function () {
+        var empleado = $('#DOC_EMP').val();
+        $('#ROL_USU').val('');
+        $('#NOM_USU').val('');
+        $('#PASS_USU').val('');
+        $('.emp').find('[value='+empleado+']').remove();
+        $('.emp').selectpicker('refresh');
+
     });
 
 </script>

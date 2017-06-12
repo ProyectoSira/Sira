@@ -63,12 +63,12 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-primary">
-                    <div class="panel-heading"><h2>Informacion de Usuario <span class="glyphicon glyphicon-user"></span></h2></div>
+                    <div class="panel-heading"><h2>Información de Usuario <span class="glyphicon glyphicon-user"></span></h2></div>
                     <div class="panel-body">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label style="font-size: 16px;"><strong>Nombre de Usuario:</strong></label>
-                                <label><?php echo ($this->session->userdata['logged_in']['username'])?></label>
+                                <label><?php echo ($this->session->userdata['logged_in']['nombre'])?></label>
                             </div>
                             <div class="form-group">
                                 <button class="btn btn-primary form-control" id="btnEditNom"><span class="glyphicon glyphicon-pencil"></span> Editar nombre de usuario</button>
@@ -137,7 +137,6 @@ $(document).ready(function() {
     function cerrarAlerta(){
         $("#result").removeClass("alert alert-success");
         $('#result').text('');
-        location.reload();
     }
 
     function cerrarAlerta2(){
@@ -248,14 +247,18 @@ $(document).ready(function() {
                     <div class="form-body">
                     <div id="result2"></div>
                         <div class="form-group">
-                            <label>Documento <span style="color: red;">*</span></label>
+                            <label class="control-label col-md-3">Documento <span style="color: red;">*</span></label>
+                            <div class="col-md-9">
                                 <input name="DOC_EMP" placeholder="DOCUMENTO" class="form-control" type="text" id="DOC_EMP" onkeypress="return justNumbers(event);">
                                 <span class="help-block"></span>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label >Nuevo nombre de usuario <span style="color: red;">*</span></label>
+                            <label class="control-label col-md-3">Nuevo Usuario <span style="color: red;">*</span></label>
+                            <div class="col-md-9">
                             <input name="NOM_USU" placeholder="NOMBRE DE USUARIO" class="form-control" type="text" onkeypress="return validar(event)">
                             <span class="help-block"></span>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -280,19 +283,25 @@ $(document).ready(function() {
                     <div class="form-body">
                     <div id="result3"></div>
                         <div class="form-group">
-                            <label>Nombre de Usuario <span style="color: red;">*</span></label>
+                            <label class="control-label col-md-4">Nombre de Usuario <span style="color: red;">*</span></label>
+                            <div class="col-md-8">
                                 <input name="NOM_USU2" placeholder="NOMBRE DE USUARIO" class="form-control" type="text" id="DOC_EMP" >
                                 <span class="help-block"></span>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label >Contraseña <span style="color: red;">*</span></label>
+                            <label class="control-label col-md-4">Contraseña <span style="color: red;">*</span></label>
+                            <div class="col-md-8">
                             <input name="PASS_USU" placeholder="CONTRASEÑA" class="form-control" type="password" >
                             <span class="help-block"></span>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label >Confirmar Contraseña <span style="color: red;">*</span></label>
+                            <label class="control-label col-md-4">Confirmar Contraseña <span style="color: red;">*</span></label>
+                            <div class="col-md-8">
                             <input name="PASS_USU2" placeholder="CONFIRMAR CONTRASEÑA" class="form-control" type="password" >
                             <span class="help-block"></span>
+                            </div>
                         </div>
                     </div>
                 </form>

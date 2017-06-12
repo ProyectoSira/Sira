@@ -79,12 +79,17 @@ public function ajax_list()
 	public function ajax_add()
 	{
 		$this->_validate();
-		$data = array(
+		$val = $this->area->val_area($this->input->post('NOM_AREA'));
+		if ($val) {
+			echo json_encode(array("error" => TRUE));
+		}else{
+			$data = array(
 				'NOM_AREA' => $this->input->post('NOM_AREA'),
                 'DOC_EMP' => $this->input->post('DOC_EMP'),
 			);
 		$insert = $this->area->save($data);
 		echo json_encode(array("status" => TRUE));
+		}
 	}
 
 	public function ajax_update()

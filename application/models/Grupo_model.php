@@ -137,5 +137,28 @@ class Grupo_model extends CI_Model {
 		$this->db->delete($this->table);
 	}
 
+	public function val_emp($nomEmp){
+		$this->db->select('*');
+		$this->db->from('tbl_grupo');
+		$this->db->where('DOC_EMP',$nomEmp);
+		$query = $this->db->get();
+		if ($query->num_rows()>0) {
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	public function val_grupo($numGrup, $grado){
+		$this->db->select('*');
+		$this->db->from('tbl_grupo');
+		$this->db->where("(NUM_GRUPO = $numGrup AND COD_GRADO = $grado)");
+		$query = $this->db->get();
+		if ($query->num_rows()>0) {
+			return true;
+		}else{
+			return false;
+		}
+	}
 
 }

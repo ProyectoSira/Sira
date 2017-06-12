@@ -83,24 +83,39 @@ class Asistencia_model extends CI_Model {
 	}
 
 
-	public function save($id, $grupo)
+	public function save($grupo, $fecha)
 	{
-		$array = array('DOC_EST' => $id, 'COD_GRUPO' => $grupo);
+		$array = array('ID_GRUP_EST' => $grupo,
+		 'FECH_INGR_CLAS' => $fecha,
+ 		);
 		$this->db->set($array);
-		$this->db->insert('tbl_grupo_estudio'); 
+		$this->db->insert('tbl_asistencia_clase'); 
 		return $this->db->insert_id();
 	}
 
 	public function get_grupo(){
-       
-	    $this->db->select('*');
+       	$this->db->distinct();
+	    $this->db->select('tbl_grupo.COD_GRUPO, NOM_GRADO, NUM_GRUPO');
 	    $this->db->from('tbl_grupo');
 	    $this->db->join('tbl_grado', 'tbl_grado.COD_GRADO = tbl_grupo.COD_GRADO');
+	    $this->db->join('tbl_programacion', 'tbl_programacion.COD_GRUPO = tbl_grupo.COD_GRUPO');
 	    $this->db->order_by('NOM_GRADO', 'asc' and 'NUM_GRUPO','asc');
+	    $this->db->where('tbl_programacion.DOC_EMP',($this->session->userdata['logged_in']['documento']));
 	    $grupo =  $this->db->get();
 	    if($grupo -> num_rows()>0)
 	    {
 	    	return $grupo->result();
+	    }
+	}
+
+	public function get_grupoEst($id){
+		$this->db->select('ID_EST_GRUP');
+	    $this->db->from('tbl_grupo_estudio');
+	    $this->db->where('DOC_EST',$id);
+	    $query = $this->db->get();
+	    if($query -> num_rows()>0)
+	    {
+	    	return $query->result();
 	    }
 	}
 

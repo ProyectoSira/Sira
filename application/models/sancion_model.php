@@ -5,7 +5,7 @@ class Sancion_model extends CI_Model {
 
 	var $table = 'tbl_sancion';
 	var $column_order = array('COD_SANC','COD_TIP_SANC','DOC_EST','DOC_EMP','RAZON_SANC', 'FECH_SANC','ESTADO',null); //set column field database for datatable orderable
-	var $column_search = array('COD_SANC','DOC_EST','FECH_SANC'); //set column field database for datatable searchable just firstname , lastname , address are searchable
+	var $column_search = array('NOM1_EST','NOM2_EST','APE1_EST','APE2_EST','FECH_SANC'); //set column field database for datatable searchable just firstname , lastname , address are searchable
 	var $order = array('COD_SANC' => 'desc'); // default order 
 
 	public function __construct()
@@ -32,20 +32,6 @@ class Sancion_model extends CI_Model {
 
 	}
 
-	function get_empleado(){
-		$this->db->select('*');
-		$this->db->from('tbl_empleado');
-		$this->db->join('tbl_tipo_empleado','tbl_tipo_empleado.ID_TIP_EMP = tbl_empleado.ID_TIP_EMP');
-		$this->db->where('tbl_empleado.ID_TIP_EMP',3);
-        $empleado = $this->db->get();
-        if ($empleado -> num_rows()>0)
-        {
-       	return $empleado->result();
-        }
-
-	}
-
-
 	private function _get_datatables_query()
 	{
 		$this->db->select('*');
@@ -53,6 +39,7 @@ class Sancion_model extends CI_Model {
         $this->db->join('tbl_tipo_sancion','tbl_tipo_sancion.COD_TIP_SANC = tbl_sancion.COD_TIP_SANC');
         $this->db->join('tbl_estudiante','tbl_estudiante.DOC_EST = tbl_sancion.DOC_EST');
         $this->db->join('tbl_empleado','tbl_empleado.DOC_EMP = tbl_sancion.DOC_EMP');
+        $this->db->where('tbl_sancion.DOC_EMP', ($this->session->userdata['logged_in']['documento']));
 
 
 		$i = 0;

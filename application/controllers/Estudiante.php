@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class estudiante extends CI_Controller {
+class Estudiante extends CI_Controller {
 
 	public function __construct()
 	{
@@ -16,9 +16,15 @@ class estudiante extends CI_Controller {
 		$data['acudiente'] = $this->estudiante->get_acudiente();
 		$data['Grado'] = $this->estudiante->get_grado();
 		$data['ciudad'] = $this->estudiante->get_ciudad();
-		$this->load->view('person_view', $data);
-        
-
+		if(isset($this->session->userdata['logged_in'])){
+			if (($this->session->userdata['logged_in']['rol']) != 'Profesor') {
+        		$this->load->view('estudiante_view', $data);
+        	}else{
+        		redirect('error');
+        	}
+        }else{
+            redirect('login');
+        }      
 	}
 
 	public function ajax_list()
@@ -27,21 +33,39 @@ class estudiante extends CI_Controller {
 		$data = array();
 		$no = $_POST['start'];
 		foreach ($list as $estudiante) {
-			$no++;
-			$row = array();
-			$row[] = '<a class="btn btn-sm btn-default" href="javascript:void(0)" title="Hapus" onclick="view_person('."'".$estudiante->DOC_EST."'".')"><i class="glyphicon glyphicon-eye-open"></i></a>'." ".$estudiante->	DOC_EST;
-			$row[] = $estudiante->SIGLA_DOC;
-			$row[] = $estudiante->NOM1_EST." ".$estudiante->NOM2_EST;
-			$row[] = $estudiante->APE1_EST." ".$estudiante->APE2_EST;
-			$row[] = $estudiante->TEL1_EST;
-			$row[] = $estudiante->GRADO_EST;
-			$row[] = $estudiante->EMAIL_EST;
+			if (($this->session->userdata['logged_in']['rol']) == 'Coordinador') {
+				$no++;
+				$row = array();
+				$row[] = '<a class="btn btn-sm btn-default" href="javascript:void(0)" title="Hapus" onclick="view_person('."'".$estudiante->DOC_EST."'".')"><i class="glyphicon glyphicon-eye-open"></i></a>'." ".$estudiante->DOC_EST;
+				$row[] = $estudiante->SIGLA_DOC;
+				$row[] = $estudiante->NOM1_EST." ".$estudiante->NOM2_EST;
+				$row[] = $estudiante->APE1_EST." ".$estudiante->APE2_EST;
+				$row[] = $estudiante->TEL1_EST;
+				$row[] = $estudiante->GRADO_EST;
+				$row[] = $estudiante->EMAIL_EST;
 
-			//add html for action
-			$row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_person('."'".$estudiante->DOC_EST."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
-				  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_person('."'".$estudiante->DOC_EST."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
-		
-			$data[] = $row;
+				//add html for action
+				$row[] = '<a class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
+					  <a class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-trash"></i></a>';
+			
+				$data[] = $row;
+			}else{
+				$no++;
+				$row = array();
+				$row[] = '<a class="btn btn-sm btn-default" href="javascript:void(0)" title="Hapus" onclick="view_person('."'".$estudiante->DOC_EST."'".')"><i class="glyphicon glyphicon-eye-open"></i></a>'." ".$estudiante->DOC_EST;
+				$row[] = $estudiante->SIGLA_DOC;
+				$row[] = $estudiante->NOM1_EST." ".$estudiante->NOM2_EST;
+				$row[] = $estudiante->APE1_EST." ".$estudiante->APE2_EST;
+				$row[] = $estudiante->TEL1_EST;
+				$row[] = $estudiante->GRADO_EST;
+				$row[] = $estudiante->EMAIL_EST;
+
+				//add html for action
+				$row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_person('."'".$estudiante->DOC_EST."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
+					  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_person('."'".$estudiante->DOC_EST."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
+			
+				$data[] = $row;
+			}
 		}
 
 		$output = array(
@@ -75,7 +99,28 @@ class estudiante extends CI_Controller {
 	public function ajax_add()
 	{
 		$this->_validate();
-		$data = array(
+		$fecha = date('Y-m-j');
+		$nuevafecha = strtotime ( '-18 year' , strtotime ( $fecha ) ) ;
+		$nuevafecha = date ( 'Y-m-j' , $nuevafecha );
+		$mail2 = $this->estudiante->val_email($this->input->post('EMAIL_EST'));
+		$doc = $this->estudiante->val_doc($this->input->post('DOC_EST'));
+		$mail = $this->comprobar_email($this->input->post('EMAIL_EST'));
+		if (strlen($this->input->post('DOC_EST')) < 7 or strlen($this->input->post('DOC_EST')) > 11) {
+			echo json_encode(array("doc" => TRUE));
+		}else if ($doc) {
+			echo json_encode(array("valdoc" => TRUE));
+		}
+		else if ($this->input->post('ID_TIP_DOC') != '1' and $nuevafecha < $this->input->post('FECH_NAC_EST')) {
+			echo json_encode(array("doc" => FALSE));
+		}
+		else if ($mail == 0) {
+			echo json_encode(array("mail" => TRUE));
+		}
+		else if ($mail2) {
+			echo json_encode(array("mail" => FALSE));
+		}
+		else{
+			$data = array(
 				'DOC_EST' => $this->input->post('DOC_EST'),
 				'ID_TIP_DOC_EST' => $this->input->post('ID_TIP_DOC_EST'),
                 'DOC_ACU' => $this->input->post('TBL_ACUDIENTE_DOC_ACU'),
@@ -93,6 +138,7 @@ class estudiante extends CI_Controller {
 			);
 		$insert = $this->estudiante->save($data);
 		echo json_encode(array("status" => TRUE));
+		}
 	}
 
 	public function ajax_update()
@@ -204,6 +250,33 @@ class estudiante extends CI_Controller {
 			echo json_encode($data);
 			exit();
 		}
+	}
+
+	function comprobar_email($email){
+	   $mail_correcto = 0;
+	   //compruebo unas cosas primeras
+	   if ((strlen($email) >= 6) && (substr_count($email,"@") == 1) && (substr($email,0,1) != "@") && (substr($email,strlen($email)-1,1) != "@")){
+	      if ((!strstr($email,"'")) && (!strstr($email,"\"")) && (!strstr($email,"\\")) && (!strstr($email,"\$")) && (!strstr($email," "))) {
+	         //miro si tiene caracter .
+	         if (substr_count($email,".")>= 1){
+	            //obtengo la terminacion del dominio
+	            $term_dom = substr(strrchr ($email, '.'),1);
+	            //compruebo que la terminación del dominio sea correcta
+	            if (strlen($term_dom)>1 && strlen($term_dom)<5 && (!strstr($term_dom,"@")) ){
+	               //compruebo que lo de antes del dominio sea correcto
+	               $antes_dom = substr($email,0,strlen($email) - strlen($term_dom) - 1);
+	               $caracter_ult = substr($antes_dom,strlen($antes_dom)-1,1);
+	               if ($caracter_ult != "@" && $caracter_ult != "."){
+	                  $mail_correcto = 1;
+	               }
+	            }
+	         }
+	      }
+	   }
+	   if ($mail_correcto)
+	      return 1;
+	   else
+	      return 0;
 	}
 
 }

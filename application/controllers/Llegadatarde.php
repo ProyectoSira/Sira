@@ -27,13 +27,12 @@ class Llegadatarde extends CI_Controller {
 	public function ajax_view($id)
 	{
 		$this->db->select('*');
-		$this->db->from('tbl_estudiante_huella_tbl_dedo');
-		$this->db->where('HUELLA_EST', $id);
-        $this->db->join('tbl_estudiante','tbl_estudiante.DOC_EST = tbl_estudiante_huella_tbl_dedo.DOC_EST');
+		$this->db->from('tbl_estudiante');
         $this->db->join('tbl_tipo_documento','tbl_tipo_documento.ID_TIP_DOC = tbl_estudiante.ID_TIP_DOC_EST');
         $this->db->join('tbl_acudiente','tbl_acudiente.DOC_ACU = tbl_estudiante.DOC_ACU');
         $this->db->join('tbl_grupo_estudio','tbl_grupo_estudio.DOC_EST = tbl_estudiante.DOC_EST');
         $this->db->join('tbl_grupo','tbl_grupo.COD_GRUPO = tbl_grupo_estudio.COD_GRUPO');
+        $this->db->where('tbl_estudiante.DOC_EST',$id);
         $data = $this->db->get()->row_array();
 		echo json_encode($data);
 	}

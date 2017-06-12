@@ -3,9 +3,9 @@
 
 <div class="container-fluid">
  
-        <h1 style="font-size:20pt">Registro de Periodos</h1>
+        <h1 style="font-size:20pt">Registro de Períodos</h1>
 
-        <h3>Datos del Periodo</h3>
+        <h3>Datos del Período</h3>
         <div id="result"></div>
         <br />
         <button class="btn btn-success" id="btnNuevo" onclick="add_person()"><i class="glyphicon glyphicon-plus"></i> Nuevo</button>
@@ -21,7 +21,7 @@
                     <th>Nombre</th>
                     <th>Fecha Inicio</th>
                     <th>Fecha Fin</th>
-                    <th style="width:55px;">Accion</th>
+                    <th style="width:55px;">Acción</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,7 +34,7 @@
                     <th>Nombre</th>
                     <th>Fecha Inicio</th>
                     <th>Fecha Fin</th>
-                    <th>Accion</th>
+                    <th>Acción</th>
                 </tr>
             </tfoot>
         </table>
@@ -159,6 +159,12 @@ function cerrarAlerta(){
     $('#result').text('');
 }
 
+function cerrarAlerta2(){
+    $("#alert").removeClass("alert alert-danger");
+    $('#alert').text('');
+}
+
+
 function add_person()
 {
     save_method = 'add';
@@ -167,8 +173,27 @@ function add_person()
     $('.help-block').empty(); // clear error string
     $('#modal_form').modal('show'); // show bootstrap modal
     $('.modal-title').text('Nuevo Periodo'); // Set Title to Bootstrap modal title
+    $('select[name="NUM_PER"]').val();
+    $('select[name="NUM_PER"]').change();
+    $( "#NUM_PER" ).change(function() {
+        var empleado = $('#NUM_PER').val();
+        if (empleado == 1) {
+            $('#NOM_PER').val('PRIMERO');
+        }else if (empleado == 2) {
+            $('#NOM_PER').val('SEGUNDO');
+        }else if (empleado == 3) {
+            $('#NOM_PER').val('TERCERO');
+        }else if (empleado == 4) {
+            $('#NOM_PER').val('CUARTO');
+        }else{
+            $('#NOM_PER').val('');
+        }
+    });
+
 
 }
+
+
 
 function edit_person(id)
 {
@@ -184,7 +209,8 @@ function edit_person(id)
         success: function(data)
         {
             $('[name="COD_PER"]').val(data.COD_PER);
-            $('[name="NUM_PER"]').val(data.NUM_PER);
+            $('select[name="NUM_PER"]').val(data.NUM_PER);
+            $('select[name="NUM_PER"]').change();
             $('[name="NOM_PER"]').val(data.NOM_PER);
             $('[name="FECH_INI_PER"]').val(data.FECH_INI_PER);
             $('[name="FECH_FIN_PER"]').val(data.FECH_FIN_PER);
@@ -241,12 +267,21 @@ function save()
                 }
                 setTimeout("cerrarAlerta()",2000);       
             }
+            else if (data.error) {
+                $("#alert").addClass("alert alert-danger");
+                $('#alert').text('La fecha de fin no puede ser menor o igual a la fecha de inicio'); 
+                setTimeout("cerrarAlerta2()",4000); 
+            }
+            else if (data.error == false) {
+                $("#alert").addClass("alert alert-danger");
+                $('#alert').text('Este periodo ya se encuentra registrado'); 
+                setTimeout("cerrarAlerta2()",4000); 
+            }
             else
             {
-                for (var i = 0; i < data.inputerror.length; i++) 
-                {
-                    $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
-                }
+                $("#alert").addClass("alert alert-danger");
+                $('#alert').text('No dejes campos obligatorios en blanco');
+                setTimeout("cerrarAlerta2()",3000);
             }
             $('#btnSave').text('Guardar'); //change button text
             $('#btnSave').attr('disabled',false); //set button enable 
@@ -319,18 +354,24 @@ function validar(e) {
             <div class="modal-body form">
                 <form action="#" id="form" class="form-horizontal">
                     <div class="form-body">
+                    <div id="alert"></div>
                         <input type="hidden" value="" name="COD_PER"/>
                        <div class="form-group">
-                            <label class="control-label col-md-3">Numero Periodo <span style="color: red;">*</span></label>
+                            <label class="control-label col-md-3">Numero Período <span style="color: red;">*</span></label>
                             <div class="col-md-9">
-                                <input name="NUM_PER" placeholder="NUMERO DE PERIODO" class="form-control" type="text" onkeypress="return justNumbers(event);">
-                                <span class="help-block"></span>
+                                <select id="NUM_PER" name="NUM_PER" class="selectpicker form-control" data-live-search="true">
+                                    <option value="">--SELECCIONAR--</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3">Nombre Periodo <span style="color: red;">*</span></label>
+                            <label class="control-label col-md-3">Nombre Período <span style="color: red;">*</span></label>
                             <div class="col-md-9">
-                                <input name="NOM_PER" placeholder="NOMBRE DE PERIODO" class="form-control" type="text"  style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" onkeypress="return validar(event)">
+                                <input id="NOM_PER" name="NOM_PER" placeholder="NOMBRE DE PERIODO" class="form-control" type="text"  style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();" onkeypress="return validar(event)">
                                 <span class="help-block"></span>
                             </div>
                         </div>
