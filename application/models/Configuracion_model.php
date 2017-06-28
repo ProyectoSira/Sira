@@ -23,4 +23,18 @@ class Configuracion_model extends CI_Model {
 		return $this->db->affected_rows();
 	}
 
+	public function val_pass($usu, $pass)
+	{
+		$this->db->select('*');
+		$this->db->from($this->table);
+		$this->db->where('NOM_USU',$usu);
+		$this->db->where('PASS_USU',$pass);
+		$query = $this->db->get();
+		if ($query->num_rows()>0) {
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 }

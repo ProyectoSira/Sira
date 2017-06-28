@@ -14,6 +14,7 @@ class Asistencia extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->helper('form');
 		$data['grupo'] = $this->asistencia->get_grupo();
+		$data['estudiante'] = $this->asistencia->get_estudiante();
 		if(isset($this->session->userdata['logged_in'])){
 			if (($this->session->userdata['logged_in']['rol']) != 'Secretaria') {
         		$this->load->view('asistencia_view', $data );
@@ -69,6 +70,30 @@ class Asistencia extends CI_Controller {
 			$this->asistencia->save($id, $fecha);
 		}
 		echo json_encode(array("status" => TRUE));
+	}
+
+	public function ajax_consultar()
+	{
+		$documento = $this->input->post('doc');
+		$val = $this->asistencia->validar($documento);
+		$arr = array();
+		if ($val == false) {
+			echo json_encode(array("status" => TRUE));
+		}else{
+			$data = $this->asistencia->excusas($documento);
+			foreach ($data as $value) {
+				$row = array(
+					'doc' => $value->DOC_EST,
+					'nom1' => $value->NOM1_EST,
+					'nom2' => $value->NOM2_EST,
+					'ape1' => $value->APE1_EST,
+					'ape2' => $value->APE2_EST,
+					'fecha' => $value->FECH_FALTA,
+					'url' => $value->URL_EXC);
+				$arr[] = $row;
+			}
+			echo json_encode($arr);
+		}
 	}
 
 }

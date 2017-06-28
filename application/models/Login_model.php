@@ -56,4 +56,14 @@ class Login_model extends CI_Model {
             return $result->result();
         }
 	}
+
+	public function get_usuario($email)
+	{
+		$this->db->select('NOM_USU');
+		$this->db->from('tbl_usuario');
+		$this->db->join('tbl_empleado', 'tbl_empleado.DOC_EMP = tbl_usuario.DOC_EMP');
+		$this->db->Where('tbl_empleado.EMAIL_EMP',$email);
+      	$query = $this->db->get();
+		return $query->result();
+	}
 }

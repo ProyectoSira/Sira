@@ -8,7 +8,7 @@
     <br>
     <div id="result"></div>
 
-    <div class="row">
+        <div class="row">
             <div class="col-md-3">
 
                 <div class="form-group">
@@ -19,15 +19,48 @@
                 </select>
                 </div>
             </div>
-            <div class="col-md-2">
+        </div>
+        <div id="checks">
+            <div class="row">
+                <div class="col-md-2">
+                    <label>Reporte del dia</label>
+                    <input type="checkbox" id="dia">
+                </div>
+                <div class="col-md-2">
+                    <label>Rango de fecha</label>
+                    <input type="checkbox" id="rango">
+                </div>
+            </div>
+        </div>
+        <br>
+        <div id="divRango">
+            <div class="row">
+                <div class="form-group">
+                    <label class="col-md-2 control-label">Fecha de inicio <span style="color: red;">*</span></label>
+                    <div class="col-md-3">
+                        <input name="inicio" placeholder="YYYY-MM-DD" class="form-control inicio" id="datepicker" type="text" data-date-end-date="0d" readonly="false">                                
+                    </div>                            
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="form-group">
+                    <label class="col-md-2 control-label">Fecha de fin <span style="color: red;">*</span></label>
+                    <div class="col-md-3">
+                        <input name="fin" placeholder="YYYY-MM-DD" class="form-control fin" id="datepicker2" type="text" data-date-end-date="0d" readonly="false">                                
+                    </div>                            
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-3">
                 <div class="form-group">
                     <button class="btn btn-info form-control" id="btnBuscar"><i class="glyphicon glyphicon-search"></i> Generar
                     </button>
                 </div> 
             </div> 
-
         </div>
-    </div>
             <!-- /.container-fluid -->
 
         </div>
@@ -48,6 +81,27 @@
 
 <script type="text/javascript">
 
+$(document).ready(function() {
+    $('#divRango').hide();
+    $('#datepicker').datepicker({
+            autoclose: true,
+            format: "yyyy-mm-dd",
+            todayHighlight: true,
+            orientation: "top auto",
+            todayBtn: true,
+            todayHighlight: true,  
+    });
+
+    $('#datepicker2').datepicker({
+            autoclose: true,
+            format: "yyyy-mm-dd",
+            todayHighlight: true,
+            orientation: "top auto",
+            todayBtn: true,
+            todayHighlight: true,  
+    });
+});
+
 function cerrarAlerta(){
     $("#result").removeClass("alert alert-danger");
     $('#result').text('');
@@ -60,13 +114,88 @@ $('#btnBuscar').click(function () {
         $('#result').text('Por favor seleccione el tipo de reporte'); 
         setTimeout("cerrarAlerta()",3000); 
     }else if (tipo == 1) {
-        location.href = 'http://localhost:8888/Sira/index.php/reportes/tarde';
+        if($("#dia").prop("checked")){
+            location.href = 'http://localhost:8888/Sira/index.php/reportes/tarde';
+            $("#dia").prop("checked", "");
+        }
+        else if ($("#rango").prop("checked")) {
+            var inicio = $('.inicio').val();
+            var fin = $('.fin').val();
+            if(inicio == '' || fin == ''){
+                $("#result").addClass("alert alert-danger");
+                $('#result').text('La fecha de inicio y de fin son obligatorias'); 
+                setTimeout("cerrarAlerta()",3000);
+            }else{
+                if (inicio >= fin) {
+                    $("#result").addClass("alert alert-danger");
+                    $('#result').text('La fecha de inicio no puede ser posterior o igual la fecha de fin'); 
+                    setTimeout("cerrarAlerta()",3000);
+                }else{
+                    location.href = 'http://localhost:8888/Sira/index.php/reportes/tardeRango/'+inicio+'/'+fin;
+                    $("#dia").prop("checked", "");
+                    $("#rango").prop("checked", "");
+                    $('#divRango').hide();
+                    $('.inicio').val('');
+                    $('.fin').val('');
+                }
+            }
+        }
+        else{
+            $("#result").addClass("alert alert-danger");
+            $('#result').text('Seleccione el reporte del día o por rango de fecha'); 
+            setTimeout("cerrarAlerta()",3000); 
+        }
     }else{
-        location.href = 'http://localhost:8888/Sira/index.php/reportes/sanciones';
+        if($("#dia").prop("checked")){
+            location.href = 'http://localhost:8888/Sira/index.php/reportes/sanciones';
+            $("#dia").prop("checked", "");
+        }
+        else if ($("#rango").prop("checked")) {
+            var inicio = $('.inicio').val();
+            var fin = $('.fin').val();
+            if(inicio == '' || fin == ''){
+                $("#result").addClass("alert alert-danger");
+                $('#result').text('La fecha de inicio y de fin son obligatorias'); 
+                setTimeout("cerrarAlerta()",3000);
+            }else{
+                if (inicio >= fin) {
+                    $("#result").addClass("alert alert-danger");
+                    $('#result').text('La fecha de inicio no puede ser posterior o igual la fecha de fin'); 
+                    setTimeout("cerrarAlerta()",3000);
+                }else{
+                    location.href = 'http://localhost:8888/Sira/index.php/reportes/sancionesRango/'+inicio+'/'+fin;
+                    $("#dia").prop("checked", "");
+                    $("#rango").prop("checked", "");
+                    $('#divRango').hide();
+                    $('.inicio').val('');
+                    $('.fin').val('');
+                }
+            } 
+        }
+        else{
+            $("#result").addClass("alert alert-danger");
+            $('#result').text('Seleccione el reporte del día o por rango de fecha'); 
+            setTimeout("cerrarAlerta()",3000); 
+        }
     }
 });
 
+$('#rango').click(function () {
+    $("#dia").prop("checked", "");
+    $('#divRango').show();
+});
+
+$('#dia').click(function () {
+    $("#rango").prop("checked", "");
+    $('#divRango').hide();
+    $('.inicio').val('');
+    $('.fin').val('');
+});
+
+
+
 </script>
+
 
 </section>
   

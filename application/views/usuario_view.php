@@ -49,14 +49,19 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="form-group">
                         <button class="btn btn-success form-control" id="btnGuardar"><span class="glyphicon glyphicon-ok"></span> Guardar</button>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="form-group">
-                        <button class="btn btn-danger form-control" id="btnCancelar"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+                        <button class="btn btn-default form-control" id="btnCancelar"><span class="lnr lnr-magic-wand"></span> Limpiar</button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <button class="btn btn-danger form-control" id="btnEliminar"><span class="glyphicon glyphicon-remove"></span> Eliminar Usuario</button>
                     </div>
                 </div>
             </div>
@@ -79,6 +84,11 @@
         $("#result").removeClass("alert alert-success");
         $("#result").removeClass("alert alert-danger");
         $('#result').text('');
+    }
+
+    function cerrarAlerta2(){
+        $("#alert").removeClass("alert alert-danger");
+        $('#alert').text('');
     }
 
     
@@ -132,11 +142,9 @@
                         $('#result').text('El empleado ya tiene un usuario asignado'); 
                         setTimeout("cerrarAlerta()",3000);
                     }else{
-                        for (var i = 0; i < data.inputerror.length; i++) 
-                        {
-                            $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
-
-                        }
+                        $("#alert").addClass("alert alert-danger");
+                        $('#alert').text('No dejes campos obligatorios en blanco');
+                        setTimeout("cerrarAlerta2()",3000);
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown){
@@ -155,7 +163,89 @@
 
     });
 
+    $('#btnEliminar').click(function () {
+        $('#form')[0].reset(); // reset form on modals
+        $('#modal_form').modal('show'); // show bootstrap modal
+        $('.modal-title').text('Eliminar Usuario'); // Set Title to Bootstrap modal title
+        $('select[name="DOC_EMP"]').val();
+        $('select[name="DOC_EMP"]').change();
+    });
+
+    function Eliminar(){
+        if(confirm('Esta seguro que desea Eliminar la cuenta de este usuario?'))
+        {
+            // ajax delete data to database
+            $.ajax({
+                url : "<?php echo site_url('usuario/ajax_delete')?>",
+                type: "POST",
+                data: $('#form').serialize(),
+                dataType: "JSON",
+                success: function(data)
+                {
+                    if (data.status) {
+                        $('#modal_form').modal('hide');
+                        $("#result").addClass("alert alert-warning");
+                        $('#result').text('Registro Eliminado Exitosamente'); 
+                        setTimeout("cerrarAlerta()",3000);
+                    }else if(data.error){
+                        $("#alert").addClass("alert alert-danger");
+                        $('#alert').text('Este emplado no tiene un usuario asignado'); 
+                        setTimeout("cerrarAlerta2()",4000);
+                    }else{
+                        $("#alert").addClass("alert alert-danger");
+                        $('#alert').text('No dejes campos obligatorios en blanco'); 
+                        setTimeout("cerrarAlerta2()",4000);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error Al Eliminar');
+                }
+            });
+
+        }
+    }
+
 </script>
+
+<div class="modal fade" id="modal_form" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 class="modal-title"></h3>
+            </div>
+            <div class="modal-body form">
+                <form action="#" id="form" class="form-horizontal">
+                    <div class="form-body">
+                    <div id="alert"></div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Profesor <span style="color: red;">*</span></label>
+                            <div class="col-md-9">
+                                <select name="DOC_EMP" class="selectpicker form-control"  data-live-search="true">
+                                    <option value="">--Seleccione--</option>
+                                   <?php 
+                                      foreach ($empleado as $empleado) 
+                                      {
+                                   ?>
+                                   <option value="<?= $empleado->DOC_EMP ?>" data-subtext="<?=$empleado->DOC_EMP ?>"><?= $empleado->NOM1_EMP, " " , $empleado->APE1_EMP ?></option>
+                                   <?php 
+                                        }
+                                    ?>
+                                </select>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnSave" onclick="Eliminar()" class="btn btn-primary">Eliminar</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 </section>
 

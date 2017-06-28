@@ -2,7 +2,7 @@
 <div id="page-wrapper">
     <div class="container-fluid">
     <div class="page-header">
-    <h1>Configuracion de Usuario <span class="glyphicon glyphicon-cog"></span></h1>
+    <h1>Configuración de Usuario <span class="glyphicon glyphicon-cog"></span></h1>
     </div>
     <div id="result"></div>
     <br>
@@ -10,7 +10,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-primary">
-                    <div class="panel-heading"><h2>Informacion Personal <span class="glyphicon glyphicon-th-list"></span></h2></div>
+                    <div class="panel-heading"><h2>Información Personal <span class="glyphicon glyphicon-th-list"></span></h2></div>
                     <div class="panel-body">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -30,13 +30,13 @@
                                 <label id="Ape"></label>
                             </div>
                             <div class="form-group">
-                                <label style="font-size: 16px;"><strong>Cargo en la Institucion:</strong></label>
+                                <label style="font-size: 16px;"><strong>Cargo en la Institución:</strong></label>
                                 <label id="Cargo"></label>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label style="font-size: 16px;"><strong>Direccion:</strong></label>
+                                <label style="font-size: 16px;"><strong>Dirección:</strong></label>
                                 <label id="Dir"></label>
                             </div>
                             <div class="form-group">
@@ -48,11 +48,11 @@
                                 <label id="Ciu"></label>
                             </div>
                             <div class="form-group">
-                                <label style="font-size: 16px;"><strong>Correo Electronico:</strong></label>
+                                <label style="font-size: 16px;"><strong>Correo Electrónico:</strong></label>
                                 <label id="Email"></label>
                             </div>
                             <div class="form-group">
-                                <label style="font-size: 16px;"><strong>Telefono:</strong></label>
+                                <label style="font-size: 16px;"><strong>Teléfono:</strong></label>
                                 <label id="Tel"></label>
                             </div>
                         </div>
@@ -71,7 +71,7 @@
                                 <label><?php echo ($this->session->userdata['logged_in']['nombre'])?></label>
                             </div>
                             <div class="form-group">
-                                <button class="btn btn-primary form-control" id="btnEditNom"><span class="glyphicon glyphicon-pencil"></span> Editar nombre de usuario</button>
+                                <button class="btn btn-primary form-control" id="btnEditNom"><span class="glyphicon glyphicon-pencil"></span> Cambiar nombre de usuario</button>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -137,6 +137,7 @@ $(document).ready(function() {
     function cerrarAlerta(){
         $("#result").removeClass("alert alert-success");
         $('#result').text('');
+        location.reload();
     }
 
     function cerrarAlerta2(){
@@ -208,7 +209,23 @@ $(document).ready(function() {
                         $("#result").addClass("alert alert-success");
                         $('#result').text('La contraseña se ha modificado exitosamente'); 
                         setTimeout("cerrarAlerta()",3000);
-                    }else if (data.error) {
+                    }else if (data.status == false) {
+                        for (var i = 0; i < data.inputerror.length; i++) 
+                        {
+                            $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
+                            $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); //select span help-block class set text error string
+                        }
+                    }
+                    else if (data.pass) {
+                        $("#result3").addClass("alert alert-danger");
+                        $('#result3').text('La contraseña Actual es incorrecta'); 
+                        setTimeout("cerrarAlerta3()",3000);
+                    }else if (data.pass == false) {
+                        $("#result3").addClass("alert alert-danger");
+                        $('#result3').text('La nueva contraseña no debe ser igual a la Actual'); 
+                        setTimeout("cerrarAlerta3()",3000);
+                    }
+                    else if (data.error) {
                         $("#result3").addClass("alert alert-danger");
                         $('#result3').text('Las contraseñas no coinciden'); 
                         setTimeout("cerrarAlerta3()",3000);
@@ -216,13 +233,6 @@ $(document).ready(function() {
                         $("#result3").addClass("alert alert-danger");
                         $('#result3').text('El nombre de usuario es incorrecto'); 
                         setTimeout("cerrarAlerta3()",3000);
-                    }else
-                    {
-                        for (var i = 0; i < data.inputerror.length; i++) 
-                        {
-                            $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
-                            $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); //select span help-block class set text error string
-                        }
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown){
@@ -290,9 +300,16 @@ $(document).ready(function() {
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-4">Contraseña <span style="color: red;">*</span></label>
+                            <label class="control-label col-md-4">Actual Contraseña <span style="color: red;">*</span></label>
                             <div class="col-md-8">
-                            <input name="PASS_USU" placeholder="CONTRASEÑA" class="form-control" type="password" >
+                            <input name="ANT_PASS" placeholder="ACTUAL CONTRASEÑA" class="form-control" type="password" >
+                            <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Nueva Contraseña <span style="color: red;">*</span></label>
+                            <div class="col-md-8">
+                            <input name="PASS_USU" placeholder="NUEVA CONTRASEÑA" class="form-control" type="password" >
                             <span class="help-block"></span>
                             </div>
                         </div>

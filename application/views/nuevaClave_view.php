@@ -80,9 +80,7 @@
                 <img class="profile-img" src="<?php echo base_url('assets/img/profile-pictures.png')?>"
                     alt="">
                 <div class="form-signin">
-                <input type="text" class="form-control" placeholder="USUARIO" name="nomUsu" id="nomUsu" autofocus>
-                <span class="help-block"></span>
-                <br>
+
                 <input type="password" class="form-control" placeholder="NUEVA CONTRASEÑA" id="pass1" name="pass1" >
                 <span class="help-block"></span>
                 <br>
@@ -113,7 +111,7 @@
     $('#btnLogin').click(function () {
     	$('#btnLogin').text('Cambiando...'); //change button text
     	$('#btnLogin').attr('disabled',true); //set button disable
-    	var nom = $('#nomUsu').val();
+    	var nom = "<?php echo $usuario ?>";
 		var pass = $('#pass1').val();
 		var pass2 = $('#pass2').val();
 		$.ajax({
@@ -125,7 +123,6 @@
 	        {
 	            if(data.status) 
 	            {
-	            	document.getElementById('nomUsu').readOnly = true;
 	            	document.getElementById('pass1').readOnly = true;
 	            	document.getElementById('pass2').readOnly = true;
 	                $("#result").addClass("alert alert-success");

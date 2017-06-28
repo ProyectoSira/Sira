@@ -40,6 +40,7 @@ class Configuracion extends CI_Controller {
 				'NOM_USU' => $this->input->post('NOM_USU'),
                 );
 			$this->configuracion->updateNOM(array('DOC_EMP' => $this->input->post('DOC_EMP')), $data);
+            $this->session->userdata['logged_in']['nombre'] = $this->input->post('NOM_USU');
 			echo json_encode(array("status" => TRUE));
 		}else{
 			echo json_encode(array("error" => TRUE));
@@ -51,19 +52,28 @@ class Configuracion extends CI_Controller {
 		$this->_validate2();
 		$pass1 = $this->input->post('PASS_USU');
 		$pass2 = $this->input->post('PASS_USU2');
-		if ($this->input->post('NOM_USU2') == ($this->session->userdata['logged_in']['nombre'])) {
-			if ($pass1 == $pass2) {
-			$data = array(
-				'PASS_USU' => $pass1,
-                );
-			$this->configuracion->updatePass(array('NOM_USU' => $this->input->post('NOM_USU2')), $data);
-			echo json_encode(array("status" => TRUE));
-			}else{
-				echo json_encode(array("error" => TRUE));
-			}
-		}else{
-			echo json_encode(array("error" => FALSE));
-		}
+        $val_pass = $this->configuracion->val_pass($this->input->post('NOM_USU2'), $this->input->post('ANT_PASS')); 
+        if ($this->input->post('NOM_USU2') == ($this->session->userdata['logged_in']['nombre'])) {
+            if ($val_pass) {
+                if ($pass1 != $this->input->post('ANT_PASS')) {
+                    if ($pass1 == $pass2) {
+                        $data = array(
+                            'PASS_USU' => $pass1,
+                            );
+                        $this->configuracion->updatePass(array('NOM_USU' => $this->input->post('NOM_USU2')), $data);
+                        echo json_encode(array("status" => TRUE));
+                    }else{
+                        echo json_encode(array("error" => TRUE));
+                    }
+                }else{
+                    echo json_encode(array("pass" => FALSE));
+                }
+            }else{
+                echo json_encode(array("pass" => TRUE));
+            }
+        }else{
+            echo json_encode(array("error" => FALSE));
+        }
 	}
 
 	private function _validate()
@@ -107,11 +117,18 @@ class Configuracion extends CI_Controller {
             $data['error_string'][] = 'El nombre de usuario es obligatorio';
             $data['status'] = FALSE;
         }
+
+        if($this->input->post('ANT_PASS') == '')
+        {
+            $data['inputerror'][] = 'ANT_PASS';
+            $data['error_string'][] = 'La contrtaseña actual es obligatoria';
+            $data['status'] = FALSE;
+        }
  
         if($this->input->post('PASS_USU') == '')
         {
             $data['inputerror'][] = 'PASS_USU';
-            $data['error_string'][] = 'La contrtaseña es obligatoria';
+            $data['error_string'][] = 'La nueva contrtaseña es obligatoria';
             $data['status'] = FALSE;
         }
 

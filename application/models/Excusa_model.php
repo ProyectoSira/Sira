@@ -1,12 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Calendario_model extends CI_Model {
+class Excusa_model extends CI_Model {
 
-	var $table = 'tbl_calendario';
-	var $column_order = array('COD_CAL','AÑO_CAL','COD_PER',null); //set column field database for datatable orderable
-	var $column_search = array('COD_CAL','COD_PER'); //set column field database for datatable searchable just firstname , lastname , address are searchable
-	var $order = array('COD_CAL' => 'desc'); // default order 
+	var $table = 'tbl_asistencia_clase';
+	var $column_order = array('DOC_EST','NOM1_EST', 'NOM2_EST','APE1_EST','APE2_EST',null); //set column field database for datatable orderable
+	var $column_search = array('tbl_estudiante.DOC_EST','NOM1_EST','APE1_EST'); //set column field database for datatable searchable just firstname , lastname , address are searchable
+	var $order = array('FECH_INGR' => 'desc'); // default order 
 
 	public function __construct()
 	{
@@ -14,23 +14,20 @@ class Calendario_model extends CI_Model {
 		$this->load->database();
 	}
 
-	function get_periodo(){
-		$periodo = $this->db->get('tbl_periodo');
-       if ($periodo -> num_rows()>0)
-       {
-       	return $periodo->result();
-       }
-
-
-	}
-
 	private function _get_datatables_query()
 	{
-		
-		$this->db->select('*');
-		$this->db->from('tbl_calendario');
-		$this->db->join('tbl_periodo', 'tbl_periodo.COD_PER = tbl_calendario.COD_PER');
+		$fecha = date('Y-m-j');
+    	$nuevafecha = strtotime ( '-3 day' , strtotime ( $fecha ) ) ;
+    	$nuevafecha = date ( 'Y-m-j' , $nuevafecha );
 
+    	$this->db->distinct();
+		$this->db->select('tbl_estudiante.DOC_EST, NOM1_EST, NOM2_EST, APE1_EST, APE2_EST, FECH_INGR');
+		$this->db->from('tbl_estudiante');
+       $this->db->join('tbl_estudiante_huella_tbl_dedo','tbl_estudiante_huella_tbl_dedo.DOC_EST = tbl_estudiante.DOC_EST');
+        $this->db->join('tbl_llegada_tarde_inst','tbl_llegada_tarde_inst.HUELLA_EST = tbl_estudiante_huella_tbl_dedo.HUELLA_EST');
+        $this->db->where("FECH_INGR >", $nuevafecha);
+        $this->db->where("EST_JUSTIFICADO", '0');
+        //$this->db->where("`tbl_estudiante.DOC_EST` NOT IN (SELECT `DOC_EST` FROM `tbl_excusa` WHERE `FECH_FALTA` > $nuevafecha)");
 		$i = 0;
 	
 		foreach ($this->column_search as $item) // loop column 
@@ -87,45 +84,10 @@ class Calendario_model extends CI_Model {
 		return $this->db->count_all_results();
 	}
 
-	public function get_by_id($id)
-	{
-		$this->db->from($this->table);
-		$this->db->where('COD_CAL',$id);
-		$query = $this->db->get();
-
-		return $query->row();
-	}
-
 	public function save($data)
 	{
-		$this->db->insert($this->table, $data);
+		$this->db->insert('tbl_excusa', $data);
 		return $this->db->insert_id();
 	}
-
-	public function update($where, $data)
-	{
-		$this->db->update($this->table, $data, $where);
-		return $this->db->affected_rows();
-	}
-
-	public function delete_by_id($id)
-	{
-		$this->db->where('COD_CAL', $id);
-		$this->db->delete($this->table);
-	}
-
-	public function validar($per)
-	{
-		$this->db->select('*');
-		$this->db->from('tbl_calendario');
-		$this->db->where('COD_PER',$per);
-		$query = $this->db->get();
-		if ($query->num_rows()>0) {
-			return false;
-		}else{
-			return true;
-		}
-	}
-
 
 }

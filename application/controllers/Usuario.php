@@ -58,6 +58,18 @@ class Usuario extends CI_Controller {
 		echo json_encode($data);
 	}
 
+	public function ajax_delete()
+	{
+		$this->_validate2();
+		$val = $this->usuario->existe($this->input->post('DOC_EMP'));
+		if ($val) {
+			$this->usuario->delete_by_id($this->input->post('DOC_EMP'));
+			echo json_encode(array("status" => TRUE));
+		}else{
+			echo json_encode(array("error" => TRUE));
+		}
+	}
+
 	private function _validate()
 	{
 		$data = array();
@@ -87,6 +99,25 @@ class Usuario extends CI_Controller {
 			$data['inputerror'][] = 'ROL_USU';
 			$data['status'] = FALSE;
 		}
+
+		if($data['status'] === FALSE)
+		{
+			echo json_encode($data);
+			exit();
+		}
+	}
+
+	private function _validate2()
+	{
+		$data = array();
+		$data['inputerror'] = array();
+		$data['status'] = TRUE;
+
+        if($this->input->post('DOC_EMP') == '')
+        {
+            $data['inputerror'][] = 'DOC_EMP';
+            $data['status'] = FALSE;
+        }
 
 		if($data['status'] === FALSE)
 		{

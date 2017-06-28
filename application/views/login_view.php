@@ -74,7 +74,7 @@
 	<div class="container">
     <div class="row">
         <div class="col-sm-6 col-md-4 col-md-offset-4">
-            <h1 class="text-center login-title">Inicio de Sesion SIRA</h1>
+            <h1 class="text-center login-title">Inicio de Sesión SIRA</h1>
             <div id="result"></div>
             <div class="account-wall">
                 <img class="profile-img" src="<?php echo base_url('assets/img/profile-pictures.png')?>"
@@ -87,7 +87,7 @@
                 <span class="help-block"></span>
                 <br>
                 <button class="btn btn-lg btn-primary btn-block" id="btnLogin">
-                    Iniciar Sesion</button>
+                    Iniciar Sesión</button>
                 </div>
             </div>
             <a href="<?php echo base_url('index.php/recuperacion')?>" class="text-center new-account">Olvido su Contraseña? </a>
@@ -127,7 +127,7 @@
 	                    $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); //select span help-block class set text error string
 	                }
 	            } 
-	            $('#btnLogin').text('Iniciar Sesion'); //change button text
+	            $('#btnLogin').text('Iniciar Sesión'); //change button text
     			$('#btnLogin').attr('disabled',false); //set button disable
 	        },
 	        error: function (jqXHR, textStatus, errorThrown)

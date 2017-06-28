@@ -324,7 +324,7 @@ function save()
                 $('#alert').text('El documento ya se encuentra registrado'); 
                 setTimeout("cerrarAlerta2()",4000);
             }
-            else if (data.doc == false) {
+            else if (data.fecha || data.fecha == false) {
                 $("#alert").addClass("alert alert-danger");
                 $('#alert').text('El tipo de documento no corresponde a la fecha de nacimiento'); 
                 setTimeout("cerrarAlerta2()",4000);
@@ -404,7 +404,7 @@ function delete_person(id)
                 <div class="row">
                 <form action="#" id="form">
                 <div class="form-body">
-                <div id="alert"></div>
+                    <div id="alert"></div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Documento <span style="color: red;">*</span></label>

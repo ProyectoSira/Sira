@@ -40,13 +40,18 @@ class Llegadatarde extends CI_Controller {
 
 	public function ajax_registrar()
 	{
-		$huella = $this->input->post('huella');
-		$grupo = $this->input->post('codGrupo');
-        $fecha = $this->input->post('fecha');
-        $hora = $this->input->post('hora');
-        $estado = $this->input->post('justificacion');
-		$insert = $this->llegadatarde->save($huella, $grupo, $fecha, $hora, $estado);
-		echo json_encode(array("status" => TRUE));
+		$data = array(
+			'HUELLA_EST' => $this->input->post('huella'), 
+			'COD_GRUPO' => $this->input->post('codGrupo'), 
+			'FECH_INGR' => $this->input->post('fecha'), 
+			'HORA_INGR' => $this->input->post('hora'),
+		);
+		$insert = $this->llegadatarde->save($data);
+		if ($insert) {
+			echo json_encode(array("status" => TRUE));
+		}else{
+			echo json_encode(array("status" => FALSE));
+		}
 	}
 
 }

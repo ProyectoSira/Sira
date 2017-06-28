@@ -77,13 +77,18 @@ public function ajax_list()
 
 	public function ajax_add()
 	{
+		$val = $this->calendario->validar($this->input->post('COD_PER'));
 		$this->_validate();
-		$data = array(
+		if ($val) {
+			$data = array(
 				'AÑO_CAL' => $this->input->post('AÑO_CAL'),
                 'COD_PER' => $this->input->post('COD_PER'),
 			);
-		$insert = $this->calendario->save($data);
-		echo json_encode(array("status" => TRUE));
+			$insert = $this->calendario->save($data);
+			echo json_encode(array("status" => TRUE));
+		}else{
+			echo json_encode(array("per" => TRUE));
+		}
 	}
 
 	public function ajax_update()
@@ -109,12 +114,6 @@ public function ajax_list()
 		$data = array();
 		$data['inputerror'] = array();
 		$data['status'] = TRUE;
-
-		if($this->input->post('AÑO_CAL') == '')
-		{
-			$data['inputerror'][] = 'AÑO_CAL';
-			$data['status'] = FALSE;
-		}
 
         if($this->input->post('COD_PER') == '')
         {

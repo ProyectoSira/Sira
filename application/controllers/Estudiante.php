@@ -110,8 +110,11 @@ class Estudiante extends CI_Controller {
 		}else if ($doc) {
 			echo json_encode(array("valdoc" => TRUE));
 		}
-		else if ($this->input->post('ID_TIP_DOC') != '1' and $nuevafecha < $this->input->post('FECH_NAC_EST')) {
-			echo json_encode(array("doc" => FALSE));
+		else if ($this->input->post('ID_TIP_DOC_EST') == '1' and $nuevafecha > $this->input->post('FECH_NAC_EST')) {
+			echo json_encode(array("fecha" => TRUE));
+		}
+		else if ($this->input->post('ID_TIP_DOC_EST') != '1' and $nuevafecha < $this->input->post('FECH_NAC_EST')) {
+			echo json_encode(array("fecha" => FALSE));
 		}
 		else if ($mail == 0) {
 			echo json_encode(array("mail" => TRUE));

@@ -40,4 +40,22 @@ class Usuario_model extends CI_Model
 		return $this->db->insert_id();
 	}
 
+    public function delete_by_id($id)
+    {
+        $this->db->where('DOC_EMP', $id);
+        $this->db->delete('tbl_usuario');
+    }
+
+    public function existe($doc){
+        $this->db->select('*');
+        $this->db->from('tbl_usuario');
+        $this->db->where('DOC_EMP',$doc);
+        $query = $this->db->get();
+        if ($query->num_rows()>0) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 }?>

@@ -119,4 +119,37 @@ class Asistencia_model extends CI_Model {
 	    }
 	}
 
+	function get_estudiante(){
+    	$estudiante = $this->db->get('tbl_estudiante');
+        if ($estudiante -> num_rows()>0)
+        {
+       		return $estudiante->result();
+        }
+	}
+
+	public function validar($doc)
+	{
+		$this->db->select('*');
+		$this->db->from('tbl_excusa');
+		$this->db->where('DOC_EST',$doc);
+		$query = $this->db->get();
+		if ($query->num_rows()>0) {
+			return $query->result();
+		}else{
+			return  false;
+		}
+	}
+
+	public function excusas($doc)
+	{
+		$this->db->select('*');
+		$this->db->from('tbl_excusa');
+		$this->db->join('tbl_estudiante', 'tbl_estudiante.DOC_EST = tbl_excusa.DOC_EST');
+		$this->db->where('tbl_excusa.DOC_EST',$doc);
+		$query = $this->db->get();
+		if ($query->num_rows()>0) {
+			return $query->result();
+		}
+	}
+
 }

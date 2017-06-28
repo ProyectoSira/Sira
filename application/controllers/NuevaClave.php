@@ -9,13 +9,14 @@ class NuevaClave extends CI_Controller
 		$this->load->model('Login_model','login');
 	}
  
-	public function index()
+	public function index($usu)
 	{
+        $data['usuario'] = $usu;
 		$this->load->helper('url');
         if(isset($this->session->userdata['logged_in'])){
             redirect('home');
         }else{
-            $this->load->view('nuevaClave_view');
+            $this->load->view('nuevaClave_view',$data);
         } 
 	}
 
@@ -51,14 +52,7 @@ class NuevaClave extends CI_Controller
         $data['error_string'] = array();
         $data['inputerror'] = array();
         $data['status'] = TRUE;
- 
-        if($this->input->post('nomUsu') == '')
-        {
-            $data['inputerror'][] = 'nomUsu';
-            $data['error_string'][] = 'El nombre de usuario es obligatorio';
-            $data['status'] = FALSE;
-        }
- 
+  
         if($this->input->post('pass1') == '')
         {
             $data['inputerror'][] = 'pass1';

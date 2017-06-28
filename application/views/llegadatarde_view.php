@@ -43,6 +43,10 @@
                                 <label style="font-size: 16px;"><strong>Grado:</strong></label>
                                 <label name="GRADO_L"></label>
                             </div>
+                            <div class="form-group">
+                                <label style="font-size: 16px;"><strong>Grupo:</strong></label>
+                                <label name="GRUPO_L"></label>
+                            </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
@@ -61,31 +65,6 @@
                                 <label style="font-size: 16px;"><strong>Contacto:</strong></label>
                                 <label name="TEL_ACU_L"></label>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="panel panel-primary">
-                    <div class="panel-heading"><h2>Datos para el registro de la Llegada Tarde <span class="glyphicon glyphicon-hourglass"></span></h2></div>
-                    <div class="panel-body">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label style="font-size: 16px;"><strong>Grupo:</strong></label>
-                                <label name="GRUPO_L"></label>
-                            </div>
-                            <div class="form-group">
-                                <label style="font-size: 16px;"><strong>Justificacion:</strong></label>
-                                <input id="05" type="checkbox" name="JUST">
-                            </div>
-                            <div class="form-group">
-                                <label style="font-size: 16px;"><strong>Codigo del Grupo:</strong></label>
-                                <label name="COD_GRUPO_L" id="02"></label>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
                             <div class="form-group">
                                 <label style="font-size: 16px;"><strong>Fecha Ingreso:</strong></label>
                                 <label name="FECHA_L" id="03"><?php echo date('Y-m-d'); ?></label>
@@ -93,10 +72,6 @@
                             <div class="form-group">
                                 <label style="font-size: 16px;"><strong>Hora:</strong></label>
                                 <label name="HORA_L" id="04"></label>
-                            </div>
-                            <div class="form-group">
-                                <label style="font-size: 16px;"><strong>Huella:</strong></label>
-                                <label name="HUELLA_L" id="01"></label>
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -118,6 +93,9 @@
 <script src="<?php echo base_url('assets/select/js/bootstrap-select.min.js')?>"></script>
 
 <script type="text/javascript">
+
+var huella;
+var codGrupo;
 
     function startTime(){
         today=new Date();
@@ -142,7 +120,6 @@
 
 $( "#Huella" ).change(function() {
     var touch = $('#Huella').val();
-    $("#05").removeAttr("checked");
     $.ajax({
         url : "<?php echo site_url('llegadatarde/ajax_view/')?>/" + touch,
         type: "GET",
@@ -150,6 +127,7 @@ $( "#Huella" ).change(function() {
         success: function(data)
         {
             $('[name="DOC_EST_L"]').text(data.DOC_EST);
+            huella = data.DOC_EST;
             $('[name="ID_TIP_DOC_EST_L"]').text(data.NOM_TIP_DOC);
             $('[name="NOM1_EST_L"]').text(data.NOM1_EST+" "+data.NOM2_EST);
             $('[name="APE1_EST_L"]').text(data.APE1_EST+" "+data.APE2_EST);
@@ -159,8 +137,7 @@ $( "#Huella" ).change(function() {
             $('[name="APE1_ACU_L"]').text(data.APE1_ACU+" "+data.APE2_ACU);
             $('[name="TEL_ACU_L"]').text(data.TEL1_ACU);
             $('[name="GRUPO_L"]').text(data.NUM_GRUPO);
-            $('[name="HUELLA_L"]').text(data.DOC_EST);
-            $('[name="COD_GRUPO_L"]').text(data.COD_GRUPO);
+            codGrupo = data.COD_GRUPO;
             $('#Huella').val('');
         },
         error: function (jqXHR, textStatus, errorThrown)
@@ -179,36 +156,31 @@ function cerrarAlerta(){
 
 
 function registrar() {
-    var huella = document.getElementById('01').innerHTML;
-    var codGrupo = document.getElementById('02').innerHTML;
     var fecha = document.getElementById('03').innerHTML;
     var hora = document.getElementById('04').innerHTML;
     var justif;
-    if( $('#05').prop('checked') ) {
-        justif = 1;
-    }else{
-        justif = 0;
-    }
-            $.ajax({
-                url: "<?php echo site_url('llegadatarde/ajax_registrar')?>",
-                type: "POST",
-                data: {huella:huella, codGrupo:codGrupo, fecha:fecha, hora:hora, justificacion:justif}, 
-                dataType: "JSON",
-                success: function(data){
-                    if (data.status) {
-                        $("#result").addClass("alert alert-success");
-                        $('#result').text('Registro Exitoso'); 
-                        setTimeout("cerrarAlerta()",1000);
-                    }else{
-                        $("#result").addClass("alert alert-danger");
-                        $('#result').text('Error Al registrar'); 
-                        setTimeout("cerrarAlerta()",2000);
-                    }
-                },
-                error: function(jqXHR, textStatus, errorThrown){
-                    alert('Error al Registrar');
-                }
-            });
+    $.ajax({
+        url: "<?php echo site_url('llegadatarde/ajax_registrar')?>",
+        type: "POST",
+        data: {huella:huella, codGrupo:codGrupo, fecha:fecha, hora:hora}, 
+        dataType: "JSON",
+        success: function(data){
+            if (data.status) {
+                $("#result").addClass("alert alert-success");
+                $('#result').text('Registro Exitoso'); 
+                setTimeout("cerrarAlerta()",1000);
+                huella = "";
+                codGrupo = "";
+            }else{
+                $("#result").addClass("alert alert-danger");
+                $('#result').text('Error Al registrar'); 
+                setTimeout("cerrarAlerta()",2000);
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown){
+            alert('Error al Registrar');
+        }
+    });
 }
 
 </script>

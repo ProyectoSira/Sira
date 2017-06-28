@@ -402,8 +402,8 @@ function validar(e) {
                             <div class="col-md-9">
                                 <select name="COD_PROGRA" class="selectpicker form-control">
                                     <option value="">--SELECCIONAR--</option>
-                                    <option value="LUNES">LUNES</option>
-                                    <option value="MARTES">MARTES</option>
+                                    <option value="1">LUNES</option>
+                                    <option value="2">MARTES</option>
                                     <option value="MIERCOLES">MIERCOLES</option>
                                     <option value="JUEVES">JUEVES</option>
                                     <option value="VIERNES">VIERNES</option>

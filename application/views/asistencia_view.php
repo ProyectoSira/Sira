@@ -34,7 +34,39 @@
                     <button class="btn btn-success form-control" id="btnRegistrar"><i class="glyphicon glyphicon-plus"></i> Registrar
                     </button>
                 </div> 
-            </div>               
+            </div> 
+            <div class="col-md-4" style="margin-top: -6%;">
+                <div class="panel panel-primary">
+                    <div class="panel-heading"><h2>Consultar Excusa</h2></div>
+                    <div class="panel-body">
+                    <div id="result2"></div>
+                        <div class="form-group">
+                            <label class="control-label col-md-4">Estudiante <span style="color: red;">*</span></label>
+                            <div class="col-md-8">
+                                <select name="DOC_EST" id="DOC_EST" class="selectpicker form-control" data-live-search="true">
+                                    <option value="">--SELECCIONAR--</option>
+                                    <?php 
+                                      foreach ($estudiante as $filas) 
+                                      {
+                                   ?>
+                                   <option value="<?= $filas->DOC_EST ?>" data-subtext="<?= $filas->DOC_EST ?>">
+                                   <?=$filas->NOM1_EST," ",$filas->NOM2_EST," ",$filas->APE1_EST ?></option>
+                                   <?php 
+                                        }
+                                    ?>
+                                </select>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <button class="btn btn-primary form-control" id="btnConsultar"><i class="glyphicon glyphicon-search"></i> Consultar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>           
         </div>
         <br>
             <div>
@@ -44,7 +76,7 @@
                                 <th>N°</th>
                                 <th style="width: 20%;">Documento</th>
                                 <th style="width: 60%;">Estudiante</th>
-                                <th>Asistió</th>
+                                <th>No Asistió</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -158,6 +190,11 @@ function cerrarAlerta(){
     $('#result').text('');
 }
 
+function cerrarAlerta2(){
+    $("#result2").removeClass("alert alert-info");
+    $("#result2").removeClass("alert alert-danger");
+    $('#result2').text('');
+}
 
 
 function reload_table()
@@ -200,7 +237,80 @@ $('#btnRegistrar').click(function () {
     }
 });
 
+$('#btnConsultar').click(function () {
+   var doc = $('#DOC_EST').val(); 
+   $.ajax({
+        url: "<?php echo site_url('asistencia/ajax_consultar')?>",
+        type: "POST",
+        data: {doc:doc}, 
+        dataType: "JSON",
+        success: function(data){
+            if ($('#DOC_EST').val() == "") {
+                $("#result2").addClass("alert alert-danger");
+                $('#result2').text('Por favor seleccione un estudiante');
+                setTimeout("cerrarAlerta2()",3000);
+            }
+            else if (data.status) {
+                $("#result2").addClass("alert alert-info");
+                $('#result2').text('El estudiante no tiene excusas');
+                setTimeout("cerrarAlerta2()",3000);
+            }else{
+                var html;
+                $('#nom').text(data[0].nom1+" "+data[0].nom2+" "+data[0].ape1+" "+data[0].ape2);
+                $('#doc').text(data[0].doc);
+                for (var i = 0; i < data.length; i++) {
+                    html += '<tr>';
+                    html += '<td style="width:70%;">'+data[i].fecha+'</td>';
+                    html += '<td><a href="'+data[i].url+'" class="btn btn-default"><i class="glyphicon glyphicon-eye-open"> Ver Imagen</a></td>';
+                    html += '</tr>'
+                }
+                $('#body').append(html);
+                $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
+                $('.modal-title').text('Excusas del estudiante'); // Set title to Bootstrap modal title
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown){
+            alert('Error');
+        }
+    });
+});
+
 </script>
+
+<div class="modal fade" id="modal_form" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 class="modal-title"></h3>
+            </div>
+            <div class="modal-body form">
+                <form action="#" id="form" class="form-horizontal">
+                    <div class="form-body">
+                    <div id="alert"></div>
+                        <div class="form-group">
+                            <p>El estudiante <span id="nom"></span> con documento de identidad N°<span id="doc"></span>,
+                             presenta las siguientes excusas.</p>
+                        </div>
+                       <table class="table table-striped table-bordered" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Fecha de la falta</th>
+                                    <th>Excusa</th>
+                                </tr>
+                            </thead>
+                            <tbody id="body">
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 </section>
 

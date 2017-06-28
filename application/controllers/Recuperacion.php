@@ -70,7 +70,7 @@ class Recuperacion extends CI_Controller
 	                           <p>Si hiciste esta petición, haz clic en el siguiente enlace, si no hiciste esta petición puedes ignorar este correo.</p>
 	                           <p>
 	                             <strong>Enlace para restablecer tu contraseña</strong><br>
-	                             <a href="http://localhost:8888/Sira/index.php/NuevaClave"> Restablecer contraseña </a>
+	                             <a href="http://localhost:8888/Sira/index.php/NuevaClave/index/'.$usu.'"> Restablecer contraseña </a>
 	                           </p>
 	                         </body>
 	                        </html>';

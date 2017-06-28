@@ -3,23 +3,20 @@
 
 <div class="container-fluid">
  
-        <h1 style="font-size:20pt">Registro de Calendario</h1>
-
-        <h3>Datos del Calendario</h3>
+        <h1 style="font-size:20pt">Registro de Excusas</h1>
+        <br>
+        <h3>Estudiantes con llegadas tarde</h3>
         <div id="result"></div>
-        <br />
-        <button class="btn btn-success" id="btnNuevo" onclick="add_person()"><i class="glyphicon glyphicon-plus"></i> Nuevo</button>
-        <a href="<?php echo base_url('index.php/periodo');?>" class="btn btn-default"><i class="glyphicon glyphicon-search"></i> Periodos</a>
-        <br />
         <br />
         <div class="table-responsive">
         <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
                 <tr>
-                    <th style="width:100px;">Id Calendario</th>
-                    <th style="width:100px;">Año</th>
-                    <th style="width:100px;">Período</th>
-                    <th style="width:55px;">Acción</th>
+                    <th>N°</th>
+                    <th style="width: 20%;">Documento</th>
+                    <th style="width: 55%;">Estudiante</th>
+                    <th style="width: 20%;">Fecha de Inasistencia</th>
+                    <th style="width: 20px;">Acción</th>
                 </tr>
             </thead>
             <tbody>
@@ -27,9 +24,10 @@
 
             <tfoot>
             <tr>
-                <th>Id Calendario</th>
-                <th>Año</th>
-                <th>Período</th>
+                <th>N°</th>
+                <th>Documento</th>
+                <th>Estudiante</th>
+                <th>Fecha de Inasistencia</th>
                 <th>Acción</th>
             </tr>
             </tfoot>
@@ -57,15 +55,11 @@
 
 <script type="text/javascript">
 
-var save_method; //for save method string
+var documento; //for save method string
+var ruta;
+var falta;
 var table;
-var rol = "<?php echo ($this->session->userdata['logged_in']['rol'])?>"
-
 $(document).ready(function() {
-    if (rol == 'Coordinador') {
-        $('#btnNuevo').attr('disabled',true);
-    }
-
     //datatables
     table = $('#table').DataTable({ 
 
@@ -75,7 +69,7 @@ $(document).ready(function() {
 
         // Load data for the table's content from an Ajax source
         "ajax": {
-            "url": "<?php echo site_url('calendario/ajax_list')?>",
+            "url": "<?php echo site_url('excusa/ajax_list')?>",
             "type": "POST"
         },
 
@@ -152,101 +146,44 @@ function cerrarAlerta2(){
     $('#alert').text('');
 }
 
-function add_person()
-{
-    save_method = 'add';
-    $('#form')[0].reset(); // reset form on modals
-    $('.form-group').removeClass('has-error'); // clear error class
-    $('.help-block').empty(); // clear error string
+function adjuntar(id, fecha){
     $('#modal_form').modal('show'); // show bootstrap modal
-    $('.modal-title').text('Nuevo Calendario'); // Set Title to Bootstrap modal title
-    $('select[name="COD_PER"]').val();
-    $('select[name="COD_PER"]').change();
+    $('.modal-title').text('Adjuntar Excusa'); // Set Title to Bootstrap modal title
+    documento = id;
+    falta = fecha;
 }
 
-function edit_person(id)
-{
-    save_method = 'update';
-    $('#form')[0].reset(); // reset form on modals
-    $('.form-group').removeClass('has-error'); // clear error class
-    $('.help-block').empty(); // clear error string
-    //Ajax Load data from ajax
-    $.ajax({
-        url : "<?php echo site_url('calendario/ajax_edit/')?>/" + id,
-        type: "GET",
-        dataType: "JSON",
-        success: function(data)
-        {
-            $('[name="COD_CAL"]').val(data.COD_CAL);
-            $('[name="AÑO_CAL"]').val(data.AÑO_CAL);
-            $('select[name="COD_PER"]').val(data.COD_PER);
-            $('select[name="COD_PER"]').change();
-            $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
-            $('.modal-title').text('Editar Calendario'); // Set title to Bootstrap modal title
-
-        },
-        error: function (jqXHR, textStatus, errorThrown)
-        {
-            alert('Error get data from ajax');
-        }
-    });
+function nombre(hola) {
+    hola = hola.split('\\');
+    ruta = hola[hola.length-1];
 }
-function justNumbers(e){
-    var keynum = window.event ? window.event.keyCode : e.which;
-    if ((keynum == 8) || (keynum == 46))
-    return true;
-    return /\d/.test(String.fromCharCode(keynum));
-}
-function validar(e) { 
-    tecla = (document.all) ? e.keyCode : e.which; 
-    if (tecla==8) return true; 
-        patron =/[A-Za-z\s]/; 
-        te = String.fromCharCode(tecla); 
-        return patron.test(te); 
 
-}           
 function reload_table()
 {
     table.ajax.reload(null,false); //reload datatable ajax 
 }
 
-function save()
-{
+function save() {
     $('#btnSave').text('Guardando...'); //change button text
     $('#btnSave').attr('disabled',true); //set button disable 
-    var url;
- 
-    if(save_method == 'add') {
-        url = "<?php echo site_url('calendario/ajax_add')?>";
-    } else {
-        url = "<?php echo site_url('calendario/ajax_update')?>";
-    }
- 
-    // ajax adding data to database
     $.ajax({
-        url : url,
+        url : "<?php echo site_url('excusa/ajax_add')?>",
         type: "POST",
-        data: $('#form').serialize(),
+        data: {doc:documento, ruta:ruta, fech:falta},
         dataType: "JSON",
         success: function(data)
         {
- 
             if(data.status) //if success close modal and reload ajax table
             {
                 $('#modal_form').modal('hide');
                 reload_table();
-                if (save_method == 'add') {
-                    $("#result").addClass("alert alert-success");
-                    $('#result').text('Registro Exitoso'); 
-                }else{
-                    $("#result").addClass("alert alert-info");
-                    $('#result').text('Registro Modificado Exitosamente'); 
-                }
+                $("#result").addClass("alert alert-success");
+                $('#result').text('Registro Exitoso'); 
                 setTimeout("cerrarAlerta()",2000);
-            }else if (data.per) {
-                $("#alert").addClass("alert alert-danger");
-                $('#alert').text('Este periodo ya se encuentra registrado');
-                setTimeout("cerrarAlerta2()",3000);
+                documento = "";
+                ruta = "";
+                falta = "";
+                document.getElementById("URL").value = "";
             }
             else
             {
@@ -261,40 +198,14 @@ function save()
         },
         error: function (jqXHR, textStatus, errorThrown)
         {
-            alert('Error al insertar / Actualizar Datos');
+            alert('Error al registrar la excusa');
             $('#btnSave').text('Guardar'); //change button text
             $('#btnSave').attr('disabled',false); //set button enable 
  
         }
     });
-}   
-
-function delete_person(id)
-{
-    if(confirm('Desea eliminar este registro?'))
-    {
-        // ajax delete data to database
-        $.ajax({
-            url : "<?php echo site_url('calendario/ajax_delete')?>/"+id,
-            type: "POST",
-            dataType: "JSON",
-            success: function(data)
-            {
-                //if success reload ajax table
-                $('#modal_form').modal('hide');
-                reload_table();
-                $("#result").addClass("alert alert-warning");
-                $('#result').text('Registro Eliminado Exitosamente'); 
-                setTimeout("cerrarAlerta()",2000);
-            },
-            error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error Al Eliminar');
-            }
-        });
-
-    }
 }
+
 
 </script>
 
@@ -310,31 +221,12 @@ function delete_person(id)
                 <form action="#" id="form" class="form-horizontal">
                     <div class="form-body">
                     <div id="alert"></div>
-                        <input type="hidden" value="" name="COD_CAL"/>
                         <div class="form-group">
-                            <label class="control-label col-md-3">Año <span style="color: red;">*</span></label>
+                            <label class="control-label col-md-3">Url Excusa <span style="color: red;">*</span></label>
                             <div class="col-md-9">
-                                <input value="<?php echo date('Y'); ?>" name="AÑO_CAL" placeholder="AÑO" class="form-control" type="text" onkeypress="return justNumbers(event);">
-                                <span class="help-block"></span>
+                                <input name="URL" type="file" id="URL" onchange="nombre(this.value)">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Período <span style="color: red;">*</span></label>
-                            <div class="col-md-9">
-                                <select name="COD_PER" class="selectpicker form-control">
-                                    <option value="">--SELECCIONE--</option>
-                                   <?php 
-                                      foreach ($periodo as $periodo) 
-                                      {
-                                   ?>
-                                   <option value="<?= $periodo->COD_PER ?>" data-subtext="<?=$periodo->COD_PER?>">
-                                   <?= $periodo->NOM_PER ?></option>
-                                   <?php 
-                                        }
-                                    ?>
-                                </select>
-                                <span class="help-block"></span>
-                            </div>
                     </div>
                 </form>
             </div>
@@ -345,6 +237,7 @@ function delete_person(id)
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
 </section>
   
 <script src="<?php echo base_url('assets/js/jquery.nicescroll.js')?>"></script>
