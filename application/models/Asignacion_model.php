@@ -119,6 +119,18 @@ class Asignacion_model extends CI_Model {
 	    }
 	}
 
+	public function grupo_est($grupo)
+	{
+		$this->db->select('*');
+		$this->db->from('tbl_grupo_estudio');
+		$this->db->join('tbl_estudiante','tbl_estudiante.DOC_EST = tbl_grupo_estudio.DOC_EST');
+		$this->db->where('COD_GRUPO',$grupo);
+		$grupo =  $this->db->get();
+	    if($grupo -> num_rows()>0)
+	    {
+	    	return $grupo->result();
+	    }
+	}
 
 }
 

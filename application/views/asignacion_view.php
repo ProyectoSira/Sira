@@ -32,6 +32,9 @@
                      <i class="glyphicon glyphicon-plus"></i> Registrar
                      </button>
                      <br><br>
+                     <button id="btnConsultar" class="btn btn-primary form-control">
+                     <i class="glyphicon glyphicon-search"></i> Consultar
+                     </button>
                      </div>
             </div>
             <div class="col-md-9">
@@ -210,7 +213,67 @@ function registrar() {
     }
 }
 
+$('#btnConsultar').click(function () {
+    var grupo = $('#COD_GRUPO').val();
+    $.ajax({
+        url: "<?php echo site_url('asignacion/ajax_consultar')?>",
+        type: "POST",
+        data: {grupo:grupo}, 
+        dataType: "JSON",
+        success: function(data){
+            var html;
+            var num = 1;
+            for (var i = 0; i < data.length; i++) {
+                html += '<tr>';
+                html += '<td>'+num+'</td>';
+                html += '<td>'+data[i].doc+'</td>';
+                html += '<td>'+data[i].nom1+" "+data[i].nom2+" "+data[i].ape1+" "+data[i].ape2+'</td>';
+                html += '</tr>';
+                num++;
+            }
+            $('#body').append(html); 
+            $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
+            $('.modal-title').text('Grupo de estudio'); // Set title to Bootstrap modal title
+        },
+        error: function(jqXHR, textStatus, errorThrown){
+            alert('Error');
+        }
+    });
+});
+
 </script>
+
+<div class="modal fade" id="modal_form" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 class="modal-title"></h3>
+            </div>
+            <div class="modal-body form">
+                <form action="#" id="form" class="form-horizontal">
+                    <div class="form-body">
+                    <div id="alert"></div>
+                       <table class="table table-striped table-bordered" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>N°</th>
+                                    <th>Documento</th>
+                                    <th>Estudiante</th>
+                                </tr>
+                            </thead>
+                            <tbody id="body">
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 </section>
 

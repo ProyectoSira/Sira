@@ -71,4 +71,22 @@ class Asignacion extends CI_Controller {
 		echo json_encode(array("status" => TRUE));
 	}
 
+
+	public function ajax_consultar()
+	{
+		$grupo = $this->input->post('grupo');
+		$arr = array();
+		$data = $this->asignacion->grupo_est($grupo);
+		foreach ($data as $value) {
+			$row = array(
+				'doc' => $value->DOC_EST,
+				'nom1' => $value->NOM1_EST,
+				'nom2' => $value->NOM2_EST,
+				'ape1' => $value->APE1_EST,
+				'ape2' => $value->APE2_EST);
+			$arr[] = $row;
+		}
+		echo json_encode($arr);
+	}
+
 }

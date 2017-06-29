@@ -146,6 +146,7 @@ class Asistencia_model extends CI_Model {
 		$this->db->from('tbl_excusa');
 		$this->db->join('tbl_estudiante', 'tbl_estudiante.DOC_EST = tbl_excusa.DOC_EST');
 		$this->db->where('tbl_excusa.DOC_EST',$doc);
+		$this->db->order_by("tbl_excusa.FECH_FALTA", "desc");
 		$query = $this->db->get();
 		if ($query->num_rows()>0) {
 			return $query->result();

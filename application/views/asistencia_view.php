@@ -261,10 +261,10 @@ $('#btnConsultar').click(function () {
                 for (var i = 0; i < data.length; i++) {
                     html += '<tr>';
                     html += '<td style="width:70%;">'+data[i].fecha+'</td>';
-                    html += '<td><a href="'+data[i].url+'" class="btn btn-default"><i class="glyphicon glyphicon-eye-open"> Ver Imagen</a></td>';
-                    html += '</tr>'
+                    html += '<td><a onclick="imagen('+"'"+data[i].url+"'"+')" class="btn btn-default"><i class="glyphicon glyphicon-eye-open"> Ver Imagen</a></td>';
+                    html += '</tr>';
                 }
-                $('#body').append(html);
+                $('#body').append(html); 
                 $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
                 $('.modal-title').text('Excusas del estudiante'); // Set title to Bootstrap modal title
             }
@@ -274,6 +274,14 @@ $('#btnConsultar').click(function () {
         }
     });
 });
+
+function imagen(url) {
+    var ruta = '<?php echo base_url('assets/img/')?>/'+url;
+    //alert(ruta);
+    $('#img').attr('src', ruta);
+    $('#modal_form2').modal('show'); // show bootstrap modal when complete loaded
+    $('.modal-title2').text('Vista previa de la excusa'); // Set title to Bootstrap modal title
+}
 
 </script>
 
@@ -302,6 +310,30 @@ $('#btnConsultar').click(function () {
                             <tbody id="body">
                             </tbody>
                         </table>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="modal_form2" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 class="modal-title2"></h3>
+            </div>
+            <div class="modal-body form">
+                <form action="#" id="form" class="form-horizontal">
+                    <div class="form-body">
+                    <div id="alert"></div>
+                        <center>
+                           <img width="450" id="img">
+                        </center>
                     </div>
                 </form>
             </div>
