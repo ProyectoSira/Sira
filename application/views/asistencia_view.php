@@ -245,6 +245,7 @@ $('#btnConsultar').click(function () {
         data: {doc:doc}, 
         dataType: "JSON",
         success: function(data){
+            $("#body").empty();
             if ($('#DOC_EST').val() == "") {
                 $("#result2").addClass("alert alert-danger");
                 $('#result2').text('Por favor seleccione un estudiante');

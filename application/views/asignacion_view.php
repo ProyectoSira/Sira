@@ -221,6 +221,7 @@ $('#btnConsultar').click(function () {
         data: {grupo:grupo}, 
         dataType: "JSON",
         success: function(data){
+            $("#body").empty();
             var html;
             var num = 1;
             for (var i = 0; i < data.length; i++) {
