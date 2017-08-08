@@ -19,7 +19,39 @@ class Horario extends CI_Controller {
 		$data['calendario'] = $this->horario->get_calendario();
 		$data['grupo'] = $this->horario->get_grupo();			
         $data['grupo'] = $this->horario->get_grupo();
-        $data['horario'] = $this->horario->get_horario();
+        $data['lunes1'] = $this->horario->get_horario();
+        $data['lunes2'] = $this->horario->get_horario();
+        $data['lunes3'] = $this->horario->get_horario();
+        $data['lunes4'] = $this->horario->get_horario();
+        $data['lunes5'] = $this->horario->get_horario();
+        $data['lunes6'] = $this->horario->get_horario();
+        $data['martes1'] = $this->horario->get_horario();
+        $data['martes2'] = $this->horario->get_horario();
+        $data['martes3'] = $this->horario->get_horario();
+        $data['martes4'] = $this->horario->get_horario();
+        $data['martes5'] = $this->horario->get_horario();
+        $data['martes6'] = $this->horario->get_horario();
+        $data['miercoles1'] = $this->horario->get_horario();
+        $data['miercoles2'] = $this->horario->get_horario();
+        $data['miercoles3'] = $this->horario->get_horario();
+        $data['miercoles4'] = $this->horario->get_horario();
+        $data['miercoles5'] = $this->horario->get_horario();
+        $data['miercoles6'] = $this->horario->get_horario();
+        $data['jueves1'] = $this->horario->get_horario();
+        $data['jueves2'] = $this->horario->get_horario();
+        $data['jueves3'] = $this->horario->get_horario();
+        $data['jueves4'] = $this->horario->get_horario();
+        $data['jueves5'] = $this->horario->get_horario();
+        $data['jueves6'] = $this->horario->get_horario();
+        $data['viernes1'] = $this->horario->get_horario();
+        $data['viernes2'] = $this->horario->get_horario();
+        $data['viernes3'] = $this->horario->get_horario();
+        $data['viernes4'] = $this->horario->get_horario();
+        $data['viernes5'] = $this->horario->get_horario();
+        $data['viernes6'] = $this->horario->get_horario();
+
+
+        
        
 
 
@@ -45,14 +77,14 @@ class Horario extends CI_Controller {
 		    $doc_emp = $this->input->post('DOC_EMP');
             $asign = $this->input->post('COD_ASIG');
             $aula =  $this->input->post('COD_AULA');
-            $hora = $this->input->post('ID_DIA');
-            $dia_sem =  $this->input->post('DIA_SEM');
+            $horas = $this->input->post('HORA_SEM');
+            $dia_sem =  $this->input->post('ID_SEM');
             $cal = $this->input->post('COD_CAL');
             $grup = $this->input->post('COD_GRUPO');
 			
 		
-		foreach ($hora as $hora) {
-			$this->horario->save($doc_emp, $asign, $aula, $hora, $dia_sem, $cal, $grup);
+		foreach ($horas as $value) {
+			$this->horario->save($doc_emp, $asign, $aula, $value, $dia_sem, $cal, $grup);
 		}
 		echo json_encode(array("status" => TRUE));
 	}

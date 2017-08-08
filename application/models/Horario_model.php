@@ -83,15 +83,15 @@ class Horario_model extends CI_Model {
 
 	}
 
-	public function save($doc_emp, $asign, $aula, $hora, $dia_sem, $cal, $grup)
+	public function save($doc_emp, $asign, $aula, $horas, $dia_sem, $cal, $grup)
 	{
 		$array = array(
 					   'DOC_EMP' => $doc_emp,
 					   'COD_GRUPO' => $grup,
 					   'COD_ASIG' => $asign,
 					   'COD_AULA' => $aula,
-					   'ID_DIA' => $hora,
-					   'DIA_SEM' => $dia_sem,
+					   'HORA_SEM' => $horas,
+					   'ID_SEM' => $dia_sem,
 					   'COD_CAL' => $cal,					   
 					   );
 		$this->db->set($array);
