@@ -124,7 +124,7 @@ function registrar() {
             $.ajax({
                 url: "<?php echo site_url('horario/ajax_add')?>",
                 type: "POST",
-                data: {COD_GRUPO:grup, DOC_EMP:emp, COD_ASIG:asig, COD_AULA:aula, DIA_SEM:dia, ID_DIA:horas, COD_CAL:cal}, 
+                data: {COD_GRUPO:grup, DOC_EMP:emp, COD_ASIG:asig, COD_AULA:aula, ID_SEM:dia, HORA_SEM:horas, COD_CAL:cal}, 
                 dataType: "JSON",
                 success: function(data){
                     if (data.status) {
@@ -191,13 +191,18 @@ function registrar() {
                                 foreach ($lunes1  as $row)
 
                                   {
-
-                                      echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
-                                      echo "<br>";
-                                      echo $row->NOM_ASIG;
-                                      echo "<br>";
-                                      echo "Aula ".$row->NUM_AULA;
-
+                                      if ($row->ID_SEM == 1 and $row->HORA_SEM==1) {
+                                        echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
+                                        echo "<br>";
+                                        echo $row->NOM_ASIG;
+                                        echo "<br>";
+                                        echo "Aula ".$row->NUM_AULA;
+                                        break;
+                                      }else{
+                                        echo "VACIO";
+                                        break;
+                                      }
+                                     
                                   }
                               }
                       ?> 
@@ -211,12 +216,17 @@ function registrar() {
 
                                   {
 
-                                      echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
-                                      echo "<br>";
-                                      echo $row->NOM_ASIG;
-                                      echo "<br>";
-                                      echo "Aula ".$row->NUM_AULA;
+                                      if ($row->ID_SEM == 2 and $row->HORA_SEM==1) {
+                                        echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
+                                        echo "<br>";
+                                        echo $row->NOM_ASIG;
+                                        echo "<br>";
+                                        echo "Aula ".$row->NUM_AULA;
+                                      }else{
 
+                                        echo "VACIO";
+                                        break;
+                                      }
 
                                   }
                               }
@@ -231,11 +241,16 @@ function registrar() {
 
                                   {
 
-                                      echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
-                                      echo "<br>";
-                                      echo $row->NOM_ASIG;
-                                      echo "<br>";
-                                      echo "Aula ".$row->NUM_AULA;
+                                       if ($row->ID_SEM == 3 and $row->HORA_SEM==1) {
+                                        echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
+                                        echo "<br>";
+                                        echo $row->NOM_ASIG;
+                                        echo "<br>";
+                                        echo "Aula ".$row->NUM_AULA;
+                                      }else{
+                                        echo "VACIO";
+                                        break;
+                                      }
 
 
                                   }
@@ -251,11 +266,16 @@ function registrar() {
 
                                   {
 
-                                      echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
-                                      echo "<br>";
-                                      echo $row->NOM_ASIG;
-                                      echo "<br>";
-                                      echo "Aula ".$row->NUM_AULA;
+                                       if ($row->ID_SEM == 4 and $row->HORA_SEM==1) {
+                                        echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
+                                        echo "<br>";
+                                        echo $row->NOM_ASIG;
+                                        echo "<br>";
+                                        echo "Aula ".$row->NUM_AULA;
+                                      }else{
+                                        echo "VACIO";
+                                        break;
+                                      }
 
 
                                   }
@@ -272,11 +292,16 @@ function registrar() {
 
                                   {
 
-                                      echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
-                                      echo "<br>";
-                                      echo $row->NOM_ASIG;
-                                      echo "<br>";
-                                      echo "Aula ".$row->NUM_AULA;
+                                       if ($row->ID_SEM == 5 and $row->HORA_SEM==1) {
+                                        echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
+                                        echo "<br>";
+                                        echo $row->NOM_ASIG;
+                                        echo "<br>";
+                                        echo "Aula ".$row->NUM_AULA;
+                                      }else{
+                                        echo "VACIO";
+                                        break;
+                                      }
 
 
                                   }
@@ -296,11 +321,16 @@ function registrar() {
 
                                   {
 
-                                      echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
-                                      echo "<br>";
-                                      echo $row->NOM_ASIG;
-                                      echo "<br>";
-                                      echo "Aula ".$row->NUM_AULA;
+                                       if ($row->ID_SEM == 1 and $row->HORA_SEM==2) {
+                                        echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
+                                        echo "<br>";
+                                        echo $row->NOM_ASIG;
+                                        echo "<br>";
+                                        echo "Aula ".$row->NUM_AULA;
+                                      }else{
+                                        echo "VACIO";
+                                        break;
+                                      }
 
 
                                   }
@@ -316,11 +346,16 @@ function registrar() {
 
                                   {
 
-                                      echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
-                                      echo "<br>";
-                                      echo $row->NOM_ASIG;
-                                      echo "<br>";
-                                      echo "Aula ".$row->NUM_AULA;
+                                       if ($row->ID_SEM == 2 and $row->HORA_SEM==2) {
+                                        echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
+                                        echo "<br>";
+                                        echo $row->NOM_ASIG;
+                                        echo "<br>";
+                                        echo "Aula ".$row->NUM_AULA;
+                                      }else{
+                                        echo "VACIO";
+                                        break;
+                                      }
 
 
                                   }
@@ -336,11 +371,16 @@ function registrar() {
 
                                   {
 
-                                      echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
-                                      echo "<br>";
-                                      echo $row->NOM_ASIG;
-                                      echo "<br>";
-                                      echo "Aula ".$row->NUM_AULA;
+                                      if ($row->ID_SEM == 3 and $row->HORA_SEM==2) {
+                                        echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
+                                        echo "<br>";
+                                        echo $row->NOM_ASIG;
+                                        echo "<br>";
+                                        echo "Aula ".$row->NUM_AULA;
+                                      }else{
+                                        echo "VACIO";
+                                        break;
+                                      }
 
 
                                   }
@@ -356,11 +396,16 @@ function registrar() {
 
                                   {
 
-                                      echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
-                                      echo "<br>";
-                                      echo $row->NOM_ASIG;
-                                      echo "<br>";
-                                      echo "Aula ".$row->NUM_AULA;
+                                       if ($row->ID_SEM == 4 and $row->HORA_SEM==2) {
+                                        echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
+                                        echo "<br>";
+                                        echo $row->NOM_ASIG;
+                                        echo "<br>";
+                                        echo "Aula ".$row->NUM_AULA;
+                                      }else{
+                                        echo "VACIO";
+                                        break;
+                                      }
 
 
                                   }
@@ -375,11 +420,16 @@ function registrar() {
 
                                   {
 
-                                      echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
-                                      echo "<br>";
-                                      echo $row->NOM_ASIG;
-                                      echo "<br>";
-                                      echo "Aula ".$row->NUM_AULA;
+                                       if ($row->ID_SEM == 5 and $row->HORA_SEM==2) {
+                                        echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
+                                        echo "<br>";
+                                        echo $row->NOM_ASIG;
+                                        echo "<br>";
+                                        echo "Aula ".$row->NUM_AULA;
+                                      }else{
+                                        echo "VACIO";
+                                        break;
+                                      }
 
 
                                   }
@@ -399,11 +449,16 @@ function registrar() {
 
                                   {
 
-                                      echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
-                                      echo "<br>";
-                                      echo $row->NOM_ASIG;
-                                      echo "<br>";
-                                      echo "Aula ".$row->NUM_AULA;
+                                       if ($row->ID_SEM == 1 and $row->HORA_SEM==3) {
+                                        echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
+                                        echo "<br>";
+                                        echo $row->NOM_ASIG;
+                                        echo "<br>";
+                                        echo "Aula ".$row->NUM_AULA;
+                                      }else{
+                                        echo "VACIO";
+                                        break;
+                                      }
 
 
                                   }
@@ -419,11 +474,16 @@ function registrar() {
 
                                   {
 
-                                      echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
-                                      echo "<br>";
-                                      echo $row->NOM_ASIG;
-                                      echo "<br>";
-                                      echo "Aula ".$row->NUM_AULA;
+                                      if ($row->ID_SEM == 2 and $row->HORA_SEM==3) {
+                                        echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
+                                        echo "<br>";
+                                        echo $row->NOM_ASIG;
+                                        echo "<br>";
+                                        echo "Aula ".$row->NUM_AULA;
+                                      }else{
+                                        echo "VACIO";
+                                        break;
+                                      }
 
 
                                   }
@@ -439,12 +499,16 @@ function registrar() {
 
                                   {
 
-                                      echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
-                                      echo "<br>";
-                                      echo $row->NOM_ASIG;
-                                      echo "<br>";
-                                      echo "Aula ".$row->NUM_AULA;
-
+                                       if ($row->ID_SEM == 3 and $row->HORA_SEM== 3) {
+                                        echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
+                                        echo "<br>";
+                                        echo $row->NOM_ASIG;
+                                        echo "<br>";
+                                        echo "Aula ".$row->NUM_AULA;
+                                      }else{
+                                        echo "VACIO";
+                                        break;
+                                      }
 
                                   }
                               }
@@ -459,11 +523,16 @@ function registrar() {
 
                                   {
 
-                                      echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
-                                      echo "<br>";
-                                      echo $row->NOM_ASIG;
-                                      echo "<br>";
-                                      echo "Aula ".$row->NUM_AULA;
+                                       if ($row->ID_SEM == 4 and $row->HORA_SEM==3) {
+                                        echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
+                                        echo "<br>";
+                                        echo $row->NOM_ASIG;
+                                        echo "<br>";
+                                        echo "Aula ".$row->NUM_AULA;
+                                      }else{
+                                        echo "VACIO";
+                                        break;
+                                      }
 
 
                                   }
@@ -479,11 +548,16 @@ function registrar() {
 
                                   {
 
-                                      echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
-                                      echo "<br>";
-                                      echo $row->NOM_ASIG;
-                                      echo "<br>";
-                                      echo "Aula ".$row->NUM_AULA;
+                                       if ($row->ID_SEM == 5 and $row->HORA_SEM==3) {
+                                        echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
+                                        echo "<br>";
+                                        echo $row->NOM_ASIG;
+                                        echo "<br>";
+                                        echo "Aula ".$row->NUM_AULA;
+                                      }else{
+                                        echo "VACIO";
+                                        break;
+                                      }
 
 
                                   }
@@ -503,12 +577,16 @@ function registrar() {
 
                                   {
 
-                                      echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
-                                      echo "<br>";
-                                      echo $row->NOM_ASIG;
-                                      echo "<br>";
-                                      echo "Aula ".$row->NUM_AULA;
-
+                                       if ($row->ID_SEM == 1 and $row->HORA_SEM==4) {
+                                        echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
+                                        echo "<br>";
+                                        echo $row->NOM_ASIG;
+                                        echo "<br>";
+                                        echo "Aula ".$row->NUM_AULA;
+                                      }else{
+                                        echo "VACIO";
+                                        break;
+                                      }
 
                                   }
                               }
@@ -526,11 +604,16 @@ function registrar() {
 
                                   {
 
-                                      echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
-                                      echo "<br>";
-                                      echo $row->NOM_ASIG;
-                                      echo "<br>";
-                                      echo "Aula ".$row->NUM_AULA;
+                                       if ($row->ID_SEM == 2 and $row->HORA_SEM==4) {
+                                        echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
+                                        echo "<br>";
+                                        echo $row->NOM_ASIG;
+                                        echo "<br>";
+                                        echo "Aula ".$row->NUM_AULA;
+                                      }else{
+                                        echo "VACIO";
+                                        break;
+                                      }
 
 
                                   }
@@ -547,11 +630,16 @@ function registrar() {
 
                                   {
 
-                                      echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
-                                      echo "<br>";
-                                      echo $row->NOM_ASIG;
-                                      echo "<br>";
-                                      echo "Aula ".$row->NUM_AULA;
+                                       if ($row->ID_SEM == 3 and $row->HORA_SEM==4) {
+                                        echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
+                                        echo "<br>";
+                                        echo $row->NOM_ASIG;
+                                        echo "<br>";
+                                        echo "Aula ".$row->NUM_AULA;
+                                      }else{
+                                        echo "VACIO";
+                                        break;
+                                      }
 
 
                                   }
@@ -567,12 +655,16 @@ function registrar() {
 
                                   {
 
-                                      echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
-                                      echo "<br>";
-                                      echo $row->NOM_ASIG;
-                                      echo "<br>";
-                                      echo "Aula ".$row->NUM_AULA;
-
+                                       if ($row->ID_SEM == 4 and $row->HORA_SEM==4) {
+                                        echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
+                                        echo "<br>";
+                                        echo $row->NOM_ASIG;
+                                        echo "<br>";
+                                        echo "Aula ".$row->NUM_AULA;
+                                      }else{
+                                        echo "VACIO";
+                                        break;
+                                      }
 
                                   }
                               }
@@ -587,11 +679,16 @@ function registrar() {
 
                                   {
 
-                                      echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
-                                      echo "<br>";
-                                      echo $row->NOM_ASIG;
-                                      echo "<br>";
-                                      echo "Aula ".$row->NUM_AULA;
+                                      if ($row->ID_SEM == 5 and $row->HORA_SEM== 4) {
+                                        echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
+                                        echo "<br>";
+                                        echo $row->NOM_ASIG;
+                                        echo "<br>";
+                                        echo "Aula ".$row->NUM_AULA;
+                                      }else{
+                                        echo "VACIO";
+                                        break;
+                                      }
 
 
                                   }
@@ -611,12 +708,16 @@ function registrar() {
 
                                   {
 
-                                      echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
-                                      echo "<br>";
-                                      echo $row->NOM_ASIG;
-                                      echo "<br>";
-                                      echo "Aula ".$row->NUM_AULA;
-
+                                      if ($row->ID_SEM == 1 and $row->HORA_SEM==5) {
+                                        echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
+                                        echo "<br>";
+                                        echo $row->NOM_ASIG;
+                                        echo "<br>";
+                                        echo "Aula ".$row->NUM_AULA;
+                                      }else{
+                                        echo "VACIO";
+                                        break;
+                                      }
 
                                   }
                               }
@@ -631,11 +732,16 @@ function registrar() {
 
                                   {
 
-                                      echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
-                                      echo "<br>";
-                                      echo $row->NOM_ASIG;
-                                      echo "<br>";
-                                      echo "Aula ".$row->NUM_AULA;
+                                       if ($row->ID_SEM == 2 and $row->HORA_SEM==5) {
+                                        echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
+                                        echo "<br>";
+                                        echo $row->NOM_ASIG;
+                                        echo "<br>";
+                                        echo "Aula ".$row->NUM_AULA;
+                                      }else{
+                                        echo "VACIO";
+                                        break;
+                                      }
 
 
                                   }
@@ -651,11 +757,16 @@ function registrar() {
 
                                   {
 
-                                      echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
-                                      echo "<br>";
-                                      echo $row->NOM_ASIG;
-                                      echo "<br>";
-                                      echo "Aula ".$row->NUM_AULA;
+                                       if ($row->ID_SEM == 3 and $row->HORA_SEM==5) {
+                                        echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
+                                        echo "<br>";
+                                        echo $row->NOM_ASIG;
+                                        echo "<br>";
+                                        echo "Aula ".$row->NUM_AULA;
+                                      }else{
+                                        echo "VACIO";
+                                        break;
+                                      }
 
 
                                   }
@@ -672,12 +783,16 @@ function registrar() {
 
                                   {
 
-                                      echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
-                                      echo "<br>";
-                                      echo $row->NOM_ASIG;
-                                      echo "<br>";
-                                      echo "Aula ".$row->NUM_AULA;
-
+                                       if ($row->ID_SEM == 4 and $row->HORA_SEM==5) {
+                                        echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
+                                        echo "<br>";
+                                        echo $row->NOM_ASIG;
+                                        echo "<br>";
+                                        echo "Aula ".$row->NUM_AULA;
+                                      }else{
+                                        echo "VACIO";
+                                        break;
+                                      }
 
                                   }
                               }
@@ -691,11 +806,16 @@ function registrar() {
 
                                   {
 
-                                      echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
-                                      echo "<br>";
-                                      echo $row->NOM_ASIG;
-                                      echo "<br>";
-                                      echo "Aula ".$row->NUM_AULA;
+                                       if ($row->ID_SEM == 5 and $row->HORA_SEM==5) {
+                                        echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
+                                        echo "<br>";
+                                        echo $row->NOM_ASIG;
+                                        echo "<br>";
+                                        echo "Aula ".$row->NUM_AULA;
+                                      }else{
+                                        echo "VACIO";
+                                        break;
+                                      }
 
 
                                   }
@@ -715,11 +835,16 @@ function registrar() {
 
                                   {
 
-                                      echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
-                                      echo "<br>";
-                                      echo $row->NOM_ASIG;
-                                      echo "<br>";
-                                      echo "Aula ".$row->NUM_AULA;
+                                       if ($row->ID_SEM == 1 and $row->HORA_SEM==6) {
+                                        echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
+                                        echo "<br>";
+                                        echo $row->NOM_ASIG;
+                                        echo "<br>";
+                                        echo "Aula ".$row->NUM_AULA;
+                                      }else{
+                                        echo "VACIO";
+                                        break;
+                                      }
 
 
                                   }
@@ -734,11 +859,16 @@ function registrar() {
 
                                   {
 
-                                      echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
-                                      echo "<br>";
-                                      echo $row->NOM_ASIG;
-                                      echo "<br>";
-                                      echo "Aula ".$row->NUM_AULA;
+                                       if ($row->ID_SEM == 2 and $row->HORA_SEM==6) {
+                                        echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
+                                        echo "<br>";
+                                        echo $row->NOM_ASIG;
+                                        echo "<br>";
+                                        echo "Aula ".$row->NUM_AULA;
+                                      }else{
+                                        echo "VACIO";
+                                        break;
+                                      }
 
 
                                   }
@@ -753,11 +883,16 @@ function registrar() {
 
                                   {
 
-                                      echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
-                                      echo "<br>";
-                                      echo $row->NOM_ASIG;
-                                      echo "<br>";
-                                      echo "Aula ".$row->NUM_AULA;
+                                       if ($row->ID_SEM == 3 and $row->HORA_SEM==6) {
+                                        echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
+                                        echo "<br>";
+                                        echo $row->NOM_ASIG;
+                                        echo "<br>";
+                                        echo "Aula ".$row->NUM_AULA;
+                                      }else{
+                                        echo "VACIO";
+                                        break;
+                                      }
 
 
                                   }
@@ -773,11 +908,16 @@ function registrar() {
 
                                   {
 
-                                      echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
-                                      echo "<br>";
-                                      echo $row->NOM_ASIG;
-                                      echo "<br>";
-                                      echo "Aula ".$row->NUM_AULA;
+                                      if ($row->ID_SEM == 4 and $row->HORA_SEM==6) {
+                                        echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
+                                        echo "<br>";
+                                        echo $row->NOM_ASIG;
+                                        echo "<br>";
+                                        echo "Aula ".$row->NUM_AULA;
+                                      }else{
+                                        echo "VACIO";
+                                        break;
+                                      }
 
 
                                   }
@@ -792,11 +932,16 @@ function registrar() {
 
                                   {
 
-                                      echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
-                                      echo "<br>";
-                                      echo $row->NOM_ASIG;
-                                      echo "<br>";
-                                      echo "Aula ".$row->NUM_AULA;
+                                       if ($row->ID_SEM == 5 and $row->HORA_SEM==6) {
+                                        echo $row->NOM1_EMP." ".$row->NOM2_EMP." ".$row->APE1_EMP;
+                                        echo "<br>";
+                                        echo $row->NOM_ASIG;
+                                        echo "<br>";
+                                        echo "Aula ".$row->NUM_AULA;
+                                      }else{
+                                        echo "VACIO";
+                                        break;
+                                      }
 
 
                                   }
