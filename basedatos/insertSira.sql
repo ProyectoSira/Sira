@@ -68,13 +68,15 @@ INSERT INTO `tbl_opcion_menu` (`ID_OPC_MENU`, `NOM_OPC_MENU`, `ULR_MENU`, `ICONO
 (4, 'Empleados', 'empleado', 'lnr lnr-users'),
 (5, 'Grupo de Estudio', 'asignacion', 'lnr lnr-sync'),
 (6, 'Periodos', 'periodo', 'lnr lnr-calendar-full'),
-(7, 'Programación', 'programacion', 'lnr lnr-line-spacing'),
+(7, 'Programación', 'horario', 'lnr lnr-line-spacing'),
 (8, 'Llegadas Tarde', 'llegadatarde', 'lnr lnr-clock'),
 (9, 'Asistencia', 'asistencia', 'lnr lnr-spell-check'),
 (10, 'Reportes', 'reportes', 'lnr lnr-list'),
 (11, 'Sanciones', 'sancion', 'lnr lnr-warning'),
-(12, 'Planeación', 'home', 'lnr lnr-paperclip'),
-(13, 'Anormalidades', 'anormalidad', 'lnr lnr-hourglass');
+(12, 'Planeación', 'planeacion', 'lnr lnr-paperclip'),
+(13, 'Anormalidades', 'anormalidad', 'lnr lnr-hourglass'),
+(14, 'Asignar Usuario', 'usuario', 'lnr lnr-user'),
+(15, 'Adjuntar Excusa', 'excusa', 'lnr lnr-paperclip');
 
 
 INSERT INTO `tbl_jornada` (`COD_JOR`, `ID_TIP_JORN`, `HOR_INI_JOR`, `HOR_FIN_JOR`) VALUES
@@ -149,6 +151,7 @@ INSERT INTO `tbl_area` (`COD_AREA`, `NOM_AREA`, `DOC_EMP`) VALUES
 INSERT INTO `tbl_asignatura` (`COD_ASIG`, `NOM_ASIG`, `COD_AREA`) VALUES
 (1, 'SOCIALES', 1);
 
+
 INSERT INTO `tbl_asignacion_rol` (`ID_ASIGNA_OPC_MENU`, `ROL_USU`, `ID_OPC_MENU`) VALUES
 (1, 2, 7),
 (2, 2, 9),
@@ -161,7 +164,19 @@ INSERT INTO `tbl_asignacion_rol` (`ID_ASIGNA_OPC_MENU`, `ROL_USU`, `ID_OPC_MENU`
 (9, 3, 4),
 (10, 3, 5),
 (11, 3, 6),
-(12, 3, 13);
+(12, 3, 13),
+(13, 1, 1),
+(14, 1, 2),
+(15, 1, 3),
+(16, 1, 4),
+(18, 1, 6),
+(19, 1, 8),
+(21, 1, 10),
+(22, 1, 11),
+(23, 1, 13),
+(24, 1, 14),
+(25, 1, 15);
+
 INSERT INTO `tbl_grupo` (`COD_GRUPO`, `NUM_GRUPO`, `COD_GRADO`, `DOC_EMP`, `TBL_JORNADA_COD_JOR`) VALUES
 (1, 1, 1, 7653674, 1),
 (2, 2, 1, 43445563, 1),

@@ -56,6 +56,7 @@
 
 var save_method; //for save method string
 var table;
+var ruta;
 
 $(document).ready(function() {
 
@@ -192,6 +193,8 @@ function save()
     $('#btnSave').text('Guardando...'); //change button text
     $('#btnSave').attr('disabled',true); //set button disable 
     var url;
+    id = $('#COD_PLANEACION').val();
+    cod = $('#COD_PROGRA').val();
  
     if(save_method == 'add') {
         url = "<?php echo site_url('planeacion/ajax_add')?>";
@@ -203,7 +206,7 @@ function save()
     $.ajax({
         url : url,
         type: "POST",
-        data: $('#form').serialize(),
+        data: {id:id, url:ruta, cod:cod},
         dataType: "JSON",
         success: function(data)
         {
@@ -286,6 +289,11 @@ function validar(e) {
 
 } 
 
+function nombre(hola) {
+    hola = hola.split('\\');
+    ruta = hola[hola.length-1];
+}
+
 </script>
 
 <!-- Bootstrap modal -->
@@ -299,18 +307,17 @@ function validar(e) {
             <div class="modal-body form">
                 <form action="#" id="form" class="form-horizontal">
                     <div class="form-body">
-                        <input type="hidden" value="" name="COD_PLANEACION"/>
+                        <input type="hidden" value="" name="COD_PLANEACION" id="COD_PLANEACION" />
                         <div class="form-group">
-                            <label class="control-label col-md-3">URL Del Archivo <span style="color: red;">*</span></label>
+                            <label class="control-label col-md-3">Url Excusa <span style="color: red;">*</span></label>
                             <div class="col-md-9">
-                                <input name="URL_ARCHIVO" placeholder="URL DEL ARCHIVO" class="form-control" type="text">
-                                <span class="help-block"></span>
+                                <input name="URL" type="file" id="URL" onchange="nombre(this.value)">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3">Programación <span style="color: red;">*</span></label>
                             <div class="col-md-9">
-                                <select name="COD_PROGRA" class="selectpicker form-control" data-live-search="true">
+                                <select id="COD_PROGRA" name="COD_PROGRA" class="selectpicker form-control" data-live-search="true">
                                     <option value="">--SELECCIONAR--</option>
                                     <?php 
                                       foreach ($programacion as $filas) 

@@ -61,10 +61,9 @@ class Planeacion extends CI_Controller {
 
 	public function ajax_add()
 	{
-		$this->_validate();
 		$data = array(
-                'URL_ARCHIVO' => $this->input->post('URL_ARCHIVO'),
-                'COD_PROGRA' => $this->input->post('COD_PROGRA'),
+                'URL_ARCHIVO' => $this->input->post('url'),
+                'COD_PROGRA' => $this->input->post('cod'),
 			);
 		$insert = $this->planeacion->save($data);
 		echo json_encode(array("status" => TRUE));
@@ -74,12 +73,11 @@ class Planeacion extends CI_Controller {
 
 	public function ajax_update()
 	{
-		$this->_validate();
 		$data = array(
-				'URL_ARCHIVO' => $this->input->post('URL_ARCHIVO'),
-                'COD_PROGRA' => $this->input->post('COD_PROGRA'),
+				'URL_ARCHIVO' => $this->input->post('url'),
+                'COD_PROGRA' => $this->input->post('cod'),
 			);
-		$this->planeacion->update(array('COD_PLANEACION' => $this->input->post('COD_PLANEACION')), $data);
+		$this->planeacion->update(array('COD_PLANEACION' => $this->input->post('id')), $data);
 		echo json_encode(array("status" => TRUE));
 	}
 
@@ -89,30 +87,5 @@ class Planeacion extends CI_Controller {
 		echo json_encode(array("status" => TRUE));
 	}
 
-
-	private function _validate()
-	{
-		$data = array();
-		$data['inputerror'] = array();
-		$data['status'] = TRUE;
-
-		if($this->input->post('URL_ARCHIVO') == '')
-		{
-			$data['inputerror'][] = 'URL_ARCHIVO';
-			$data['status'] = FALSE;
-		}
-
-        if($this->input->post('COD_PROGRA') == '')
-        {
-            $data['inputerror'][] = 'COD_PROGRA';
-            $data['status'] = FALSE;
-        }
-
-		if($data['status'] === FALSE)
-		{
-			echo json_encode($data);
-			exit();
-		}
-	}
 
 }
