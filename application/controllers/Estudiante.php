@@ -24,7 +24,7 @@ class Estudiante extends CI_Controller {
         	}
         }else{
             redirect('login');
-        }      
+        }       
 	}
 
 	public function ajax_list()
@@ -33,11 +33,16 @@ class Estudiante extends CI_Controller {
 		$data = array();
 		$no = $_POST['start'];
 		foreach ($list as $estudiante) {
+			$tar = $this->estudiante->conTarjeta($estudiante->DOC_EST);
+			if ($tar) {
+				$validarBotn = true;
+			}else{
+				$validarBotn = false;
+			}
 			if (($this->session->userdata['logged_in']['rol']) == 'Coordinador') {
 				$no++;
 				$row = array();
-				$row[] = '<a class="btn btn-sm btn-default" href="javascript:void(0)" title="Hapus" onclick="view_person('."'".$estudiante->DOC_EST."'".')"><i class="glyphicon glyphicon-eye-open"></i></a>'." ".$estudiante->DOC_EST;
-				$row[] = $estudiante->SIGLA_DOC;
+				$row[] = '<a class="btn btn-sm btn-default" href="javascript:void(0)" title="Ver" onclick="view_person('."'".$estudiante->DOC_EST."'".')"><i class="glyphicon glyphicon-eye-open"></i></a>'." ".$estudiante->DOC_EST;
 				$row[] = $estudiante->NOM1_EST." ".$estudiante->NOM2_EST;
 				$row[] = $estudiante->APE1_EST." ".$estudiante->APE2_EST;
 				$row[] = $estudiante->TEL1_EST;
@@ -45,15 +50,20 @@ class Estudiante extends CI_Controller {
 				$row[] = $estudiante->EMAIL_EST;
 
 				//add html for action
-				$row[] = '<a class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
-					  <a class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-trash"></i></a>';
+				$row[] = '<a disabled="true" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
+					  <a disabled="true" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-trash"></i></a>';
+
+				if ($validarBotn) {
+					$row[] = '<a disabled="true" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-ok"></i></a>';
+				}else{
+					$row[] = '<a disabled="true" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-remove"></i></a>';
+				}
 			
 				$data[] = $row;
 			}else{
 				$no++;
 				$row = array();
-				$row[] = '<a class="btn btn-sm btn-default" href="javascript:void(0)" title="Hapus" onclick="view_person('."'".$estudiante->DOC_EST."'".')"><i class="glyphicon glyphicon-eye-open"></i></a>'." ".$estudiante->DOC_EST;
-				$row[] = $estudiante->SIGLA_DOC;
+				$row[] = '<a class="btn btn-sm btn-default" href="javascript:void(0)" title="Ver" onclick="view_person('."'".$estudiante->DOC_EST."'".')"><i class="glyphicon glyphicon-eye-open"></i></a>'." ".$estudiante->DOC_EST;
 				$row[] = $estudiante->NOM1_EST." ".$estudiante->NOM2_EST;
 				$row[] = $estudiante->APE1_EST." ".$estudiante->APE2_EST;
 				$row[] = $estudiante->TEL1_EST;
@@ -61,9 +71,13 @@ class Estudiante extends CI_Controller {
 				$row[] = $estudiante->EMAIL_EST;
 
 				//add html for action
-				$row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_person('."'".$estudiante->DOC_EST."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
-					  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_person('."'".$estudiante->DOC_EST."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
-			
+				$row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Editar" onclick="edit_person('."'".$estudiante->DOC_EST."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
+					  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Eliminar" onclick="delete_person('."'".$estudiante->DOC_EST."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
+				if ($validarBotn) {
+					$row[] = '<a class="btn btn-sm btn-success" href="javascript:void(0)" title="Cambiar Tarjeta" onclick="AsignarTarjeta2('."'".$estudiante->DOC_EST."'".')"><i class="glyphicon glyphicon-ok"></i></a>';
+				}else{
+					$row[] = '<a class="btn btn-sm btn-warning" href="javascript:void(0)" title="Asignar Tarjeta" onclick="AsignarTarjeta('."'".$estudiante->DOC_EST."'".')"><i class="glyphicon glyphicon-remove"></i></a>';
+				}			
 				$data[] = $row;
 			}
 		}
@@ -166,6 +180,36 @@ class Estudiante extends CI_Controller {
 		echo json_encode(array("status" => TRUE));
 	}
 
+	public function ajax_Tarjeta()
+	{
+		$this->validar();
+		$val = $this->estudiante->validarTar($this->input->post('id'));
+		if($val){
+			echo json_encode(array("val" => TRUE));
+		}else{
+			$data = array(
+				'HUELLA_EST' => $this->input->post('id'),
+				'DOC_EST' => $this->input->post('idA'),
+			);
+			$this->estudiante->insertarTarjeta($data);
+			echo json_encode(array("status" => TRUE));
+		}
+	}
+	public function ajax_editTarjeta()
+	{
+		$this->validar();
+		$val = $this->estudiante->validarTar($this->input->post('id'));
+		if($val){
+			echo json_encode(array("val" => TRUE));
+		}else{
+			$data = array(
+				'HUELLA_EST' => $this->input->post('id'),
+			);
+			$this->estudiante->editarTarjeta(array('DOC_EST' => $this->input->post('idA')), $data);
+			echo json_encode(array("status" => TRUE));
+		}
+	}
+
 	public function ajax_delete($id)
 	{
 		$data = array(
@@ -175,6 +219,26 @@ class Estudiante extends CI_Controller {
 		echo json_encode(array("status" => TRUE));
 	}
 
+
+	private function validar(){
+		$data = array();
+        $data['error_string'] = array();
+        $data['inputerror'] = array();
+        $data['status'] = TRUE;
+ 
+        if($this->input->post('id') == '')
+        {
+            $data['inputerror'][] = 'id';
+            $data['error_string'][] = 'El codigo de la tarjeta es obligatorio';
+            $data['status'] = FALSE;
+        }
+
+        if($data['status'] === FALSE)
+        {
+            echo json_encode($data);
+            exit();
+        }
+	}
 
 	private function _validate()
 	{

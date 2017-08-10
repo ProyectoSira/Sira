@@ -4,8 +4,10 @@
 <div class="container-fluid">
  
         <h1 style="font-size:20pt">Registro de Excusas</h1>
+        <button id="btnCambiar" class="btn btn-success"><samp class="glyphicon glyphicon-refresh"></samp> Llegadas tarde a clase</button>
         <br>
-        <h3>Estudiantes con llegadas tarde</h3>
+        <br>
+        <h3 id="h3Cambiar">Estudiantes con llegadas tarde a la Institución</h3>
         <div id="result"></div>
         <br />
         <div class="table-responsive">
@@ -132,6 +134,11 @@ $(document).ready(function() {
         $(this).next().empty();
     });
 
+});
+
+$('#btnCambiar').click(function(){
+    $('#btnCambiar').text("Llegadas tarde a la Institución");
+    $('#h3Cambiar').text("Estudiantes con llegadas tarde a Clase");
 });
 
 function cerrarAlerta(){

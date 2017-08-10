@@ -16,14 +16,14 @@
         <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
                 <tr>
-                    <th style="width:150px;">Documento</th>
-                    <th>Tipo Doc.</th>
+                    <th style="width:20%;">Documento</th>
                     <th>Nombres</th>
                     <th>Apellidos</th>
                     <th>Teléfono 1</th>
                     <th>Grado</th>
                     <th>Correo</th>
-                    <th style="width:55px;">Acción</th>
+                    <th style="width:10%;">Acción</th>
+                    <th style="width:5%;">Tarjeta</th>
                 </tr>
             </thead>
             <tbody>
@@ -32,13 +32,13 @@
             <tfoot>
             <tr>
                 <th>Documento</th>
-                <th>Tipo Doc.</th>
                 <th>Nombres</th>
                 <th>Apellidos</th>
                 <th>Teléfono 1</th>
                 <th>Grado</th>
                 <th>Correo</th>
                 <th>Acción</th>
+                <th>Tarjeta</th>
             </tr>
             </tfoot>
         </table>
@@ -68,6 +68,8 @@
 
 var save_method; //for save method string
 var table;
+var IdAlum;
+var tarr = false;
 var rol = "<?php echo ($this->session->userdata['logged_in']['rol'])?>"
 
 $(document).ready(function() {
@@ -164,6 +166,8 @@ function cerrarAlerta(){
 function cerrarAlerta2(){
     $("#alert").removeClass("alert alert-danger");
     $('#alert').text('');
+    $("#alert3").removeClass("alert alert-danger");
+    $('#alert3').text('');
 }
 
 function add_person()
@@ -389,6 +393,99 @@ function delete_person(id)
     }
 }
 
+function AsignarTarjeta(id) {
+    $('#id').val("");
+    $('.form-group').removeClass('has-error'); // clear error class
+    $('.help-block').empty(); // clear error string
+    $('#modal_form3').modal('show'); // show bootstrap modal
+    $('.modal-title3').text('Asignar tarjeta al estudiante'); // Set Title to Bootstrap modal title
+    IdAlum = id;
+    tarr = false;
+}
+
+function AsignarTarjeta2(id) {
+    $('#id').val("");
+    $('.form-group').removeClass('has-error'); // clear error class
+    $('.help-block').empty(); // clear error string
+    $('#modal_form3').modal('show'); // show bootstrap modal
+    $('.modal-title3').text('Cambiar tarjeta al estudiante'); // Set Title to Bootstrap modal title
+    IdAlum = id;
+    tarr = true;
+}
+
+function Tarjeta() {
+    var id = $('#id').val();
+    if(tarr){
+        if(confirm('Seguro que desea cambiar la terjeta del estudiante?'))
+        {
+            $.ajax({
+                url : "<?php echo site_url('estudiante/ajax_editTarjeta')?>",
+                type: "POST",
+                dataType: "JSON",
+                data:{id:id,idA:IdAlum},
+                success: function(data)
+                {
+                    if (data.status) {
+                        $('#modal_form3').modal('hide');
+                        reload_table();
+                        $("#result").addClass("alert alert-success");
+                        $('#result').text('Se Asignó la terjeta correctamente'); 
+                        setTimeout("cerrarAlerta()",3000);
+                    }else if(data.val){
+                        $("#alert3").addClass("alert alert-danger");
+                        $('#alert3').text('Esta tarjeta ya se encuentra asignada a un alumno'); 
+                        setTimeout("cerrarAlerta2()",3000);
+                        $('#id').val("");
+                    }
+                    else if(data.status == false){
+                        for (var i = 0; i < data.inputerror.length; i++) 
+                        {
+                            $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
+                            $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); //select span help-block class set text error string
+                        }
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error');
+                }
+            });
+        }
+    }else{
+        $.ajax({
+            url : "<?php echo site_url('estudiante/ajax_Tarjeta')?>",
+            type: "POST",
+            dataType: "JSON",
+            data:{id:id,idA:IdAlum},
+            success: function(data)
+            {
+                if (data.status) {
+                    $('#modal_form3').modal('hide');
+                    reload_table();
+                    $("#result").addClass("alert alert-success");
+                    $('#result').text('Se Asignó la terjeta correctamente'); 
+                    setTimeout("cerrarAlerta()",3000);
+                }else if(data.val){
+                    $("#alert3").addClass("alert alert-danger");
+                    $('#alert3').text('Esta tarjeta ya se encuentra asignada a un alumno'); 
+                    setTimeout("cerrarAlerta2()",3000);
+                    $('#id').val("");
+                }
+                else if(data.status == false){
+                    for (var i = 0; i < data.inputerror.length; i++) 
+                    {
+                        $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
+                        $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); //select span help-block class set text error string
+                    }
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Error');
+            }
+        });
+    }
+}
 
 </script>
 
@@ -610,6 +707,36 @@ acudiente
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+
+
+<div class="modal fade" id="modal_form3" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 class="modal-title3"></h3>
+            </div>
+            <div class="modal-body form">
+                <form action="#" id="form" class="form-horizontal">
+                    <div class="form-body">
+                    <div id="alert3"></div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Codigo Tarjeta <span style="color: red;">*</span></label>
+                            <div class="col-md-9">
+                                <input name="id" placeholder="Codigo Tarjeta" class="form-control" type="text" id="id" onkeypress="return justNumbers(event);">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnSave" onclick="Tarjeta()" class="btn btn-primary">Guardar</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
 </section>
   
 <script src="<?php echo base_url('assets/js/jquery.nicescroll.js')?>"></script>

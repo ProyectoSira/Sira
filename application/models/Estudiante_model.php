@@ -33,6 +33,20 @@ class Estudiante_model extends CI_Model {
 
 	}	
 
+	function conTarjeta($id)
+	{
+		$this->db->select('*');
+		$this->db->from('tbl_estudiante_huella_tbl_dedo');
+        $this->db->where('DOC_EST',$id);
+        $Est = $this->db->get();
+        if ($Est -> num_rows()>0)
+        {
+       		return true;
+        }else{
+        	return false;
+        }
+	}
+
 	function get_acudiente(){
       	$this->db->select('*');
 		$this->db->from('tbl_acudiente');
@@ -136,9 +150,34 @@ class Estudiante_model extends CI_Model {
 		return $this->db->insert_id();
 	}
 
+	public function insertarTarjeta($data)
+	{
+		$this->db->insert('tbl_estudiante_huella_tbl_dedo', $data);
+		return $this->db->insert_id();
+	}
+
+	public function validarTar($id){
+		$this->db->select('*');
+		$this->db->from('tbl_estudiante_huella_tbl_dedo');
+        $this->db->where('HUELLA_EST',$id);
+      	$val = $this->db->get();
+        if ($val -> num_rows()>0)
+        {
+       	 	return true;
+        }else{
+        	return false;
+        }
+	}
+
 	public function update($where, $data)
 	{
 		$this->db->update($this->table, $data, $where);
+		return $this->db->affected_rows();
+	}
+
+	public function editarTarjeta($where, $data)
+	{
+		$this->db->update('tbl_estudiante_huella_tbl_dedo', $data, $where);
 		return $this->db->affected_rows();
 	}
 

@@ -197,10 +197,7 @@ function registrar() {
                                         echo $row->NOM_ASIG;
                                         echo "<br>";
                                         echo "Aula ".$row->NUM_AULA;
-                                        break;
-                                      }else{
-                                        echo "VACIO";
-                                        break;
+                                        
                                       }
                                      
                                   }
@@ -222,10 +219,6 @@ function registrar() {
                                         echo $row->NOM_ASIG;
                                         echo "<br>";
                                         echo "Aula ".$row->NUM_AULA;
-                                      }else{
-
-                                        echo "VACIO";
-                                        break;
                                       }
 
                                   }
@@ -247,9 +240,6 @@ function registrar() {
                                         echo $row->NOM_ASIG;
                                         echo "<br>";
                                         echo "Aula ".$row->NUM_AULA;
-                                      }else{
-                                        echo "VACIO";
-                                        break;
                                       }
 
 
@@ -272,9 +262,6 @@ function registrar() {
                                         echo $row->NOM_ASIG;
                                         echo "<br>";
                                         echo "Aula ".$row->NUM_AULA;
-                                      }else{
-                                        echo "VACIO";
-                                        break;
                                       }
 
 
@@ -298,9 +285,6 @@ function registrar() {
                                         echo $row->NOM_ASIG;
                                         echo "<br>";
                                         echo "Aula ".$row->NUM_AULA;
-                                      }else{
-                                        echo "VACIO";
-                                        break;
                                       }
 
 
@@ -327,9 +311,6 @@ function registrar() {
                                         echo $row->NOM_ASIG;
                                         echo "<br>";
                                         echo "Aula ".$row->NUM_AULA;
-                                      }else{
-                                        echo "VACIO";
-                                        break;
                                       }
 
 
@@ -352,9 +333,6 @@ function registrar() {
                                         echo $row->NOM_ASIG;
                                         echo "<br>";
                                         echo "Aula ".$row->NUM_AULA;
-                                      }else{
-                                        echo "VACIO";
-                                        break;
                                       }
 
 
@@ -377,9 +355,6 @@ function registrar() {
                                         echo $row->NOM_ASIG;
                                         echo "<br>";
                                         echo "Aula ".$row->NUM_AULA;
-                                      }else{
-                                        echo "VACIO";
-                                        break;
                                       }
 
 
@@ -402,9 +377,6 @@ function registrar() {
                                         echo $row->NOM_ASIG;
                                         echo "<br>";
                                         echo "Aula ".$row->NUM_AULA;
-                                      }else{
-                                        echo "VACIO";
-                                        break;
                                       }
 
 
@@ -426,9 +398,6 @@ function registrar() {
                                         echo $row->NOM_ASIG;
                                         echo "<br>";
                                         echo "Aula ".$row->NUM_AULA;
-                                      }else{
-                                        echo "VACIO";
-                                        break;
                                       }
 
 
@@ -455,9 +424,6 @@ function registrar() {
                                         echo $row->NOM_ASIG;
                                         echo "<br>";
                                         echo "Aula ".$row->NUM_AULA;
-                                      }else{
-                                        echo "VACIO";
-                                        break;
                                       }
 
 
@@ -480,11 +446,7 @@ function registrar() {
                                         echo $row->NOM_ASIG;
                                         echo "<br>";
                                         echo "Aula ".$row->NUM_AULA;
-                                      }else{
-                                        echo "VACIO";
-                                        break;
                                       }
-
 
                                   }
                               }
@@ -505,11 +467,7 @@ function registrar() {
                                         echo $row->NOM_ASIG;
                                         echo "<br>";
                                         echo "Aula ".$row->NUM_AULA;
-                                      }else{
-                                        echo "VACIO";
-                                        break;
                                       }
-
                                   }
                               }
                       ?>
@@ -529,9 +487,6 @@ function registrar() {
                                         echo $row->NOM_ASIG;
                                         echo "<br>";
                                         echo "Aula ".$row->NUM_AULA;
-                                      }else{
-                                        echo "VACIO";
-                                        break;
                                       }
 
 
@@ -554,11 +509,7 @@ function registrar() {
                                         echo $row->NOM_ASIG;
                                         echo "<br>";
                                         echo "Aula ".$row->NUM_AULA;
-                                      }else{
-                                        echo "VACIO";
-                                        break;
                                       }
-
 
                                   }
                               }
@@ -583,9 +534,6 @@ function registrar() {
                                         echo $row->NOM_ASIG;
                                         echo "<br>";
                                         echo "Aula ".$row->NUM_AULA;
-                                      }else{
-                                        echo "VACIO";
-                                        break;
                                       }
 
                                   }
@@ -610,9 +558,6 @@ function registrar() {
                                         echo $row->NOM_ASIG;
                                         echo "<br>";
                                         echo "Aula ".$row->NUM_AULA;
-                                      }else{
-                                        echo "VACIO";
-                                        break;
                                       }
 
 
@@ -636,9 +581,6 @@ function registrar() {
                                         echo $row->NOM_ASIG;
                                         echo "<br>";
                                         echo "Aula ".$row->NUM_AULA;
-                                      }else{
-                                        echo "VACIO";
-                                        break;
                                       }
 
 
@@ -661,9 +603,6 @@ function registrar() {
                                         echo $row->NOM_ASIG;
                                         echo "<br>";
                                         echo "Aula ".$row->NUM_AULA;
-                                      }else{
-                                        echo "VACIO";
-                                        break;
                                       }
 
                                   }
@@ -685,9 +624,6 @@ function registrar() {
                                         echo $row->NOM_ASIG;
                                         echo "<br>";
                                         echo "Aula ".$row->NUM_AULA;
-                                      }else{
-                                        echo "VACIO";
-                                        break;
                                       }
 
 
@@ -714,9 +650,6 @@ function registrar() {
                                         echo $row->NOM_ASIG;
                                         echo "<br>";
                                         echo "Aula ".$row->NUM_AULA;
-                                      }else{
-                                        echo "VACIO";
-                                        break;
                                       }
 
                                   }
@@ -738,9 +671,6 @@ function registrar() {
                                         echo $row->NOM_ASIG;
                                         echo "<br>";
                                         echo "Aula ".$row->NUM_AULA;
-                                      }else{
-                                        echo "VACIO";
-                                        break;
                                       }
 
 
@@ -763,9 +693,6 @@ function registrar() {
                                         echo $row->NOM_ASIG;
                                         echo "<br>";
                                         echo "Aula ".$row->NUM_AULA;
-                                      }else{
-                                        echo "VACIO";
-                                        break;
                                       }
 
 
@@ -789,9 +716,6 @@ function registrar() {
                                         echo $row->NOM_ASIG;
                                         echo "<br>";
                                         echo "Aula ".$row->NUM_AULA;
-                                      }else{
-                                        echo "VACIO";
-                                        break;
                                       }
 
                                   }
@@ -812,9 +736,6 @@ function registrar() {
                                         echo $row->NOM_ASIG;
                                         echo "<br>";
                                         echo "Aula ".$row->NUM_AULA;
-                                      }else{
-                                        echo "VACIO";
-                                        break;
                                       }
 
 
@@ -841,11 +762,7 @@ function registrar() {
                                         echo $row->NOM_ASIG;
                                         echo "<br>";
                                         echo "Aula ".$row->NUM_AULA;
-                                      }else{
-                                        echo "VACIO";
-                                        break;
                                       }
-
 
                                   }
                               }                      
@@ -865,9 +782,6 @@ function registrar() {
                                         echo $row->NOM_ASIG;
                                         echo "<br>";
                                         echo "Aula ".$row->NUM_AULA;
-                                      }else{
-                                        echo "VACIO";
-                                        break;
                                       }
 
 
@@ -889,9 +803,6 @@ function registrar() {
                                         echo $row->NOM_ASIG;
                                         echo "<br>";
                                         echo "Aula ".$row->NUM_AULA;
-                                      }else{
-                                        echo "VACIO";
-                                        break;
                                       }
 
 
@@ -914,9 +825,6 @@ function registrar() {
                                         echo $row->NOM_ASIG;
                                         echo "<br>";
                                         echo "Aula ".$row->NUM_AULA;
-                                      }else{
-                                        echo "VACIO";
-                                        break;
                                       }
 
 
@@ -938,9 +846,6 @@ function registrar() {
                                         echo $row->NOM_ASIG;
                                         echo "<br>";
                                         echo "Aula ".$row->NUM_AULA;
-                                      }else{
-                                        echo "VACIO";
-                                        break;
                                       }
 
 
