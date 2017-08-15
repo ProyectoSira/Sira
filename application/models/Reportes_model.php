@@ -56,4 +56,30 @@ class Reportes_model extends CI_Model {
 		$query = $this->db->get();
 		return $query->result();
 	}
+
+	function get_clases($dia)
+	{
+		$this->db->select('*');
+		$this->db->from('tbl_asistencia_clase');
+		$this->db->join('tbl_grupo_estudio','tbl_grupo_estudio.ID_EST_GRUP = tbl_asistencia_clase.ID_GRUP_EST');
+		$this->db->join('tbl_estudiante', 'tbl_estudiante.DOC_EST = tbl_grupo_estudio.DOC_EST');
+		//$this->db->join('tbl_grupo_estudio', 'tbl_grupo_estudio.DOC_EST = tbl_estudiante.DOC_EST');
+		//$this->db->join('tbl_grupo', 'tbl_grupo.COD_GRUPO = tbl_grupo_estudio.COD_GRUPO');
+		$this->db->Where('FECH_INGR_CLAS',$dia);
+		$query = $this->db->get();
+		return $query->result();
+	}
+
+	function get_clasesRango($inicio, $fin)
+	{
+		$this->db->select('*');
+		$this->db->from('tbl_asistencia_clase');
+		$this->db->join('tbl_grupo_estudio','tbl_grupo_estudio.ID_EST_GRUP = tbl_asistencia_clase.ID_GRUP_EST');
+		$this->db->join('tbl_estudiante', 'tbl_estudiante.DOC_EST = tbl_grupo_estudio.DOC_EST');
+		//$this->db->join('tbl_grupo_estudio', 'tbl_grupo_estudio.DOC_EST = tbl_estudiante.DOC_EST');
+		//$this->db->join('tbl_grupo', 'tbl_grupo.COD_GRUPO = tbl_grupo_estudio.COD_GRUPO');
+		$this->db->Where("FECH_INGR_CLAS BETWEEN '$inicio' AND '$fin'");
+		$query = $this->db->get();
+		return $query->result();
+	}
 }

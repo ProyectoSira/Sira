@@ -99,6 +99,36 @@ class Estudiante extends CI_Controller {
 		echo json_encode($data);
 	}
 
+	public function ajax_inactivos()
+	{
+		$val = $this->estudiante->inactivos();
+		$arr = array();
+		if ($val == false) {
+			echo json_encode(array("status" => false));
+		}else{
+			$data = $val;
+			foreach ($data as $value) {
+				$row = array(
+					'doc' => $value->DOC_EST,
+					'nom1' => $value->NOM1_EST,
+					'nom2' => $value->NOM2_EST,
+					'ape1' => $value->APE1_EST,
+					'ape2' => $value->APE2_EST);
+				$arr[] = $row;
+			}
+			echo json_encode($arr);
+		}
+	}
+
+	public function activar()
+	{
+		$list_id = $this->input->post('id');
+		foreach ($list_id as $id) {
+			$this->estudiante->activar($id);
+		}
+		echo json_encode(array("status" => TRUE));
+	}
+
 	public function ajax_view($id)
 	{
 		$this->db->select('*');

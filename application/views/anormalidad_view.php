@@ -25,6 +25,7 @@
                 </tr>
             </thead>
             <tbody>
+
             </tbody>
 
             <tfoot>
@@ -404,9 +405,9 @@ function validar(e) {
                                     <option value="">--SELECCIONAR--</option>
                                     <option value="1">LUNES</option>
                                     <option value="2">MARTES</option>
-                                    <option value="MIERCOLES">MIERCOLES</option>
-                                    <option value="JUEVES">JUEVES</option>
-                                    <option value="VIERNES">VIERNES</option>
+                                    <option value="3">MIERCOLES</option>
+                                    <option value="4">JUEVES</option>
+                                    <option value="5">VIERNES</option>
                                 </select>
                             </div>
                         </div>

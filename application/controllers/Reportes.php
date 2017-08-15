@@ -115,7 +115,7 @@ class Reportes extends CI_Controller {
             </table>
         </body>";
 
-    $pdfFilePath = "LlegadasTarde_".$hoy."_Rango.pdf";
+    $pdfFilePath = "LlegadasTarde_".$inicio."/".$fin.".pdf";
     //load mPDF library
     $this->load->library('M_pdf');
     $mpdf = new mPDF('c', 'A4-L'); 
@@ -215,7 +215,107 @@ class Reportes extends CI_Controller {
             </table>
         </body>";
 
-    $pdfFilePath = "Sanciones_".$hoy.".pdf";
+    $pdfFilePath = "Sanciones_".$inicio."/".$fin.".pdf";
+    //load mPDF library
+    $this->load->library('M_pdf');
+    $mpdf = new mPDF('c', 'A4-L'); 
+    $mpdf->WriteHTML($html);
+    $mpdf->Output($pdfFilePath, "D");
+   }
+
+  public function clases(){
+    $hoy = date("Y-m-d");
+    $list = $this->reportes->get_clases($hoy);
+    $no = $_POST['start'];
+    $data = array();
+    $cuerpo = ""; 
+    foreach ($list as $tabla) {
+      $no++;
+      $cuerpo .= "<tr><td style='text-align:center;'>".$no."</td>
+      <td style='text-align:center;'>".$tabla->DOC_EST."</td>
+      <td style='text-align:center;'>".$tabla->NOM1_EST." ".$tabla->NOM2_EST." ".$tabla->APE1_EST." ".$tabla->APE2_EST."</td>
+      <td style='text-align:center;'>".$tabla->GRADO_EST."</td>
+      <td style='text-align:center;'>".$tabla->FECH_INGR_CLAS."</td></tr>";
+    }
+
+    $html = "<style>@page {
+          margin-top: 0.5cm;
+          margin-bottom: 0.5cm;
+          margin-left: 0.5cm;
+          margin-right: 0.5cm;
+      }
+      </style>".
+        "<body>
+          <h1>Institución Educativa Pedro Octavio Amado</h1>
+            <h3>Reporte de Inasistencia a clase.</h3>
+            <h5>Medellín, Antioquia ".$hoy."</h5>
+              <table class='table table-striped' cellspacing='0' width='100%'>
+                <thead>
+                  <tr>
+                    <th>N°</th>
+                    <th>Documento</th>
+                    <th>Nombres y Apellidos</th>
+                    <th>Grado</th>
+                    <th>Fecha de la Falta</th>
+                  </tr>
+                </thead>
+                <tbody>
+                ".$cuerpo."
+                </tbody>
+            </table>
+        </body>";
+
+    $pdfFilePath = "faltasClase_".$hoy.".pdf";
+    //load mPDF library
+    $this->load->library('M_pdf');
+    $mpdf = new mPDF('c', 'A4-L'); 
+    $mpdf->WriteHTML($html);
+    $mpdf->Output($pdfFilePath, "D");
+   }
+
+   public function clasesRango($inicio, $fin){
+    $hoy = date("Y-m-d");
+    $list = $this->reportes->get_clasesRango($inicio, $fin);
+    $no = $_POST['start'];
+    $data = array();
+    $cuerpo = ""; 
+    foreach ($list as $tabla) {
+      $no++;
+      $cuerpo .= "<tr><td style='text-align:center;'>".$no."</td>
+      <td style='text-align:center;'>".$tabla->DOC_EST."</td>
+      <td style='text-align:center;'>".$tabla->NOM1_EST." ".$tabla->NOM2_EST." ".$tabla->APE1_EST." ".$tabla->APE2_EST."</td>
+      <td style='text-align:center;'>".$tabla->GRADO_EST."</td>
+      <td style='text-align:center;'>".$tabla->FECH_INGR_CLAS."</td></tr>";
+    }
+
+    $html = "<style>@page {
+          margin-top: 0.5cm;
+          margin-bottom: 0.5cm;
+          margin-left: 0.5cm;
+          margin-right: 0.5cm;
+      }
+      </style>".
+        "<body>
+          <h1>Institución Educativa Pedro Octavio Amado</h1>
+            <h3>Reporte de Inasistencia a clase.</h3>
+            <h5>Medellín, Antioquia ".$inicio." / ".$fin."</h5>
+              <table class='table table-striped' cellspacing='0' width='100%'>
+                <thead>
+                  <tr>
+                    <th>N°</th>
+                    <th>Documento</th>
+                    <th>Nombres y Apellidos</th>
+                    <th>Grado</th>
+                    <th>Fecha de la Falta</th>
+                  </tr>
+                </thead>
+                <tbody>
+                ".$cuerpo."
+                </tbody>
+            </table>
+        </body>";
+
+    $pdfFilePath = "faltasClase_".$inicio."/".$fin.".pdf";
     //load mPDF library
     $this->load->library('M_pdf');
     $mpdf = new mPDF('c', 'A4-L'); 

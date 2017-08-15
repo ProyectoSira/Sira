@@ -8,8 +8,11 @@
         <h3>Datos Personales</h3>
         <div id="result"></div>
         <br />
+        <div class="row">
+        </div>
         <button class="btn btn-success" id="btnNuevo" onclick="add_person()"><i class="glyphicon glyphicon-plus"></i> Nuevo</button>
         <a href="<?php echo base_url('index.php/acudiente');?>" class="btn btn-default"><i class="glyphicon glyphicon-search"></i> Acudientes</a>
+        <button class="btn btn-info" id="btnInactivos"><i class="glyphicon glyphicon-search"></i> Alumnos Inactivos</button>
         <br />
         <br />
         <div class="table-responsive">
@@ -169,6 +172,98 @@ function cerrarAlerta2(){
     $("#alert3").removeClass("alert alert-danger");
     $('#alert3').text('');
 }
+
+    function activar(){
+        var list_id = [];
+        $(".d-check:checked").each(function() { 
+            list_id.push(this.value);
+        });
+        if (list_id.length > 0) {
+            if (confirm('Desea activar '+list_id.length+' alumnos?')) {
+                $.ajax({
+                    url: "<?php echo site_url('estudiante/activar')?>",
+                    type: "POST",
+                    data: {id:list_id}, 
+                    dataType: "JSON",
+                    success: function(data){
+                        if (data.status) {
+                            reload_table();
+                            $('#modal_form3').modal('hide');
+                            $("#result").addClass("alert alert-success");
+                            $('#result').text('Se han activado los alumnos Exitosamente'); 
+                            setTimeout("cerrarAlerta()",3000);
+                        }else{
+                            alert('Error');
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown){
+                        alert('Error al activar los alumnos');
+                    }
+                });
+            }
+        }
+        else{
+            alert('No ha seleccionado ningun alumno');
+        }
+    }
+
+$('#btnInactivos').click(function(){
+    $.ajax({
+            url : "<?php echo site_url('estudiante/ajax_inactivos')?>",
+            dataType: "JSON",
+            success: function(data)
+            {
+                $('#body').empty();
+                if (data.status == false) {
+                    $("#result").addClass("alert alert-danger");
+                    $('#result').text('No se encontraron alumnos Inhabilitados');
+                    setTimeout("cerrarAlerta()",3000);
+                }else{
+                    var html;
+                    var num = 1;
+                    for (var i = 0; i < data.length; i++) {
+                        html += '<tr>';
+                        html += '<td>'+num+'</td>';
+                        html += '<td>'+data[i].doc+'</td>';
+                        html += '<td>'+data[i].nom1+" "+data[i].nom2+'</td>';
+                        html += '<td>'+data[i].ape1+" "+data[i].ape2+'</td>';
+                        if(rol != 'Coordinador'){
+                            html += '<td id="'+data[i].doc+'"><input class="d-check" type="checkbox" value="'+data[i].doc+'"></td>';
+                        }
+                        html += '</tr>';
+                        num++;
+                        if (rol == 'Coordinador') {
+                            $('#activar').hide();
+                            $('#11').remove();
+                            $('#dialog').removeClass('modal-lg');
+                        }else{
+                            $('#dialog').addClass('modal-lg');
+                        }
+                    }
+                    $('#body').append(html); 
+                    $('.form-group').removeClass('has-error'); // clear error class
+                    $('.help-block').empty(); // clear error string
+                    $('#modal_form3').modal('show'); // show bootstrap modal
+                    $('.modal-title3').text('Alumnos Inhabilitados');
+                    $('#g').hide(); 
+                    $('#tarj').hide();
+                    if (rol == 'Coordinador') {
+                        $('#activar').hide();
+                        $('#11').remove();
+                        $('#dialog').removeClass('modal-lg');
+                    }else{
+                        $('#activar').show();
+                        $('#dialog').addClass('modal-lg');
+                    }
+                    $('#tab').show();
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Error');
+            }
+        });
+});
 
 function add_person()
 {
@@ -399,6 +494,11 @@ function AsignarTarjeta(id) {
     $('.help-block').empty(); // clear error string
     $('#modal_form3').modal('show'); // show bootstrap modal
     $('.modal-title3').text('Asignar tarjeta al estudiante'); // Set Title to Bootstrap modal title
+    $('#g').show();
+    $('#tarj').show();
+    $('#tab').hide();
+    $('#activar').hide();
+    $('#dialog').removeClass('modal-lg');
     IdAlum = id;
     tarr = false;
 }
@@ -409,6 +509,11 @@ function AsignarTarjeta2(id) {
     $('.help-block').empty(); // clear error string
     $('#modal_form3').modal('show'); // show bootstrap modal
     $('.modal-title3').text('Cambiar tarjeta al estudiante'); // Set Title to Bootstrap modal title
+    $('#g').show();
+    $('#tarj').show();
+    $('#tab').hide();
+    $('#activar').hide();
+    $('#dialog').removeClass('modal-lg');
     IdAlum = id;
     tarr = true;
 }
@@ -709,9 +814,8 @@ acudiente
 </div><!-- /.modal -->
 
 
-
 <div class="modal fade" id="modal_form3" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog" id="dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -721,22 +825,40 @@ acudiente
                 <form action="#" id="form" class="form-horizontal">
                     <div class="form-body">
                     <div id="alert3"></div>
-                        <div class="form-group">
+                        <div class="form-group" id="tarj">
                             <label class="control-label col-md-3">Codigo Tarjeta <span style="color: red;">*</span></label>
                             <div class="col-md-9">
                                 <input name="id" placeholder="Codigo Tarjeta" class="form-control" type="text" id="id" onkeypress="return justNumbers(event);">
                                 <span class="help-block"></span>
                             </div>
                         </div>
+                        <div id="tab">
+                            <table class="table table-striped table-hover" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 6%;">N°</th>
+                                        <th>Documento</th>
+                                        <th>Nombres</th>
+                                        <th>Apellidos</th>
+                                        <th id="11" style="width: 15%;">Habilitar</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="body">
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" id="btnSave" onclick="Tarjeta()" class="btn btn-primary">Guardar</button>
+                <button type="button" id="activar" onclick="activar()" class="btn btn-primary">Activar</button>
+                <button type="button" id="g" onclick="Tarjeta()" class="btn btn-primary">Guardar</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
+
+
 </section>
   
 <script src="<?php echo base_url('assets/js/jquery.nicescroll.js')?>"></script>

@@ -12,10 +12,11 @@
             <div class="col-md-3">
 
                 <div class="form-group">
-                <select id="tipo" name="selectTipo" class="selectpicker form-control">
+                <select id="tipo" name="selectTipo" class="selectpicker form-control" data-live-search="true">
                     <option value="0">--SELECCIONE--</option>
-                    <option value="1">LLEGADAS TARDE</option>
+                    <option value="1">LLEGADAS TARDE A LA INSTITUCIÓN</option>
                     <option value="2">SANCIONES</option>
+                    <option value="3">INASISTENCIA A CLASE</option>
                 </select>
                 </div>
             </div>
@@ -145,7 +146,7 @@ $('#btnBuscar').click(function () {
             $('#result').text('Seleccione el reporte del día o por rango de fecha'); 
             setTimeout("cerrarAlerta()",3000); 
         }
-    }else{
+    }else if(tipo == 2){
         if($("#dia").prop("checked")){
             location.href = 'http://localhost:8888/Sira/index.php/reportes/sanciones';
             $("#dia").prop("checked", "");
@@ -177,12 +178,48 @@ $('#btnBuscar').click(function () {
             $('#result').text('Seleccione el reporte del día o por rango de fecha'); 
             setTimeout("cerrarAlerta()",3000); 
         }
+    }else{
+        if($("#dia").prop("checked")){
+            location.href = 'http://localhost:8888/Sira/index.php/reportes/clases';
+            $("#dia").prop("checked", "");
+        }
+        else if ($("#rango").prop("checked")) {
+            var inicio = $('.inicio').val();
+            var fin = $('.fin').val();
+            if(inicio == '' || fin == ''){
+                $("#result").addClass("alert alert-danger");
+                $('#result').text('La fecha de inicio y de fin son obligatorias'); 
+                setTimeout("cerrarAlerta()",3000);
+            }else{
+                if (inicio >= fin) {
+                    $("#result").addClass("alert alert-danger");
+                    $('#result').text('La fecha de inicio no puede ser posterior o igual la fecha de fin'); 
+                    setTimeout("cerrarAlerta()",3000);
+                }else{
+                    location.href = 'http://localhost:8888/Sira/index.php/reportes/clasesRango/'+inicio+'/'+fin;
+                    $("#dia").prop("checked", "");
+                    $("#rango").prop("checked", "");
+                    $('#divRango').hide();
+                    $('.inicio').val('');
+                    $('.fin').val('');
+                }
+            } 
+        }
+        else{
+            $("#result").addClass("alert alert-danger");
+            $('#result').text('Seleccione el reporte del día o por rango de fecha'); 
+            setTimeout("cerrarAlerta()",3000); 
+        }
     }
 });
 
 $('#rango').click(function () {
-    $("#dia").prop("checked", "");
-    $('#divRango').show();
+    if($("#rango").prop("checked")){
+        $("#dia").prop("checked", "");
+        $('#divRango').show();
+    }else{
+        $('#divRango').hide();
+    }
 });
 
 $('#dia').click(function () {

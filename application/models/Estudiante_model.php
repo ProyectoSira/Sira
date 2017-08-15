@@ -175,6 +175,16 @@ class Estudiante_model extends CI_Model {
 		return $this->db->affected_rows();
 	}
 
+	public function activar($id)
+	{
+		$data = array(
+            'ESTADO_ACU' => 'Activo',
+        );
+		$this->db->where('DOC_EST', $id);
+		$this->db->update('tbl_estudiante', $data);
+		return $this->db->affected_rows();
+	}
+
 	public function editarTarjeta($where, $data)
 	{
 		$this->db->update('tbl_estudiante_huella_tbl_dedo', $data, $where);
@@ -206,6 +216,19 @@ class Estudiante_model extends CI_Model {
 		$query = $this->db->get();
 		if ($query->num_rows()>0) {
 			return true;
+		}else{
+			return false;
+		}
+	}
+
+	public function inactivos()
+	{
+		$this->db->select('*');
+		$this->db->from('tbl_estudiante');
+		$this->db->where('ESTADO_ACU','Inactivo');
+		$query = $this->db->get();
+		if ($query->num_rows()>0) {
+			return $query->result();
 		}else{
 			return false;
 		}

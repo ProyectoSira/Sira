@@ -27,4 +27,5 @@ class Llegadatarde_model extends CI_Model {
 			return false;
 		}
 	}
+
 }

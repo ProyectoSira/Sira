@@ -34,7 +34,7 @@ class Anormalidad_model extends CI_Model {
 
 	private function _get_datatables_query()
 	{
-		$this->db->select('COD_ANORM, NOM_ANORM, HORA_INICIO, tbl_anorm.HORA_FIN, DESCRIPCION, ESTADO, DIA_SEM');
+		$this->db->select('COD_ANORM, NOM_ANORM, HORA_INICIO, tbl_anorm.HORA_FIN, DESCRIPCION, ESTADO, ID_SEM');
 		$this->db->from('tbl_anorm');
         $this->db->join('tbl_tipo_anormalidad','tbl_tipo_anormalidad.COD_TIP_ANORM = tbl_anorm.COD_TIP_ANORM');
         $this->db->join('tbl_programacion','tbl_programacion.COD_PROGRA = tbl_anorm.COD_PROGRA');

@@ -51,6 +51,35 @@ public function ajax_list()
 		//output to json format
 		echo json_encode($output);
 	}
+
+	public function ajax_list2()
+	{
+		$list = $this->excusa->get_datatables2();
+		$data = array();
+		$no = $_POST['start'];
+		foreach ($list as $excusa) {
+			$no++;
+			$row = array();
+			$row[] = $no;
+			$row[] = $excusa->DOC_EST;
+			$row[] = $excusa->NOM1_EST." ".$excusa->NOM2_EST." ". $excusa->APE1_EST." ". $excusa->APE2_EST;
+			$row[] = $excusa->FECH_INGR_CLAS;
+				//add html for action
+			$row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit"
+			onclick="adjuntar('."'".$excusa->DOC_EST."'".','."'".$excusa->FECH_INGR_CLAS."'".')"><i class="glyphicon glyphicon-paperclip"></i> Adjuntar</a>';
+			
+			$data[] = $row;
+		}
+		$output = array(
+						"draw" => $_POST['draw'],
+						"recordsTotal" => $this->excusa->count_all2(),
+						"recordsFiltered" => $this->excusa->count_filtered2(),
+						"data" => $data,
+				);
+		//output to json format
+		echo json_encode($output);
+	}
+
 	public function ajax_add()
 	{
 		if ($this->input->post('ruta') == "") {

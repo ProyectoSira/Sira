@@ -4,14 +4,40 @@
 <div class="container-fluid">
  
         <h1 style="font-size:20pt">Registro de Excusas</h1>
-        <button id="btnCambiar" class="btn btn-success"><samp class="glyphicon glyphicon-refresh"></samp> Llegadas tarde a clase</button>
+        <button id="btnCambiar" class="btn btn-success"><span class='glyphicon glyphicon-refresh'></span> Llegadas tarde a clase</button>
         <br>
         <br>
         <h3 id="h3Cambiar">Estudiantes con llegadas tarde a la Institución</h3>
         <div id="result"></div>
         <br />
-        <div class="table-responsive">
+        <div class="table-responsive" id="tab1">
         <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th>N°</th>
+                    <th style="width: 20%;">Documento</th>
+                    <th style="width: 55%;">Estudiante</th>
+                    <th style="width: 20%;">Fecha de Inasistencia</th>
+                    <th style="width: 20px;">Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+
+            <tfoot>
+            <tr>
+                <th>N°</th>
+                <th>Documento</th>
+                <th>Estudiante</th>
+                <th>Fecha de Inasistencia</th>
+                <th>Acción</th>
+            </tr>
+            </tfoot>
+        </table>
+        </div>
+
+        <div class="table-responsive" id="tab2">
+        <table id="table2" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
                 <tr>
                     <th>N°</th>
@@ -61,8 +87,40 @@ var documento; //for save method string
 var ruta;
 var falta;
 var table;
+var controlar;
+
+
 $(document).ready(function() {
     //datatables
+    $('#tab2').hide();
+    tabla1();
+    //datepicker
+    $('.datepicker').datepicker({
+        autoclose: true,
+        format: "yyyy-mm-dd",
+        todayHighlight: true,
+        orientation: "top auto",
+        todayBtn: true,
+        todayHighlight: true,  
+    });
+
+    //set input/textarea/select event when change value, remove class error and remove text help block 
+    $("input").change(function(){
+        $(this).parent().parent().removeClass('has-error');
+        $(this).next().empty();
+    });
+    $("textarea").change(function(){
+        $(this).parent().parent().removeClass('has-error');
+        $(this).next().empty();
+    });
+    $("select").change(function(){
+        $(this).parent().parent().removeClass('has-error');
+        $(this).next().empty();
+    });
+
+});
+
+function tabla1(){
     table = $('#table').DataTable({ 
 
         "processing": true, //Feature control the processing indicator.
@@ -109,36 +167,73 @@ $(document).ready(function() {
         }
 
     });
+}
 
-    //datepicker
-    $('.datepicker').datepicker({
-        autoclose: true,
-        format: "yyyy-mm-dd",
-        todayHighlight: true,
-        orientation: "top auto",
-        todayBtn: true,
-        todayHighlight: true,  
-    });
+function tabla2(){
+    table = $('#table2').DataTable({ 
 
-    //set input/textarea/select event when change value, remove class error and remove text help block 
-    $("input").change(function(){
-        $(this).parent().parent().removeClass('has-error');
-        $(this).next().empty();
-    });
-    $("textarea").change(function(){
-        $(this).parent().parent().removeClass('has-error');
-        $(this).next().empty();
-    });
-    $("select").change(function(){
-        $(this).parent().parent().removeClass('has-error');
-        $(this).next().empty();
-    });
+        "processing": true, //Feature control the processing indicator.
+        "serverSide": true, //Feature control DataTables' server-side processing mode.
+        "order": [], //Initial no order.
 
-});
+        // Load data for the table's content from an Ajax source
+        "ajax": {
+            "url": "<?php echo site_url('excusa/ajax_list2')?>",
+            "type": "POST"
+        },
+
+        //Set column definition initialisation properties.
+        "columnDefs": [
+        { 
+            "targets": [ -1 ], //last column
+            "orderable": false, //set not orderable
+        },
+        ],
+
+        "language": {
+            "sProcessing":     "Procesando...",
+            "sLengthMenu":     "Mostrar _MENU_ Registros",
+            "sZeroRecords":    "No se encontraron resultados",
+            "sEmptyTable":     "Ningún dato disponible en esta tabla",
+            "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix":    "",
+            "sSearch":         "Buscar:",
+            "sUrl":            "",
+            "sInfoThousands":  ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst":    "Primero",                
+                "sLast":     "Último",
+                "sNext":     "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            }
+        }
+
+    });
+}
 
 $('#btnCambiar').click(function(){
-    $('#btnCambiar').text("Llegadas tarde a la Institución");
-    $('#h3Cambiar').text("Estudiantes con llegadas tarde a Clase");
+    var texto = $('#btnCambiar').text();
+    $('#btnCambiar').text("");
+    if(texto == " Llegadas tarde a la Institución"){
+        $('#btnCambiar').append("<span class='glyphicon glyphicon-refresh'></span>");
+        $('#btnCambiar').append(" Llegadas tarde a clase");
+        $('#h3Cambiar').text("Estudiantes con llegadas tarde a la Institución");
+        location.reload();
+    }else{
+        $('#btnCambiar').append("<span class='glyphicon glyphicon-refresh'></span>");
+        $('#btnCambiar').append(" Llegadas tarde a la Institución");
+        $('#h3Cambiar').text("Estudiantes con llegadas tarde a Clase");
+        $('#tab1').hide();
+        $('#tab2').show();
+        tabla2();
+    }
 });
 
 function cerrarAlerta(){

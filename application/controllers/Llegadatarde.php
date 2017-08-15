@@ -35,7 +35,7 @@ class Llegadatarde extends CI_Controller {
         $this->db->join('tbl_grupo','tbl_grupo.COD_GRUPO = tbl_grupo_estudio.COD_GRUPO');
         $this->db->where('tbl_estudiante_huella_tbl_dedo.HUELLA_EST',$id);
         $data = $this->db->get()->row_array();
-		echo json_encode($data);
+        echo json_encode($data);
 	}
 
 

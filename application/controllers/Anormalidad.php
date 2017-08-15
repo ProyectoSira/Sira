@@ -93,7 +93,18 @@ class Anormalidad extends CI_Controller {
 			}else{
 				$row[] = 'INACTIVA';
 			}
-			$row[] = $anormalidad->DIA_SEM;
+			if($anormalidad->ID_SEM == 1){
+				$row[] = "LUNES";
+			}else if($anormalidad->ID_SEM == 2){
+				$row[] = "MARTES";
+			}else if($anormalidad->ID_SEM == 3){
+				$row[] = "MIERCOLES";
+			}else if($anormalidad->ID_SEM == 4){
+				$row[] = "JUEVES";
+			}else if($anormalidad->ID_SEM == 5){
+				$row[] = "VIERNES";
+			}
+
 
 
 			//add html for action
